@@ -25,3 +25,8 @@ merge verified entries by severity in S8 and remove unsupported claims.
 
 New incidents start at F-12 to preserve these references. Seed rows are leads,
 not claims of work attempted or time lost in this repository.
+
+## S2 findings
+
+- [F-12: Structured MCP results disappear before reaching the model](entries/F-12-strands-structured-content.md): reproduced on Strands TS 1.21.0; public adapter preserves the ID chain.
+- F-10 provider seed resolved by [S2-0](../results/S2_SPIKE.md): native OpenAI and Anthropic providers exist; no provider blocker.

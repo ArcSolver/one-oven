@@ -1,0 +1,12 @@
+### F-12: Structured MCP results disappear before reaching the model
+- Product / doc: Strands TypeScript SDK 1.21.0; https://github.com/strands-agents/sdk-typescript; `dist/src/tools/mcp-tool.js`, `McpTool.stream`.
+- Date / stage: 2026-10-15 / S2-0.
+- Task attempted: Preserve kitchen and plan identifiers through a native MCP tool conversation.
+- Steps taken: 1) Install the latest SDK. 2) Connect its McpClient through StreamableHTTPClientTransport. 3) Call set_kitchen and inspect raw and converted results.
+- Expected: Both spoken content and structuredContent are available to the model.
+- Actual: The raw result contains structuredContent.kitchen_id; McpTool.stream maps only rawResult.content. The model receives the spoken sentence without the identifier required by plan_meal.
+- Severity: medium.
+- Time lost: About 10 minutes of inspection and reproduction; recorded for the structured-result integration mismatch, not the 15-minute threshold.
+- Workaround: Override the public McpClient.callTool method to append structuredContent as a text JSON block for the model; retain the unmodified raw result in the trace. Do not change the six server tools or spoken content.
+- Actionable suggestion: Map structuredContent into a JsonBlock in McpTool.stream, with a regression test covering an identifier used by a later tool.
+- Evidence: `packages/agent/scripts/spike.ts`, `docs/results/S2_SPIKE.md`; regression in the agent MCP tests.
