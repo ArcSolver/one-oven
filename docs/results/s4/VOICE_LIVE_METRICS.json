@@ -1,0 +1,71 @@
+{
+  "source": "runs/scenarios/summary-2026-10-15T10-17-32-148Z-live.json",
+  "model": "openai:local-openai-compatible",
+  "required": 1,
+  "rows": [
+    {
+      "scenario": "weekday-3",
+      "mode": "voice live",
+      "passed": 1,
+      "runs": 1,
+      "turns": 18,
+      "turnP50Ms": 3717.5576800000053,
+      "turnP95Ms": 6261.503120999994,
+      "turnMaxMs": 6261.503120999994,
+      "toolP95Ms": 15.215336000001116,
+      "modelRequestsPerTurn": 1,
+      "lintViolations": 0,
+      "softWording": 0,
+      "idCorrections": 0,
+      "failures": []
+    },
+    {
+      "scenario": "salmon-delay",
+      "mode": "voice live",
+      "passed": 1,
+      "runs": 1,
+      "turns": 20,
+      "turnP50Ms": 3889.8649760000117,
+      "turnP95Ms": 4141.088388999997,
+      "turnMaxMs": 4173.317295000001,
+      "toolP95Ms": 8.660010000006878,
+      "modelRequestsPerTurn": 1,
+      "lintViolations": 0,
+      "softWording": 0,
+      "idCorrections": 0,
+      "failures": []
+    },
+    {
+      "scenario": "swap",
+      "mode": "voice live",
+      "passed": 1,
+      "runs": 1,
+      "turns": 17,
+      "turnP50Ms": 3752.0731100000266,
+      "turnP95Ms": 4383.459799000004,
+      "turnMaxMs": 4383.459799000004,
+      "toolP95Ms": 11.904970000003232,
+      "modelRequestsPerTurn": 1,
+      "lintViolations": 0,
+      "softWording": 0,
+      "idCorrections": 0,
+      "failures": []
+    },
+    {
+      "scenario": "thanksgiving-8",
+      "mode": "voice live",
+      "passed": 1,
+      "runs": 1,
+      "turns": 40,
+      "turnP50Ms": 3844.1427709999844,
+      "turnP95Ms": 5247.605325000011,
+      "turnMaxMs": 7817.995827000006,
+      "toolP95Ms": 11.0291079999879,
+      "modelRequestsPerTurn": 1,
+      "lintViolations": 0,
+      "softWording": 0,
+      "idCorrections": 0,
+      "failures": []
+    }
+  ]
+}
