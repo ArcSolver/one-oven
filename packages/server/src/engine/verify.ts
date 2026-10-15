@@ -37,7 +37,8 @@ export function verify(steps: Step[], kitchen: Kitchen, serve = Infinity): void 
   kitchen.ovens.forEach((profile, oven) => {
     let temperature = profile.ambient_f;
     const systems = steps.filter(s => s.source !== 'recipe' && s.oven === oven).sort((a, b) => a.start - b.start);
-    for (const s of systems) {
+    for (const [index, s] of systems.entries()) {
+      require(s.source === (index === 0 ? 'preheat' : 'transition'), 'thermal step kind');
       const target = s.setpoint_f!;
       const required = Math.ceil(Math.abs(target - temperature) / (target > temperature ? profile.preheat_f_per_min : profile.cool_f_per_min));
       require(s.minutes >= required, 'thermal duration');
@@ -72,10 +73,26 @@ export function verifyPlan(plan: Plan, dishes: Dish[]): void {
     return hold > d.hold_max_minutes ? [{ code: 'hold_exceeded', dish_id: d.dish_id, hold_minutes: hold, hold_max_minutes: d.hold_max_minutes }] : [];
   }).sort((a, b) => a.dish_id.localeCompare(b.dish_id));
   if (JSON.stringify(expected) !== JSON.stringify(plan.warnings)) throw new Error('Schedule violation: hold warnings');
-  for (const segment of plan.oven_segments) {
-    const own = plan.steps.filter(s => s.source === 'recipe' && s.oven === segment.oven && s.start < segment.end && s.end > segment.start);
-    const peak = Math.max(...own.map(s => own.filter(o => o.start <= s.start && s.start < o.end).reduce((sum, o) => sum + o.oven_units!, 0)));
-    if (peak !== segment.units_peak) throw new Error('Schedule violation: segment capacity');
-  }
+  const expectedSegments: Plan['oven_segments'] = [];
+  plan.kitchen.ovens.forEach((_, oven) => {
+    const recipes = plan.steps.filter(s => s.source === 'recipe' && s.oven === oven && s.minutes > 0).sort((a, b) => a.start - b.start);
+    let batch: Step[] = [];
+    const finish = () => {
+      if (!batch.length) return;
+      const temps = batch.map(s => s.temperature_f!);
+      expectedSegments.push({ oven, start: Math.min(...batch.map(s => s.start)), end: Math.max(...batch.map(s => s.end)),
+        setpoint_f: Math.round((Math.min(...temps) + Math.max(...temps)) / 10) * 5,
+        units_peak: Math.max(...batch.map(s => batch.filter(o => o.start <= s.start && s.start < o.end).reduce((sum, o) => sum + o.oven_units!, 0))) });
+    };
+    for (const s of recipes) {
+      const end = Math.max(...batch.map(b => b.end));
+      const temps = [...batch.map(b => b.temperature_f!), s.temperature_f!];
+      if (batch.length && (s.start > end || (s.start === end && Math.max(...temps) - Math.min(...temps) > 25))) { finish(); batch = []; }
+      batch.push(s);
+    }
+    finish();
+  });
+  const tuples = (segments: Plan['oven_segments']) => segments.map(s => [s.oven, s.setpoint_f, s.start, s.end, s.units_peak]);
+  if (JSON.stringify(tuples(expectedSegments)) !== JSON.stringify(tuples(plan.oven_segments))) throw new Error('Schedule violation: oven segments');
 }
 export const validate = verify;

@@ -50,3 +50,20 @@ test('BEGIN IMMEDIATE rolls back all writes and households scope queries', () =>
     assert.deepEqual(b.planIds(), []);
   } finally { a.close(); b.close(); rmSync(dir, { recursive: true, force: true }); }
 });
+
+test('v1 pending plans gain missing transition gaps without discarding their identities', async () => {
+  const { upgradePlan } = await import('../src/store/plans.js');
+  const { verify } = await import('../src/engine/verify.js');
+  const old = { plan_id: 'legacy', kitchen_id: 'k', kitchen: { ovens: 1, burners: 4, helpers: 1 }, version: 2, serve: 100,
+    steps: [
+      { step_id: 'turkey:1', dish_id: 'turkey', index: 1, text: 'Roast the turkey.', minutes: 20, hands: 0, burners: 0, temperature: 325, start: 50, end: 70, oven: 0, status: 'pending' },
+      { step_id: 'potatoes:1', dish_id: 'potatoes', index: 1, text: 'Roast the potatoes.', minutes: 30, hands: 0, burners: 0, temperature: 425, start: 70, end: 100, oven: 0, status: 'pending' },
+    ] };
+  const plan = upgradePlan(old);
+  verify(plan.steps, plan.kitchen, plan.serve);
+  assert.equal(plan.plan_id, 'legacy');
+  assert.equal(plan.version, 2);
+  assert.equal(plan.serve_requested, 100);
+  assert.equal(plan.serve, 104);
+  assert.equal(plan.steps.find(s => s.source === 'transition')?.minutes, 4);
+});

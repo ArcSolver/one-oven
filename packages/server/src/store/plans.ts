@@ -1,6 +1,7 @@
 import { defaultOven, KitchenSchema, PlanSchema, type Kitchen, type Plan, type ScheduledStep } from '@one-oven/contracts';
 import { materializeOvenSteps } from '../engine/oven.js';
 import { holdWarnings } from '../engine/changes.js';
+import { repair } from '../engine/repair.js';
 import { loadDishes } from '../data/load.js';
 
 export function upgradeKitchen(input: unknown): Kitchen {
@@ -20,13 +21,22 @@ export function upgradePlan(input: unknown): Plan {
     return { ...s, source: 'recipe', kind: temperature !== undefined ? 'oven' : recipe?.kind ?? (s.burners ? 'stove' : s.hands ? 'prep' : 'rest'),
       ...(temperature === undefined ? {} : { temperature_f: temperature, oven_units: recipe?.oven_units ?? 1 }) };
   });
-  // Legacy snapshots retain recipe timing. Heating is inferred, never represented as a measured action.
-  const thermal = materializeOvenSteps(steps, kitchen);
+  // Keep feasible legacy times. Older pending plans may need new thermal gaps;
+  // repair those forward, retaining any frozen recipe work. Inferred heating is
+  // never represented as a measured action.
+  let thermal: ReturnType<typeof materializeOvenSteps>;
+  try {
+    thermal = materializeOvenSteps(steps, kitchen);
+  } catch {
+    const repaired = repair(steps, kitchen, Math.min(...steps.map(s => s.start)) - 10080);
+    thermal = materializeOvenSteps(repaired, kitchen);
+  }
   for (const s of thermal.steps.filter(s => s.source !== 'recipe')) {
     const following = steps.filter(r => r.oven === s.oven && r.start >= s.end).sort((a,b) => a.start-b.start)[0];
     if (following && following.status !== 'pending') s.status = 'done';
   }
-  return PlanSchema.parse({ ...old, household_id: 'local', kitchen, serve_requested: old.serve,
-    steps: thermal.steps, oven_segments: thermal.oven_segments, warnings: holdWarnings(steps, old.serve, recipes),
+  const serve = Math.max(old.serve, ...thermal.steps.map(s => s.end));
+  return PlanSchema.parse({ ...old, household_id: 'local', kitchen, serve_requested: old.serve, serve,
+    steps: thermal.steps, oven_segments: thermal.oven_segments, warnings: holdWarnings(thermal.steps, serve, recipes),
     created_at: old.created_at ?? 0, updated_at: old.updated_at ?? 0, schema: 2 });
 }

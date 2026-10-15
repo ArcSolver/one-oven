@@ -5,6 +5,17 @@ import { holdWarnings } from './changes.js';
 import { verify } from './verify.js';
 
 export function repair(steps: Step[], kitchen: Kitchen, now: number): Step[] {
+  // Keep a still-feasible whole batch intact. Rebuilding it one recipe at a time
+  // would temporarily lose its shared setpoint (for example 375 + 400 => 390).
+  try {
+    const unchanged = materializeOvenSteps(steps, kitchen, now).steps;
+    if (unchanged.every(s => s.status !== 'pending' || s.start >= now)) {
+      verify(unchanged, kitchen);
+      return unchanged;
+    }
+  } catch {
+    // Resource/dependency pressure requires the local repair below.
+  }
   const fixed = steps.filter(s => s.status !== 'pending');
   // Check frozen resource use before allowing pending work to move.
   for (const t of fixed.flatMap(s => [s.start, s.end])) {

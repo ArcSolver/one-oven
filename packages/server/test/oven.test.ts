@@ -48,7 +48,7 @@ test('capacity two serializes two pans; capacity four permits a shared midpoint'
   verifyPlan(shared, catalogue);
 });
 test('Thanksgiving oven handoff and all demo hold limits', () => {
-  const ids = ['turkey', 'potatoes', 'stuffing', 'salmon', 'rice', 'green-beans', 'carrots', 'gravy'];
+  const ids = ['turkey', 'salmon', 'potatoes', 'stuffing', 'rice', 'green-beans', 'carrots', 'gravy'];
   const p = makePlan(ids, { ...kitchen, helpers: 2 });
   verifyPlan(p, catalogue);
   assert.deepEqual(p.warnings, []);
@@ -67,4 +67,25 @@ test('Thanksgiving oven handoff and all demo hold limits', () => {
   assert.equal(after.serve, 1005);
   assert.deepEqual(after.warnings, []);
   assert.deepEqual(after.steps.filter(s => s.dish_id !== 'salmon'), p1.steps.filter(s => s.dish_id !== 'salmon'));
+});
+
+test('independent verifier detects missing heating, transitions, segments and hold warnings', () => {
+  const p = makePlan(['turkey', 'potatoes']);
+  for (const source of ['preheat', 'transition']) {
+    const broken = structuredClone(p);
+    broken.steps = broken.steps.filter(s => s.source !== source);
+    assert.throws(() => verifyPlan(broken, catalogue));
+  }
+  const shortened = structuredClone(p);
+  const heating = shortened.steps.find(s => s.source === 'preheat')!;
+  heating.start++;
+  heating.minutes--;
+  assert.throws(() => verifyPlan(shortened, catalogue), /thermal duration/);
+  const noSegments = { ...p, oven_segments: [] };
+  assert.throws(() => verifyPlan(noSegments, catalogue), /segments/);
+  const held = { ...p, serve: p.serve + 121 };
+  assert.throws(() => verifyPlan(held, catalogue), /hold warnings/);
+  held.warnings = holdWarnings(held.steps, held.serve, catalogue);
+  verifyPlan(held, catalogue);
+  assert.ok(held.warnings.length > 0);
 });
