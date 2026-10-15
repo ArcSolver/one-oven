@@ -39,7 +39,7 @@ export async function openSession(env: NodeJS.ProcessEnv = process.env, id: stri
   try {
     await mcp.listTools();
     const session = new ConversationSession({ model: createModel(spec, env), mcp, device, clock, trace,
-      provider: spec.provider, autoTimers: env.HOST_AUTO_TIMERS === '1' });
+      provider: spec.provider, autoTimers: env.HOST_AUTO_TIMERS === '1', voiceMode: env.AGENT_VOICE_MODE === '1' });
     return { session, device, serverClock, tracePath: trace.path };
   } catch (error) { await mcp.disconnect(); throw error; }
 }

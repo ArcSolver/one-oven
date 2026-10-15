@@ -29,10 +29,10 @@ export class ScriptedModel extends Model {
       const utterance = last.content.filter(b => b.type === 'textBlock').map(b => b.text).join(' ');
       if (/my kitchen/i.test(utterance)) call = { name: 'set_kitchen', input: { ovens: 1, burners: 4, helpers: 1, timezone: 'America/Chicago' } };
       else if (/on the table|plan.*salmon/i.test(utterance)) call = { name: 'plan_meal', input: { kitchen_id: kitchen?.kitchen_id, dish_ids: ['salmon', 'rice', 'green-beans'], serve_at: '18:30' } };
-      else if (/salmon needs five more/i.test(utterance)) call = { name: 'report_delay', input: { plan_id: plan?.plan_id, dish_id: 'salmon', minutes: 5 } };
+      else if (/salmon needs (five|5) more/i.test(utterance)) call = { name: 'report_delay', input: { plan_id: plan?.plan_id, dish_id: 'salmon', minutes: 5 } };
       else if (/done|finished/i.test(utterance)) {
         const running = (plan?.display?.steps as ScheduledStep[] ?? []).filter(s => s.status === 'running');
-        const done = running.find(s => utterance.includes(s.text)) ?? (running.length === 1 ? running[0] : undefined);
+        const done = running.find(s => utterance.toLowerCase().replace(/[^a-z0-9 ]/g, '').includes(s.text.toLowerCase().replace(/[^a-z0-9 ]/g, ''))) ?? (running.length === 1 ? running[0] : undefined);
         if (done) call = { name: 'next_step', input: { plan_id: plan?.plan_id, done_step_id: done.step_id } };
         else reply = 'Which cooking step have you finished?';
       } else if (/next/i.test(utterance)) call = { name: 'next_step', input: { plan_id: plan?.plan_id } };

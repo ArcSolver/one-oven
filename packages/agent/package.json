@@ -29,6 +29,10 @@
     ".": {
       "types": "./dist/session.d.ts",
       "default": "./dist/session.js"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
     }
   }
 }

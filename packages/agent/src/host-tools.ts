@@ -4,19 +4,41 @@ import type { Clock, TimerSuggestion } from '@one-oven/contracts';
 export type TimerView = { label: string; minutes: number; endsAt: string; status: 'running' | 'elapsed' };
 export type HostAction = { name: string; args: unknown; result: unknown; source: 'model' | 'auto' };
 
-/** In-memory host state; firing/chimes belong to S3. */
+/** Host-owned timers. Polling never calls the cooking server. */
 export class HostTimers {
-  private timers = new Map<string, { label: string; end: number }>();
+  private timers = new Map<string, { label: string; end: number; fired: boolean }>();
   private applied = new Set<string>();
   readonly actions: HostAction[] = [];
+  private listeners = new Set<(timer: TimerView) => void>();
+  private stopClock?: () => void;
+  private ticker?: ReturnType<typeof setInterval>;
   constructor(readonly clock: Clock) {}
+  onFire(listener: (timer: TimerView) => void): () => void {
+    this.listeners.add(listener);
+    return () => { this.listeners.delete(listener); };
+  }
+  start(): void {
+    if (this.ticker) return;
+    this.stopClock = this.clock.onChange?.(() => this.poll());
+    this.ticker = setInterval(() => this.poll(), 50);
+    this.ticker.unref();
+    this.poll();
+  }
+  stop(): void { clearInterval(this.ticker); this.ticker = undefined; this.stopClock?.(); this.stopClock = undefined; }
+  poll(): void {
+    for (const timer of this.timers.values()) {
+      if (timer.fired || timer.end > this.clock.now()) continue;
+      timer.fired = true;
+      for (const listener of this.listeners) listener(this.view(timer));
+    }
+  }
   set(label: string, minutes: number): TimerView {
     if (!label.trim() || label.length > 100 || !Number.isFinite(minutes) || minutes <= 0 || minutes > 1440) throw new Error('Invalid timer');
     const end = this.clock.now() + minutes * 60000;
-    this.timers.set(label.toLowerCase(), { label, end });
+    this.timers.set(label.trim().toLowerCase(), { label: label.trim(), end, fired: false });
     return this.view({ label, end });
   }
-  cancel(label: string): boolean { return this.timers.delete(label.toLowerCase()); }
+  cancel(label: string): boolean { return this.timers.delete(label.trim().toLowerCase()); }
   private view(timer: { label: string; end: number }): TimerView {
     return { label: timer.label, minutes: Math.max(0, (timer.end - this.clock.now()) / 60000),
       endsAt: new Date(timer.end).toISOString(), status: timer.end > this.clock.now() ? 'running' : 'elapsed' };

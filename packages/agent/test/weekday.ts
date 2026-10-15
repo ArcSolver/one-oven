@@ -13,7 +13,12 @@ import type { TraceSink } from '../src/trace.js';
 
 /** All state changes go through the model -> Strands tools -> real HTTP server.
  * The harness reads SQLite only to judge outcomes and advance simulated time. */
-export async function runWeekday(model: Model, provider: string, trace: TraceSink) {
+export async function runWeekday(model: Model, provider: string, trace: TraceSink, voiceMode = false, hooks?: {
+  session?: (session: ConversationSession) => Promise<void>;
+  turn?: (session: ConversationSession, text: string) => Promise<TurnResult>;
+  advance?: (clock: SimClock, target: number) => Promise<void>;
+  close?: () => Promise<void>;
+}) {
   const clock = new SimClock('2026-10-15T17:05:00-05:00');
   const store = new Store(':memory:');
   const server = app(new Service(store, () => clock.now() / 60000, () => clock.now())).listen(0, '127.0.0.1');
@@ -21,11 +26,11 @@ export async function runWeekday(model: Model, provider: string, trace: TraceSin
   const address = server.address();
   assert.ok(address && typeof address !== 'string');
   const mcp = new OneOvenMcpClient(`http://127.0.0.1:${address.port}/mcp`, trace);
-  const session = new ConversationSession({ model, mcp, clock, trace, provider, autoTimers: provider === 'scripted',
+  const session = new ConversationSession({ model, mcp, clock, trace, provider, autoTimers: provider === 'scripted', voiceMode,
     device: { deviceClass: 'dot', timezone: 'America/Chicago', nowIso: new Date(clock.now()).toISOString() } });
   const turns: TurnResult[] = [];
   const turn = async (text: string, tool: string) => {
-    const result = await session.turn(text);
+    const result = (hooks?.turn ? await hooks.turn(session, text) : await session.turn(text));
     turns.push(result);
     assert.equal(result.rawLint.ok, true, `Raw speech lint: ${JSON.stringify(result.rawLint)}: ${result.rawReply}`);
     assert.equal(result.lint.ok, true);
@@ -34,6 +39,7 @@ export async function runWeekday(model: Model, provider: string, trace: TraceSin
     return result;
   };
   try {
+    await hooks?.session?.(session);
     const kitchen = await turn('My kitchen has one oven, four burners, and one cook. My timezone is America/Chicago.', 'set_kitchen');
     const k = kitchen.toolCalls.find(c => c.name === 'set_kitchen')!.result!.structuredContent as { kitchen_id: string };
     assert.equal(store.kitchen(k.kitchen_id).ovens.length, 1);
@@ -64,7 +70,8 @@ export async function runWeekday(model: Model, provider: string, trace: TraceSin
         continue;
       }
       const times = plan.steps.filter(s => s.status !== 'done').map(s => (s.status === 'running' ? s.end : s.start) * 60000);
-      clock.set(Math.max(clock.now(), Math.min(...times)));
+      const target = Math.max(clock.now(), Math.min(...times));
+      if (hooks?.advance) await hooks.advance(clock, target); else clock.set(target);
       const done = plan.steps.find(s => s.status === 'running' && s.end * 60000 <= clock.now());
       const version = plan.version;
       await turn(done ? `I've finished this step: ${done.text} What's next?` : "What's next?", 'next_step');
@@ -81,7 +88,7 @@ export async function runWeekday(model: Model, provider: string, trace: TraceSin
     assert.ok(turns.flatMap(t => t.hostActions).some(a => a.name === 'set_timer'), 'Host timers used');
     return { turns, final, protocolVersion: mcp.protocolVersion, toolCalls: mcp.calls.length };
   } finally {
-    await session.close();
+    try { await hooks?.close?.(); } finally { await session.close(); }
     await new Promise<void>(resolve => server.close(() => resolve()));
     store.close();
   }
