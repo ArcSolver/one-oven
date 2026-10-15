@@ -1,0 +1,224 @@
+
+> one-oven@0.1.0 check
+> npm run build && npm run validate:recipes && npm test && npm run smoke && npm run e2e:text && npm run e2e:scenarios
+
+
+> one-oven@0.1.0 build
+> npm run build --workspace @one-oven/contracts && npm run build --workspace @one-oven/server && npm run build --workspace @one-oven/agent && npm run build --workspace @one-oven/voice && npm run build --workspace @one-oven/scenarios
+
+
+> @one-oven/contracts@0.1.0 build
+> tsc
+
+
+> @one-oven/server@0.1.0 build
+> tsc && node scripts/copy-assets.mjs
+
+
+> @one-oven/agent@0.1.0 build
+> tsc && tsc -p tsconfig.check.json
+
+
+> @one-oven/voice@0.1.0 build
+> tsc && tsc -p tsconfig.check.json && node scripts/copy-assets.mjs
+
+
+> @one-oven/scenarios@0.1.0 build
+> tsc -p tsconfig.json
+
+
+> one-oven@0.1.0 validate:recipes
+> npm run validate:recipes --workspace @one-oven/server
+
+
+> @one-oven/server@0.1.0 validate:recipes
+> tsx scripts/validate-recipes.ts
+
+PASS: 8 original recipes; schema and semantic validation.
+
+> one-oven@0.1.0 test
+> npm run test --workspace @one-oven/server && npm run test --workspace @one-oven/agent && npm run test --workspace @one-oven/voice && npm run test --workspace @one-oven/scenarios
+
+
+> @one-oven/server@0.1.0 test
+> tsx --test test/*.test.ts
+
+✔ weekday (16.068376ms)
+✔ oven conflict (15.946038ms)
+✔ Thanksgiving eight dishes (6.006292ms)
+✔ oven compatibility uses full temperature range, not transitive pairs (2.570009ms)
+✔ burner and hands constraints at capacity one (2.89838ms)
+✔ delay preserves completed steps and running start; changes propagate only as needed (2.749735ms)
+✔ delay propagates a resource collision without overlapping hands (0.60399ms)
+✔ frozen conflict rejects atomically (0.502823ms)
+✔ rejects invalid delays, completed dishes and impossible kitchens (0.41935ms)
+✔ clock floor prevents moving pending work into the past (0.366505ms)
+✔ deterministic scenario sweep across capacities and delay targets (93.912756ms)
+✔ preheat is the first salmon action and completes before roasting (2.905398ms)
+✔ temperature transitions include heating and cooling, excluding food (7.170277ms)
+✔ capacity two serializes two pans; capacity four permits a shared midpoint (4.181314ms)
+✔ Thanksgiving oven handoff and all demo hold limits (2.610974ms)
+✔ independent verifier detects missing heating, transitions, segments and hold warnings (1.044784ms)
+{"performance":{"plan_meal":{"samples":200,"p50_ms":2.267,"p95_ms":3.613,"p99_ms":6.879,"max_ms":9.831},"report_delay":{"samples":200,"p50_ms":2.125,"p95_ms":4.611,"p99_ms":7.743,"max_ms":30.344}},"storage":"temporary file, SQLite WAL","warmup":20}
+✔ 8-dish service including SQLite writes meets plan p95 <=50ms and delay p95 <=20ms (1168.757689ms)
+{"property_runs":1000,"seed":20261015,"planned":849,"delayed":827,"swapped":344,"accepted_rejections":610,"violations":0}
+✔ 1,000 random kitchens, dish subsets, delays and swaps satisfy independent invariants (4171.498378ms)
+✔ golden weekday-3: deterministic plan and complete execution (91.941308ms)
+✔ golden salmon-delay: deterministic plan and complete execution (53.618929ms)
+✔ golden swap: deterministic plan and complete execution (41.000866ms)
+✔ golden thanksgiving-8: deterministic plan and complete execution (112.770238ms)
+✔ explicit keys replay every mutation, normalize defaults and survive subsequent versions (34.84974ms)
+✔ implicit retry is bounded by 20 seconds and current version; allow_repeat adds time (14.742114ms)
+✔ version conflicts and injected event/idempotency failures roll back every table (8.506645ms)
+✔ start now moves an eligible future step, preserves frozen work and rejects blocked oven starts (10.245837ms)
+✔ voice envelopes cover all tools, schema errors, metadata and domain errors (33.475469ms)
+✔ overdue steps, repeated completion and frozen conflicts are atomic and speakable (11.294394ms)
+✔ time-zone parsing handles rollover, DST skipped/repeated times and spoken local time (3.451043ms)
+✔ speech lint rejects long or machine/display-oriented speech (0.173421ms)
+✔ recipe validator rejects schema and semantic corruption (2.090324ms)
+✔ steps due in the same minute start together and the second one is spoken (55.35975ms)
+✔ delay and swap replies describe the dish that changed and the serving time (18.890564ms)
+✔ migrations upgrade an existing v1 database and survive reopening (35.857793ms)
+✔ BEGIN IMMEDIATE rolls back all writes and households scope queries (3.919557ms)
+✔ v1 pending plans gain missing transition gaps without discarding their identities (3.896638ms)
+ℹ tests 36
+ℹ suites 0
+ℹ pass 36
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4682.089084
+
+> @one-oven/agent@0.1.0 test
+> tsx --test test/*.test.ts
+
+✔ AGENT_MODEL alone selects native providers, preserving colon-containing Bedrock ARNs; no requests (6.710709ms)
+✔ host timers use injected time, replace/cancel, expire, and deduplicate automatic suggestions (0.95386ms)
+✔ nullable optional adapter preserves required null errors and false/zero values (0.988794ms)
+✔ speech rejects machine/visual leakage and trace redacts secrets but retains token metrics (1.738008ms)
+✔ voice mode returns a failure caused by an invented ID to the model once, but speaks real domain errors (186.252129ms)
+✔ scripted weekday: real HTTP MCP, delay deduplication, timers, every step done, zero speech violations (434.242463ms)
+✔ voice tool handoff uses one model request per turn and preserves full weekday state (206.103486ms)
+✔ gateway JSON + SSE preserve one session and real MCP state; invalid/cross-origin requests are rejected (206.683493ms)
+✔ gateway rejects concurrent turns and returns a readable SSE error after failure (8.484082ms)
+✔ simulation clock endpoint is absent by default, opt-in, monotonic, and same-origin only (11.385532ms)
+✔ session retains raw lint violations while returning safe speech and logs MCP domain errors (38.424808ms)
+✔ compiled chat CLI switches device, advances the real simulation clock, and calls MCP (452.954688ms)
+✔ voice handoff preserves MCP failures, releases speech once, and keeps plan steps after catalog refresh (48.56604ms)
+ℹ tests 13
+ℹ suites 0
+ℹ pass 13
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1807.876918
+
+> @one-oven/voice@0.1.0 test
+> tsx --test test/*.test.ts
+
+✔ timer callbacks fire once, replacement/cancel suppress old deadlines and SimClock notifies immediately (1.595247ms)
+✔ audio contracts reject invalid formats, wake prefix and config are explicit (0.622817ms)
+✔ Polly synthesizes PCM through injected client; default cannot make AWS requests (0.826683ms)
+✔ Transcribe streams PCM chunks, omits partials and deduplicates final results without AWS access (1.165314ms)
+✔ timer speaks with chime without calling session; queue serializes simultaneous alerts and cleans up (25.974853ms)
+✔ voice rejects empty STT and concurrent input; validated final speech starts synthesis before turn settles (2.703661ms)
+✔ timer output failures are reported and do not break subsequent queue jobs (1.274488ms)
+✔ Whisper adapter sends real WAV and common hints to loopback; bad responses never use fixture text (41.348118ms)
+✔ intent grading handles clock suffixes but does not infer missing dishes or counts (1.002085ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 677.628466
+
+> @one-oven/scenarios@0.1.0 test
+> tsx --test test/*.test.ts
+
+✔ four scenarios load in video order with the beats DESIGN.md 6 requires (41.436929ms)
+✔ schema rejects ambiguous or malformed beats (4.268635ms)
+✔ argument matching accepts reordered lists and equivalent times, and rejects wrong values (1.203257ms)
+✔ intent words survive plural and number differences, not missing words (0.890697ms)
+✔ the runner fails on wrong state and on utterances that lose their intent words (129.546423ms)
+✔ video script from passing scripted runs uses recorded replies and fits the length cap (1268.890984ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2309.113112
+
+> one-oven@0.1.0 smoke
+> npm run smoke --workspace @one-oven/server
+
+
+> @one-oven/server@0.1.0 smoke
+> tsx scripts/smoke.ts
+
+{
+  "status": "PASS",
+  "protocol": "2025-11-25",
+  "tools": [
+    "set_kitchen",
+    "list_dishes",
+    "plan_meal",
+    "next_step",
+    "report_delay",
+    "swap_dish"
+  ],
+  "salmon_demo": {
+    "serve_local": "6:35 PM",
+    "changed_steps": [
+      "salmon:1",
+      "salmon:2"
+    ],
+    "deduplicated": true
+  },
+  "persistence": "SQLite reopen + plans, history, idempotency + HTTP resources/read passed",
+  "latency_ms": {
+    "calls": 24,
+    "max": 40.23,
+    "mean": 5.85
+  }
+}
+
+> one-oven@0.1.0 e2e:text
+> tsx packages/agent/scripts/e2e-text.ts --scripted
+
+{"trial":1,"passed":true,"turns":20,"toolCalls":20,"rawLintViolations":0,"outputLintViolations":0,"turnP50Ms":8.480765999999903,"turnP95Ms":13.69349000000011,"totalMs":324.491975,"finalVersion":18,"completedSteps":12,"protocolVersion":"2025-11-25"}
+Report: /tmp/oo-s4-clean-FQuZ/repo/runs/s2-scripted-2026-10-15T10-28-59-512Z/report.json — 1/1
+
+> one-oven@0.1.0 e2e:scenarios
+> tsx packages/scenarios/scripts/run.ts --mode engine,mcp,agent
+
+PASS weekday-3 engine: 18 turns, 18 tools, p95 7.9 ms
+PASS salmon-delay engine: 20 turns, 20 tools, p95 1.8 ms
+PASS swap engine: 17 turns, 17 tools, p95 2.1 ms
+PASS thanksgiving-8 engine: 40 turns, 40 tools, p95 2.3 ms
+PASS weekday-3 mcp: 18 turns, 18 tools, p95 5.8 ms
+PASS salmon-delay mcp: 20 turns, 20 tools, p95 3.4 ms
+PASS swap mcp: 17 turns, 17 tools, p95 6.1 ms
+PASS thanksgiving-8 mcp: 40 turns, 40 tools, p95 3.8 ms
+PASS weekday-3 agent: 18 turns, 19 tools, p95 22.7 ms
+PASS salmon-delay agent: 20 turns, 21 tools, p95 11.0 ms
+PASS swap agent: 17 turns, 18 tools, p95 11.4 ms
+PASS thanksgiving-8 agent: 40 turns, 41 tools, p95 11.7 ms
+✓ engine      weekday-3       1/1
+✓ engine      salmon-delay    1/1
+✓ engine      swap            1/1
+✓ engine      thanksgiving-8  1/1
+✓ mcp         weekday-3       1/1
+✓ mcp         salmon-delay    1/1
+✓ mcp         swap            1/1
+✓ mcp         thanksgiving-8  1/1
+✓ agent       weekday-3       1/1
+✓ agent       salmon-delay    1/1
+✓ agent       swap            1/1
+✓ agent       thanksgiving-8  1/1
+Summary: /tmp/oo-s4-clean-FQuZ/repo/runs/scenarios/summary-2026-10-15T10-29-00-958Z.json

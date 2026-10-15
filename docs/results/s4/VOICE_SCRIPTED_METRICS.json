@@ -1,0 +1,71 @@
+{
+  "source": "runs/scenarios/summary-2026-10-15T09-27-11-130Z.json",
+  "model": "scripted",
+  "required": 1,
+  "rows": [
+    {
+      "scenario": "weekday-3",
+      "mode": "voice",
+      "passed": 1,
+      "runs": 1,
+      "turns": 18,
+      "turnP50Ms": 1474.0728060000001,
+      "turnP95Ms": 1644.6966780000002,
+      "turnMaxMs": 1644.6966780000002,
+      "toolP95Ms": 70.49123300000065,
+      "modelRequestsPerTurn": 1,
+      "lintViolations": 0,
+      "softWording": 0,
+      "idCorrections": 0,
+      "failures": []
+    },
+    {
+      "scenario": "salmon-delay",
+      "mode": "voice",
+      "passed": 1,
+      "runs": 1,
+      "turns": 20,
+      "turnP50Ms": 1431.9436110000024,
+      "turnP95Ms": 1661.715787999994,
+      "turnMaxMs": 1676.314323999999,
+      "toolP95Ms": 7.500288000002911,
+      "modelRequestsPerTurn": 1,
+      "lintViolations": 0,
+      "softWording": 0,
+      "idCorrections": 0,
+      "failures": []
+    },
+    {
+      "scenario": "swap",
+      "mode": "voice",
+      "passed": 1,
+      "runs": 1,
+      "turns": 17,
+      "turnP50Ms": 1573.4023829999933,
+      "turnP95Ms": 1865.8978229999993,
+      "turnMaxMs": 1865.8978229999993,
+      "toolP95Ms": 7.461666999995941,
+      "modelRequestsPerTurn": 1,
+      "lintViolations": 0,
+      "softWording": 0,
+      "idCorrections": 0,
+      "failures": []
+    },
+    {
+      "scenario": "thanksgiving-8",
+      "mode": "voice",
+      "passed": 1,
+      "runs": 1,
+      "turns": 40,
+      "turnP50Ms": 1372.4204709999904,
+      "turnP95Ms": 1616.7735870000033,
+      "turnMaxMs": 1707.6640610000031,
+      "toolP95Ms": 7.529888999997638,
+      "modelRequestsPerTurn": 1,
+      "lintViolations": 0,
+      "softWording": 0,
+      "idCorrections": 0,
+      "failures": []
+    }
+  ]
+}
