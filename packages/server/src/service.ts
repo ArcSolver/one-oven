@@ -75,9 +75,11 @@ export class Service {
     return this.mutate('set_kitchen', { kitchen }, options, undefined, () => {
       const kitchen_id = randomUUID();
       this.store.saveKitchen(kitchen_id, kitchen, this.requestNow());
-      const capacity = kitchen.ovens.map(o => o.capacity_units).join(', ');
+      const capacity = kitchen.ovens.map(o => o.capacity_units);
+      const holds = capacity.length === 1 ? `that holds ${capacity[0]} pans`
+        : `that hold ${capacity.slice(0, -1).join(', ')} and ${capacity.at(-1)} pans`;
       return { data: { kitchen_id, kitchen, say: kitchen.ovens.length
-        ? `Your kitchen has ${kitchen.ovens.length} ${kitchen.ovens.length === 1 ? 'oven' : 'ovens'}, with capacity ${capacity} pans respectively.`
+        ? `Your kitchen has ${kitchen.ovens.length} ${kitchen.ovens.length === 1 ? 'oven' : 'ovens'} ${holds}, ${kitchen.burners} burners and ${kitchen.helpers} ${kitchen.helpers === 1 ? 'cook' : 'cooks'}.`
         : 'Your kitchen is ready for stovetop meals.', display: kitchen } };
     });
   }
@@ -117,7 +119,8 @@ export class Service {
       if (done) {
         const step = plan.steps.find(s => s.step_id === done);
         if (!step || step.status === 'pending') throw new DomainError('step_not_running', 'Only a step already in progress can be completed.');
-        if (step.status === 'done') return { data: { ...this.present(plan), step: null, upcoming: [], changed_steps: [], say: 'That step is already complete.' } };
+        if (step.status === 'done') return { data: { ...this.present(plan), step: null, also_started: [] as ReturnType<Service['step']>[],
+          upcoming: [] as ReturnType<Service['step']>[], changed_steps: [] as ReturnType<typeof changes>, say: 'That step is already complete.' } };
         if (now < step.start) throw new DomainError('conflict_frozen', 'The clock is earlier than this step. Check the kitchen time.');
         step.status = 'done';
         step.end = now;
@@ -138,27 +141,34 @@ export class Service {
       const overdue = plan.steps.some(s => s.status === 'running' && s.end <= now);
       if (overdue && !done) throw new DomainError('overdue_step', 'A step is overdue. Complete it or add more time first.');
       let next = startStepId ? plan.steps.find(s => s.step_id === startStepId) : undefined;
+      let alsoStarted: Step[] = [];
       if (!overdue && !next) {
-        next = plan.steps.filter(s => s.status === 'pending' && this.eligible(s, plan)).sort(order)[0];
-        if (next && next.start <= now) { next.status = 'running'; next.actual_start = now; }
+        // Start every step the schedule already placed at or before now, so a step that shares
+        // the minute with another is announced instead of silently waiting for a second request.
+        const eligible = plan.steps.filter(s => s.status === 'pending' && this.eligible(s, plan)).sort(order);
+        const due = eligible.filter(s => s.start <= now);
+        for (const step of due) { step.status = 'running'; step.actual_start = now; }
+        next = due[0] ?? eligible[0];
+        alsoStarted = due.slice(1);
       }
       const changed = changes(before, plan.steps);
       const updated = changed.length ? refreshPlan(plan, plan.steps, now, dishes) : plan;
       const upcoming = updated.steps.filter(s => s.status === 'pending' && s.step_id !== next?.step_id).sort(order).slice(0, 2).map(s => this.step(s));
       const speech = overdue ? 'Step complete. Confirm the other finished steps or add more time.'
-        : next ? say.instruction(next, now, plan.kitchen.timezone)
+        : next ? say.withAlso(say.instruction(next, now, plan.kitchen.timezone), alsoStarted)
         : plan.steps.some(s => s.status !== 'done') ? 'Finish the steps already in progress, then tell me when they are done.'
         : 'All steps are complete. Your meal is ready.';
-      return { plan: updated, data: { ...this.present(updated), step: next ? this.step(next) : null, upcoming, changed_steps: changed, say: speech } };
+      return { plan: updated, data: { ...this.present(updated), step: next ? this.step(next) : null,
+        also_started: alsoStarted.map(s => this.step(s)), upcoming, changed_steps: changed, say: speech } };
     });
   }
   reportDelay(id: string, dishId: string, minutes: number, options: MutationOptions = {}) {
     return this.mutate('report_delay', { plan_id: id, dish_id: dishId, minutes }, options, id, old => {
       const plan = delay(old!, dishId, minutes, this.now(), dishes);
       const changed = changes(old!.steps, plan.steps);
-      const summary = say.changesSummary(changed);
+      const summary = say.changesSummary(changed, dishId);
       return { plan, data: { ...this.present(plan), new_serve_at: iso(plan.serve), changed_steps: changed,
-        changes_summary: summary, say: say.delayed(plan.serve, plan.kitchen, summary) } };
+        changes_summary: summary, say: say.delayed(plan.serve, old!.serve, plan.kitchen, summary, dishId, minutes) } };
     });
   }
   swapDish(id: string, oldId: string, replacement: string, options: MutationOptions = {}) {
@@ -172,7 +182,7 @@ export class Service {
       const steps = repair([...old!.steps.filter(s => s.dish_id !== oldId), ...added], old!.kitchen, this.now());
       const plan = refreshPlan(old!, steps, this.now(), dishes);
       return { plan, data: { ...this.present(plan), changed_steps: changes(old!.steps, steps), removed_step_ids: removed.map(s => s.step_id),
-        say: `The replacement is planned. ${say.dinner(plan.serve, plan.kitchen)}` } };
+        say: say.swapped(dish(replacement).name, dish(oldId).name, plan.serve, old!.serve, plan.kitchen) } };
     });
   }
   step(step: Step) {
