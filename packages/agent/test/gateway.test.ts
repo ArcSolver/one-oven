@@ -145,3 +145,33 @@ test('compiled chat CLI switches device, advances the real simulation clock, and
     assert.equal(clock.now(), Date.parse('2026-10-15T17:15:00-05:00'));
   } finally { clearTimeout(timeout); child.kill(); await close(server); store.close(); rmSync(directory, { recursive: true, force: true }); }
 });
+
+test('voice handoff preserves MCP failures, releases speech once, and keeps plan steps after catalog refresh', async () => {
+  const clock = new SimClock('2026-10-15T17:05:00-05:00');
+  const store = new Store(':memory:');
+  const server = app(new Service(store, () => clock.now() / 60000)).listen(0, '127.0.0.1');
+  const base = await url(server), trace = new MemoryTrace();
+  const prompts: string[] = [];
+  class ObservedModel extends ScriptedModel {
+    override async *stream(messages: import('@strands-agents/sdk').Message[], options?: import('@strands-agents/sdk').StreamOptions) {
+      prompts.push(JSON.stringify(options?.systemPrompt));
+      yield* super.stream(messages, options);
+    }
+  }
+  const mcp = new OneOvenMcpClient(`${base}/mcp`, trace);
+  const session = new ConversationSession({ model: new ObservedModel('weekday-3'), mcp, clock, trace, voiceMode: true, provider: 'scripted',
+    device: { deviceClass: 'dot', timezone: 'America/Chicago', nowIso: new Date(clock.now()).toISOString() } });
+  try {
+    await session.prepare();
+    const spoken: string[] = [];
+    const error = await session.turn('The salmon needs five more minutes.', text => spoken.push(text));
+    assert.ok(error.toolCalls.at(-1)?.result?.isError);
+    assert.equal(error.modelRequests.length, 1); assert.deepEqual(spoken, [error.reply]);
+    assert.equal(error.replySource, 'tool-say'); assert.equal(session.timers.list().length, 0);
+    await session.turn('My kitchen has one oven.');
+    await session.turn('I want salmon, rice and green beans on the table at 6:30 PM.');
+    const tools = await mcp.listTools(); await mcp.callTool(tools.find(t => t.name === 'list_dishes')!, {});
+    await session.turn('Hello');
+    assert.match(prompts.at(-1)!, /salmon:1/); assert.match(prompts.at(-1)!, /pending/);
+  } finally { await session.close(); await close(server); store.close(); }
+});

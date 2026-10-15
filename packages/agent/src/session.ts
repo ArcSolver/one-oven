@@ -61,7 +61,11 @@ export class ConversationSession {
     opts.mcp.onResult = call => {
       const data = call.result?.structuredContent as Record<string, unknown> | undefined;
       if (data && !call.result?.isError) {
-        for (const key of ['plan_id', 'kitchen_id', 'version', 'display', 'serve_at_local', 'dishes']) if (data[key] !== undefined) this.state[key] = data[key];
+        for (const key of ['plan_id', 'kitchen_id', 'version', 'display', 'serve_at_local', 'dishes']) {
+          // Catalog/kitchen cards must not replace an active plan's step state.
+          if (key === 'display' && !data.plan_id && (this.state.plan_id || !data.kitchen_id)) continue;
+          if (data[key] !== undefined) this.state[key] = data[key];
+        }
         if (opts.autoTimers || opts.voiceMode) this.timers.auto((data.timer_suggestions ?? []) as TimerSuggestion[]);
       }
     };
