@@ -1,0 +1,12 @@
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+const title = process.argv.slice(2).join(' ').trim();
+if (!title) throw new Error('Usage: npm run friction:new -- "Title"');
+const directory = new URL('../docs/friction/entries/', import.meta.url);
+mkdirSync(directory, { recursive: true });
+const ids = readdirSync(directory).map(n => Number(n.match(/^F-(\d+)-/)?.[1] ?? 0));
+const id = `F-${String(Math.max(11, ...ids) + 1).padStart(2, '0')}`;
+const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'entry';
+const template = readFileSync(new URL('../docs/friction/TEMPLATE.md', import.meta.url), 'utf8');
+const output = new URL(`${id}-${slug}.md`, directory);
+writeFileSync(output, template.replace('F-NN: <title in English>', `${id}: ${title}`).replace('<YYYY-MM-DD / S1>', `${new Date().toISOString().slice(0, 10)} / S1`), { flag: 'wx' });
+console.log(output.pathname);

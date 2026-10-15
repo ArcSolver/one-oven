@@ -1,0 +1,47 @@
+{
+  "dish_id": "rice",
+  "name": "Fluffy rice",
+  "course": "side",
+  "servings": 4,
+  "steps": [
+    {
+      "text": "Rinse the rice and fill the pot.",
+      "minutes": 3,
+      "kind": "prep",
+      "hands": 1,
+      "burners": 0
+    },
+    {
+      "text": "Bring the rice to a simmer.",
+      "minutes": 4,
+      "kind": "stove",
+      "hands": 1,
+      "burners": 1
+    },
+    {
+      "text": "Cook the covered rice gently.",
+      "minutes": 15,
+      "kind": "stove",
+      "hands": 0,
+      "burners": 1
+    },
+    {
+      "text": "Rest the covered rice off the burner.",
+      "minutes": 5,
+      "kind": "rest",
+      "hands": 0,
+      "burners": 0
+    }
+  ],
+  "hold_max_minutes": 30,
+  "provenance": {
+    "author": "one-oven",
+    "written_at": "2026-10-15"
+  },
+  "tags": [
+    "thanksgiving",
+    "timing-fixture",
+    "not-kitchen-tested",
+    "weekday"
+  ]
+}

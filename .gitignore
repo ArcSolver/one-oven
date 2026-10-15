@@ -1,6 +1,10 @@
 node_modules/
 dist/
-data/
+/data/
+/packages/server/data/
 *.sqlite*
 .env
 .DS_Store
+
+._*
+runs/

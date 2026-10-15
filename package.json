@@ -10,11 +10,13 @@
   },
   "scripts": {
     "dev": "npm run dev --workspace @one-oven/server",
-    "build": "npm run build --workspace @one-oven/server",
+    "build": "npm run build --workspace @one-oven/contracts && npm run build --workspace @one-oven/server",
     "start": "npm run start --workspace @one-oven/server",
     "test": "npm run test --workspace @one-oven/server",
     "smoke": "npm run smoke --workspace @one-oven/server",
-    "check": "npm run check --workspace @one-oven/server"
+    "check": "npm run build && npm run validate:recipes && npm test && npm run smoke",
+    "validate:recipes": "npm run validate:recipes --workspace @one-oven/server",
+    "friction:new": "node scripts/friction-new.mjs"
   },
   "workspaces": [
     "packages/*"

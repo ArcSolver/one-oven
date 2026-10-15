@@ -1,0 +1,41 @@
+{
+  "dish_id": "stuffing",
+  "name": "Herbed stuffing",
+  "course": "side",
+  "servings": 4,
+  "steps": [
+    {
+      "text": "Mix the stuffing.",
+      "minutes": 8,
+      "kind": "prep",
+      "hands": 1,
+      "burners": 0
+    },
+    {
+      "text": "Bake the stuffing.",
+      "minutes": 30,
+      "kind": "oven",
+      "hands": 0,
+      "burners": 0,
+      "temperature_f": 375,
+      "oven_units": 2
+    },
+    {
+      "text": "Rest the stuffing.",
+      "minutes": 5,
+      "kind": "rest",
+      "hands": 0,
+      "burners": 0
+    }
+  ],
+  "hold_max_minutes": 30,
+  "provenance": {
+    "author": "one-oven",
+    "written_at": "2026-10-15"
+  },
+  "tags": [
+    "thanksgiving",
+    "timing-fixture",
+    "not-kitchen-tested"
+  ]
+}

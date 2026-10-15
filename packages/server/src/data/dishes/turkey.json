@@ -1,0 +1,50 @@
+{
+  "dish_id": "turkey",
+  "name": "Turkey centerpiece",
+  "course": "main",
+  "servings": 4,
+  "steps": [
+    {
+      "text": "Prepare the turkey tray.",
+      "minutes": 15,
+      "kind": "prep",
+      "hands": 1,
+      "burners": 0
+    },
+    {
+      "text": "Roast the turkey.",
+      "minutes": 150,
+      "kind": "oven",
+      "hands": 0,
+      "burners": 0,
+      "temperature_f": 325,
+      "oven_units": 4,
+      "doneness_check": "Check with a food thermometer: 165 degrees F minimum internal temperature."
+    },
+    {
+      "text": "Rest the turkey.",
+      "minutes": 35,
+      "kind": "rest",
+      "hands": 0,
+      "burners": 0
+    },
+    {
+      "text": "Carve the turkey.",
+      "minutes": 8,
+      "kind": "finish",
+      "hands": 1,
+      "burners": 0
+    }
+  ],
+  "hold_max_minutes": 30,
+  "provenance": {
+    "author": "one-oven",
+    "written_at": "2026-10-15"
+  },
+  "tags": [
+    "thanksgiving",
+    "timing-fixture",
+    "not-kitchen-tested"
+  ],
+  "safety_note": "Timing guidance only. Check doneness with a food thermometer."
+}

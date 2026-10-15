@@ -1,0 +1,32 @@
+{
+  "dish_id": "gravy",
+  "name": "Pan gravy",
+  "course": "side",
+  "servings": 4,
+  "steps": [
+    {
+      "text": "Measure the gravy ingredients.",
+      "minutes": 3,
+      "kind": "prep",
+      "hands": 1,
+      "burners": 0
+    },
+    {
+      "text": "Whisk the gravy over heat.",
+      "minutes": 7,
+      "kind": "stove",
+      "hands": 1,
+      "burners": 1
+    }
+  ],
+  "hold_max_minutes": 20,
+  "provenance": {
+    "author": "one-oven",
+    "written_at": "2026-10-15"
+  },
+  "tags": [
+    "thanksgiving",
+    "timing-fixture",
+    "not-kitchen-tested"
+  ]
+}

@@ -14,17 +14,20 @@
     "start": "node dist/src/main.js",
     "test": "tsx --test test/*.test.ts",
     "smoke": "tsx scripts/smoke.ts",
-    "check": "npm run build && npm test && npm run smoke"
+    "check": "npm run build && npm run validate:recipes && npm test && npm run smoke",
+    "validate:recipes": "tsx scripts/validate-recipes.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/ext-apps": "^1.0.0",
     "@modelcontextprotocol/sdk": "^1.32.1",
     "express": "^5.1.0",
-    "zod": "^4.0.0"
+    "zod": "^4.0.0",
+    "@one-oven/contracts": "0.1.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
     "@types/node": "^26.0.0",
+    "fast-check": "^4.10.2",
     "tsx": "^4.20.0",
     "typescript": "^5.9.0"
   }

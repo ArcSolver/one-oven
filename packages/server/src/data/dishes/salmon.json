@@ -1,0 +1,44 @@
+{
+  "dish_id": "salmon",
+  "name": "Lemon salmon",
+  "course": "main",
+  "servings": 4,
+  "steps": [
+    {
+      "text": "Season the salmon and prepare the tray.",
+      "minutes": 4,
+      "kind": "prep",
+      "hands": 1,
+      "burners": 0
+    },
+    {
+      "text": "Roast the salmon in the preheated oven.",
+      "minutes": 18,
+      "kind": "oven",
+      "hands": 0,
+      "burners": 0,
+      "temperature_f": 400,
+      "oven_units": 2,
+      "doneness_check": "Check with a food thermometer: 145 degrees F minimum internal temperature."
+    },
+    {
+      "text": "Rest the salmon before serving.",
+      "minutes": 3,
+      "kind": "rest",
+      "hands": 0,
+      "burners": 0
+    }
+  ],
+  "hold_max_minutes": 15,
+  "provenance": {
+    "author": "one-oven",
+    "written_at": "2026-10-15"
+  },
+  "tags": [
+    "thanksgiving",
+    "timing-fixture",
+    "not-kitchen-tested",
+    "weekday"
+  ],
+  "safety_note": "Timing guidance only. Check doneness with a food thermometer."
+}

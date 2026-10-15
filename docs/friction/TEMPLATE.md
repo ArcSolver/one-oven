@@ -1,0 +1,12 @@
+### F-NN: <title in English>
+- Product / doc: <name, URL, version>
+- Date / stage: <YYYY-MM-DD / S1>
+- Task attempted:
+- Steps taken: 1) ... 2) ...
+- Expected:
+- Actual: <error or short original quotation>
+- Severity: critical | high | medium | low
+- Time lost: <minutes>
+- Workaround:
+- Actionable suggestion:
+- Evidence: <commit, trace line, screenshot>

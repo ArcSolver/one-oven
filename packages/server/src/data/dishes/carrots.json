@@ -1,0 +1,39 @@
+{
+  "dish_id": "carrots",
+  "name": "Glazed carrots",
+  "course": "side",
+  "servings": 4,
+  "steps": [
+    {
+      "text": "Slice the carrots.",
+      "minutes": 5,
+      "kind": "prep",
+      "hands": 1,
+      "burners": 0
+    },
+    {
+      "text": "Simmer the carrots.",
+      "minutes": 12,
+      "kind": "stove",
+      "hands": 0,
+      "burners": 1
+    },
+    {
+      "text": "Glaze the carrots.",
+      "minutes": 3,
+      "kind": "stove",
+      "hands": 1,
+      "burners": 1
+    }
+  ],
+  "hold_max_minutes": 20,
+  "provenance": {
+    "author": "one-oven",
+    "written_at": "2026-10-15"
+  },
+  "tags": [
+    "thanksgiving",
+    "timing-fixture",
+    "not-kitchen-tested"
+  ]
+}

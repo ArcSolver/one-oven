@@ -1,0 +1,41 @@
+{
+  "dish_id": "potatoes",
+  "name": "Roasted potatoes",
+  "course": "side",
+  "servings": 4,
+  "steps": [
+    {
+      "text": "Cut and season the potatoes.",
+      "minutes": 8,
+      "kind": "prep",
+      "hands": 1,
+      "burners": 0
+    },
+    {
+      "text": "Roast the potatoes.",
+      "minutes": 35,
+      "kind": "oven",
+      "hands": 0,
+      "burners": 0,
+      "temperature_f": 400,
+      "oven_units": 2
+    },
+    {
+      "text": "Rest the potatoes.",
+      "minutes": 3,
+      "kind": "rest",
+      "hands": 0,
+      "burners": 0
+    }
+  ],
+  "hold_max_minutes": 20,
+  "provenance": {
+    "author": "one-oven",
+    "written_at": "2026-10-15"
+  },
+  "tags": [
+    "thanksgiving",
+    "timing-fixture",
+    "not-kitchen-tested"
+  ]
+}
