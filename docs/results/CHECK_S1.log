@@ -1,0 +1,122 @@
+
+added 116 packages, and audited 119 packages in 1s
+
+36 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+npm warn install-scripts 1 package has install scripts not yet covered by allowScripts:
+npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+npm warn install-scripts
+npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+
+> one-oven@0.1.0 check
+> npm run build && npm run validate:recipes && npm test && npm run smoke
+
+
+> one-oven@0.1.0 build
+> npm run build --workspace @one-oven/contracts && npm run build --workspace @one-oven/server
+
+
+> @one-oven/contracts@0.1.0 build
+> tsc
+
+
+> @one-oven/server@0.1.0 build
+> tsc && node scripts/copy-assets.mjs
+
+
+> one-oven@0.1.0 validate:recipes
+> npm run validate:recipes --workspace @one-oven/server
+
+
+> @one-oven/server@0.1.0 validate:recipes
+> tsx scripts/validate-recipes.ts
+
+PASS: 8 original recipes; schema and semantic validation.
+
+> one-oven@0.1.0 test
+> npm run test --workspace @one-oven/server
+
+
+> @one-oven/server@0.1.0 test
+> tsx --test test/*.test.ts
+
+✔ weekday (13.566527ms)
+✔ oven conflict (10.63357ms)
+✔ Thanksgiving eight dishes (3.476203ms)
+✔ oven compatibility uses full temperature range, not transitive pairs (1.687671ms)
+✔ burner and hands constraints at capacity one (1.753739ms)
+✔ delay preserves completed steps and running start; changes propagate only as needed (1.887648ms)
+✔ delay propagates a resource collision without overlapping hands (0.510799ms)
+✔ frozen conflict rejects atomically (0.444659ms)
+✔ rejects invalid delays, completed dishes and impossible kitchens (0.896934ms)
+✔ clock floor prevents moving pending work into the past (0.634834ms)
+✔ deterministic scenario sweep across capacities and delay targets (95.10589ms)
+✔ preheat is the first salmon action and completes before roasting (2.60168ms)
+✔ temperature transitions include heating and cooling, excluding food (7.907729ms)
+✔ capacity two serializes two pans; capacity four permits a shared midpoint (4.273264ms)
+✔ Thanksgiving oven handoff and all demo hold limits (4.216607ms)
+✔ independent verifier detects missing heating, transitions, segments and hold warnings (2.326687ms)
+{"performance":{"plan_meal":{"samples":200,"p50_ms":2.731,"p95_ms":4.377,"p99_ms":11.353,"max_ms":40.865},"report_delay":{"samples":200,"p50_ms":2.466,"p95_ms":6.394,"p99_ms":23.373,"max_ms":29.455}},"storage":"temporary file, SQLite WAL","warmup":20}
+✔ 8-dish service including SQLite writes meets plan p95 <=50ms and delay p95 <=20ms (1478.474469ms)
+{"property_runs":1000,"seed":20261015,"planned":849,"delayed":827,"swapped":344,"accepted_rejections":610,"violations":0}
+✔ 1,000 random kitchens, dish subsets, delays and swaps satisfy independent invariants (4223.77999ms)
+✔ golden weekday-3: deterministic plan and complete execution (91.961862ms)
+✔ golden salmon-delay: deterministic plan and complete execution (49.353605ms)
+✔ golden swap: deterministic plan and complete execution (38.54956ms)
+✔ golden thanksgiving-8: deterministic plan and complete execution (160.566971ms)
+✔ explicit keys replay every mutation, normalize defaults and survive subsequent versions (45.644176ms)
+✔ implicit retry is bounded by 20 seconds and current version; allow_repeat adds time (17.980913ms)
+✔ version conflicts and injected event/idempotency failures roll back every table (12.144842ms)
+✔ start now moves an eligible future step, preserves frozen work and rejects blocked oven starts (13.821196ms)
+✔ voice envelopes cover all tools, schema errors, metadata and domain errors (22.149755ms)
+✔ overdue steps, repeated completion and frozen conflicts are atomic and speakable (13.342105ms)
+✔ time-zone parsing handles rollover, DST skipped/repeated times and spoken local time (3.641427ms)
+✔ speech lint rejects long or machine/display-oriented speech (0.171195ms)
+✔ recipe validator rejects schema and semantic corruption (1.825473ms)
+✔ migrations upgrade an existing v1 database and survive reopening (59.837491ms)
+✔ BEGIN IMMEDIATE rolls back all writes and households scope queries (9.146162ms)
+✔ v1 pending plans gain missing transition gaps without discarding their identities (6.976064ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4801.611894
+
+> one-oven@0.1.0 smoke
+> npm run smoke --workspace @one-oven/server
+
+
+> @one-oven/server@0.1.0 smoke
+> tsx scripts/smoke.ts
+
+{
+  "status": "PASS",
+  "protocol": "2025-11-25",
+  "tools": [
+    "set_kitchen",
+    "list_dishes",
+    "plan_meal",
+    "next_step",
+    "report_delay",
+    "swap_dish"
+  ],
+  "salmon_demo": {
+    "serve_local": "6:35 PM",
+    "changed_steps": [
+      "salmon:1",
+      "salmon:2"
+    ],
+    "deduplicated": true
+  },
+  "persistence": "SQLite reopen + plans, history, idempotency + HTTP resources/read passed",
+  "latency_ms": {
+    "calls": 24,
+    "max": 22.65,
+    "mean": 5.44
+  }
+}
