@@ -10,7 +10,7 @@
   },
   "scripts": {
     "dev": "tsx src/main.ts",
-    "build": "tsc",
+    "build": "tsc && node scripts/copy-assets.mjs",
     "start": "node dist/src/main.js",
     "test": "tsx --test test/*.test.ts",
     "smoke": "tsx scripts/smoke.ts",
