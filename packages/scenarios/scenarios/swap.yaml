@@ -1,0 +1,53 @@
+# Scene 3: change of plan before cooking starts.
+id: swap
+title: Swap green beans for glazed carrots
+device: show
+timezone: America/Chicago
+clock_start: "17:05"
+kitchen: { ovens: 1, burners: 4, helpers: 1 }
+video:
+  order: 3
+  scene: Swap a side dish before cooking starts
+  intro: Out of green beans? Change the plan, not the whole evening.
+beats:
+  - id: kitchen
+    user: Alexa, I have one oven, four burners, and one cook.
+    intents: [1 oven, 4 burners, 1 cook]
+    expect:
+      tools:
+        - name: set_kitchen
+          args: { ovens: 1, burners: 4, helpers: 1, timezone: America/Chicago }
+  - id: plan
+    user: Alexa, I want salmon, rice and green beans on the table at 6:30.
+    intents: [salmon, rice, green beans, "6", "30"]
+    expect:
+      tools:
+        - name: plan_meal
+          args: { kitchen_id: $kitchen, dish_ids: [salmon, rice, green-beans], serve_at: "18:30" }
+  - id: swap
+    at: "17:10"
+    user: Alexa, replace the green beans with glazed carrots.
+    intents: [green beans, glazed carrots]
+    expect:
+      tools:
+        - name: swap_dish
+          args: { plan_id: $plan, dish_id: green-beans, replacement_id: carrots }
+      state:
+        same_plan: true
+        version_delta: 1
+        serve_local: "6:30 PM"
+        unchanged_dishes: [salmon, rice]
+        no_warnings: true
+      reply_includes: ["6:30 PM"]
+    video:
+      shot: The cook finds no green beans in the fridge. On the card, beans slide out and glazed carrots slide in.
+      ui: inline
+      caption: Same plan, new side, still 6:30 PM.
+  - id: cook-through
+    advance_to: next_event
+    repeat: { until: all_done }
+    user: I'm done with the {subject}. What's next?
+    user_idle: What's next?
+    expect:
+      state: { all_done: true, serve_local: "6:30 PM", no_warnings: true }
+      reply_includes: [meal is ready]

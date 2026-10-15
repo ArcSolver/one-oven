@@ -1,0 +1,73 @@
+# Scene 1 of the demo video. Every utterance below is the on-camera script.
+id: weekday-3
+title: Weeknight salmon, rice and green beans
+device: show
+timezone: America/Chicago
+clock_start: "17:05"
+kitchen: { ovens: 1, burners: 4, helpers: 1 }
+video:
+  order: 1
+  scene: Weeknight dinner on a smart display
+  intro: One cook, one oven, three dishes that all need to be hot at six thirty.
+beats:
+  - id: kitchen
+    user: Alexa, I have one oven, four burners, and one cook.
+    intents: [1 oven, 4 burners, 1 cook]
+    expect:
+      tools:
+        - name: set_kitchen
+          args: { ovens: 1, burners: 4, helpers: 1, timezone: America/Chicago }
+      reply_includes: [1 oven]
+    video:
+      shot: Cook at the counter at 5:05 PM speaks to the simulated smart display.
+      ui: inline
+  - id: plan
+    user: Alexa, I want salmon, rice and green beans on the table at 6:30.
+    intents: [salmon, rice, green beans, "6", "30"]
+    expect:
+      tools:
+        - name: plan_meal
+          args: { kitchen_id: $kitchen, dish_ids: [salmon, rice, green-beans], serve_at: "18:30" }
+      state: { serve_local: "6:30 PM", no_warnings: true, system_steps: [preheat] }
+      reply_includes: ["5:55 PM", "400°F"]
+    video:
+      shot: The Now card appears with the first action and the 6:30 PM serving time.
+      ui: inline
+      caption: Planned backward from 6:30 PM, including oven preheat.
+  - id: preheat
+    at: "17:55"
+    user: Alexa, what's next?
+    intents: [next]
+    expect:
+      tools:
+        - name: next_step
+          args: { plan_id: $plan }
+      state: { running: [oven0:preheat:1] }
+      reply_includes: ["400°F"]
+    video:
+      shot: Time-lapse to 5:55 PM; the cook turns the oven on.
+      ui: inline
+      caption: "5:55 PM"
+  - id: rice-start
+    advance_to: next_event
+    user: What's next?
+    intents: [next]
+    expect:
+      tools:
+        - name: next_step
+          args: { plan_id: $plan }
+      state: { running: [oven0:preheat:1, rice:0] }
+      reply_includes: [rice]
+  - id: cook-through
+    advance_to: next_event
+    repeat: { until: all_done }
+    user: I'm done with the {subject}. What's next?
+    user_idle: What's next?
+    expect:
+      state: { all_done: true, serve_local: "6:30 PM", no_warnings: true }
+      reply_includes: [meal is ready]
+    video:
+      shot: Montage of timer chimes and steps checked off; ends on the finished plates.
+      ui: fullscreen
+      caption: 35 minutes of cooking, time-lapsed.
+      timer: true

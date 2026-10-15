@@ -1,0 +1,53 @@
+# Scene 4: the climax. Eight dishes share one oven while the turkey rests.
+id: thanksgiving-8
+title: Thanksgiving for eight dishes with one oven
+device: show
+timezone: America/Chicago
+clock_start: "12:00"
+kitchen: { ovens: 1, burners: 4, helpers: 2 }
+video:
+  order: 4
+  scene: Thanksgiving dinner, one oven, two cooks
+  intro: Now the hard one. Thanksgiving, eight dishes, one oven.
+beats:
+  - id: kitchen
+    user: Alexa, I have one oven, four burners, and two cooks.
+    intents: [1 oven, 4 burners, 2 cooks]
+    expect:
+      tools:
+        - name: set_kitchen
+          args: { ovens: 1, burners: 4, helpers: 2, timezone: America/Chicago }
+  - id: plan
+    user: Alexa, plan Thanksgiving dinner for 4 PM with turkey, salmon, roasted potatoes, stuffing, rice, green beans, glazed carrots and gravy.
+    intents: [turkey, salmon, potatoes, stuffing, rice, green beans, carrots, gravy, "4"]
+    expect:
+      tools:
+        - name: plan_meal
+          args:
+            kitchen_id: $kitchen
+            dish_ids: [turkey, salmon, potatoes, stuffing, rice, green-beans, carrots, gravy]
+            serve_at: "16:00"
+      state:
+        serve_local: "4:00 PM"
+        no_warnings: true
+        system_steps: [preheat, transition]
+        overlaps:
+          - { step: "turkey:2", with: ["stuffing:1", "potatoes:1"] }
+      reply_includes: [turkey]
+    video:
+      shot: Expand to the full-screen Run of Show. The oven lane shows preheat, the turkey, a temperature change, then potatoes and stuffing sharing the oven while the turkey rests.
+      ui: fullscreen
+      caption: 8 dishes, 1 oven, 0 warnings.
+  - id: cook-through
+    advance_to: next_event
+    repeat: { until: all_done }
+    user: I'm done with the {subject}. What's next?
+    user_idle: What's next?
+    expect:
+      state: { all_done: true, serve_local: "4:00 PM", no_warnings: true }
+      reply_includes: [meal is ready]
+    video:
+      shot: Time-lapse of the oven lane from turkey to sides; two cooks plate everything at 4:00 PM.
+      ui: fullscreen
+      caption: Four hours, time-lapsed. Everything lands at 4:00 PM.
+      timer: true

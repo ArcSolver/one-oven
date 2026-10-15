@@ -1,0 +1,73 @@
+# Scene 2: the same dinner on a voice-only device, with a real-world delay.
+id: salmon-delay
+title: The salmon needs five more minutes
+device: dot
+timezone: America/Chicago
+clock_start: "17:05"
+kitchen: { ovens: 1, burners: 4, helpers: 1 }
+video:
+  order: 2
+  scene: Voice-only speaker, mid-cook delay
+  intro: Kitchens slip. Same dinner, on a speaker with no screen.
+beats:
+  - id: kitchen
+    user: Alexa, I have one oven, four burners, and one cook.
+    intents: [1 oven, 4 burners, 1 cook]
+    expect:
+      tools:
+        - name: set_kitchen
+          args: { ovens: 1, burners: 4, helpers: 1, timezone: America/Chicago }
+  - id: plan
+    user: Alexa, I want salmon, rice and green beans on the table at 6:30.
+    intents: [salmon, rice, green beans, "6", "30"]
+    expect:
+      tools:
+        - name: plan_meal
+          args: { kitchen_id: $kitchen, dish_ids: [salmon, rice, green-beans], serve_at: "18:30" }
+      state: { serve_local: "6:30 PM", no_warnings: true }
+  - id: roast
+    advance_to: next_event
+    repeat: { until: { at: "18:20" } }
+    user: I'm done with the {subject}. What's next?
+    user_idle: What's next?
+    expect:
+      state: { running: [salmon:1] }
+  - id: delay
+    user: Alexa, the salmon needs five more minutes.
+    intents: [salmon, "5", more, minutes]
+    expect:
+      tools:
+        - name: report_delay
+          args: { plan_id: $plan, dish_id: salmon, minutes: 5 }
+      state:
+        serve_local: "6:35 PM"
+        changed_steps: ["salmon:1", "salmon:2"]
+        unchanged_dishes: [rice, green-beans]
+        version_delta: 1
+      reply_includes: ["6:35 PM"]
+      reply_excludes: [screen, display]
+    video:
+      shot: 6:20 PM. The cook checks the salmon; it is not done. The speaker light ring pulses.
+      ui: dot
+      caption: Only the salmon moves. Rice and beans keep their times.
+  - id: delay-again
+    user: The salmon needs five more minutes.
+    intents: [salmon, "5", more, minutes]
+    expect:
+      tools:
+        - name: report_delay
+          args: { plan_id: $plan, dish_id: salmon, minutes: 5 }
+      state: { deduplicated: true, version_delta: 0, serve_local: "6:35 PM" }
+      reply_includes: [already added]
+    video:
+      shot: The cook repeats the request, unsure it was heard.
+      ui: dot
+      caption: A repeated request is recognized, not double-counted.
+  - id: finish
+    advance_to: next_event
+    repeat: { until: all_done }
+    user: I'm done with the {subject}. What's next?
+    user_idle: What's next?
+    expect:
+      state: { all_done: true, serve_local: "6:35 PM", no_warnings: true }
+      reply_includes: [meal is ready]
