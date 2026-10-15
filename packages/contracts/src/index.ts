@@ -4,3 +4,4 @@ export * from './envelope.js';
 export * from './errors.js';
 export * from './tools.js';
 export * from './speech-lint.js';
+export * from './clock.js';

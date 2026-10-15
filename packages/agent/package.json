@@ -5,7 +5,7 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && tsc -p tsconfig.check.json",
     "test": "tsx --test test/*.test.ts",
     "spike": "tsx scripts/spike.ts"
   },
@@ -13,13 +13,22 @@
     "@anthropic-ai/sdk": "^0.109.1",
     "@modelcontextprotocol/sdk": "^1.32.1",
     "@one-oven/contracts": "0.1.0",
+    "@smithy/node-http-handler": "^4.12.1",
     "@strands-agents/sdk": "^1.21.0",
+    "express": "^5.3.0",
     "openai": "^6.49.0",
     "zod": "^4.0.0"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/node": "^26.0.0",
     "tsx": "^4.20.0",
     "typescript": "^5.9.0"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/session.d.ts",
+      "default": "./dist/session.js"
+    }
   }
 }
