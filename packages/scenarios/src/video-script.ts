@@ -56,6 +56,7 @@ export function scriptMarkdown(rows: ScriptRow[], sources: SourceRun[], root: st
     'Spoken lines are the scenario utterances and the assistant replies recorded in these passing runs:', '',
     ...sources.map(s => `- ${s.scenario.id}: ${s.result.mode}${s.result.live ? ' live' : ''}, ${s.result.driver}${s.path ? ` — \`${relative(root, s.path)}\`` : ''}`), '',
     'Timing assumes 150 spoken words per minute plus a short pause per line; time-lapse rows are fixed 6 s b-roll.',
+    'Alexa lines are what this emulator spoke (the One Oven tool reply in voice mode). On a real Alexa+ device Alexa phrases the reply from the returned data, so wording there may differ; label the footage as simulated.',
     'Production rules: no third-party music or logos, no real device photos; label the host as a simulated Alexa+ experience.', '',
     '| Time | Scene | Shot | Speaker | Line | Screen | Caption |', '| --- | --- | --- | --- | --- | --- | --- |',
     ...rows.map(r => `| ${timecode(r.start)} | ${cell(r.scene)} | ${cell(r.shot)} | ${r.speaker} | ${cell(r.line)} | ${cell(r.screen)} | ${cell(r.caption)} |`), ''];

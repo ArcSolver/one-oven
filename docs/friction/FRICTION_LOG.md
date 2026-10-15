@@ -48,3 +48,19 @@ not claims of work attempted or time lost in this repository.
   retained in the S3 result, not an external-product friction entry.
 - Polly/Transcribe are mock-validated only; this stage supplies no evidence of
   real AWS speech integration, latency, account onboarding, or service errors.
+
+## S4 findings
+
+- [F-09: No documented contract for handing an add-on's timers to Alexa's built-in timers](entries/F-09-alexa-timer-handoff-contract.md):
+  the seed is now backed by a quotation from the conversation-surface guide. The scenarios keep the
+  host-side timer emulation and the video labels it as simulated.
+- The same guide says Alexa phrases replies from returned data ("You influence Alexa’s response through
+  the data you return, not by scripting it directly"). This is a constraint, not a defect: the generated
+  video script states that its Alexa lines are emulator output and may be worded differently on a device.
+- No new F number for local speech recognition: espeak voices through Whisper base.en dropped "has one"
+  after the wake word and misheard "turkey step" and "gravy". These are local synthetic-voice limits,
+  handled by choosing natural phrasings that pass ("I'm done with the {subject}") and by adding catalog
+  dish names to the one shared hint list. The S3 12-clip round trip still passes 12/12.
+- The scenario runner exposed an internal product gap, not an external one: two steps due in the same
+  minute started one at a time, and the second "What's next?" was absorbed by the 20-second retry
+  guard. Fixed in the server (commit 761de2b) and covered by `packages/server/test/speech.test.ts`.
