@@ -1,0 +1,1 @@
+{"type": "turn_error", "utterance": "What's next?", "provider": "openai", "modelId": "local-openai-compatible", "error": "Error", "toolCalls": [], "modelRequests": [{"ms": 120036.91918000003, "requestIds": [], "failed": true}], "totalMs": 120041.88180200002}

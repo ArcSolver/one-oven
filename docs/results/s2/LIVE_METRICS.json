@@ -1,0 +1,21 @@
+{
+  "returnedTurns": 90,
+  "rawLintViolations": 0,
+  "finalLintViolations": 0,
+  "fallbacks": 0,
+  "mcpCalls": 95,
+  "hostActions": 58,
+  "completedModelRequests": 243,
+  "inputTokens": 6555651,
+  "outputTokens": 9343,
+  "toolMs": {
+    "p50": 7.32416000001831,
+    "p95": 14.564237000000503,
+    "max": 28.986417999999958
+  },
+  "turnMs": {
+    "p50": 6932.5467310000095,
+    "p95": 8358.56934799999,
+    "max": 18152.546490000037
+  }
+}

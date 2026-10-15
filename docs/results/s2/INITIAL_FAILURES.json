@@ -1,0 +1,40 @@
+{
+  "provider": "openai",
+  "modelId": "local-openai-compatible",
+  "baseUrl": "http://127.0.0.1:10100/v1",
+  "passed": 0,
+  "runs": 5,
+  "required": 4,
+  "reports": [
+    {
+      "trial": 1,
+      "passed": false,
+      "totalMs": 5480.261413,
+      "error": "Tool error for My kitchen has one oven, four burners, and one cook. My timezone is America/Chicago."
+    },
+    {
+      "trial": 2,
+      "passed": false,
+      "totalMs": 6143.29726,
+      "error": "Tool error for My kitchen has one oven, four burners, and one cook. My timezone is America/Chicago."
+    },
+    {
+      "trial": 3,
+      "passed": false,
+      "totalMs": 6126.32458,
+      "error": "Tool error for My kitchen has one oven, four burners, and one cook. My timezone is America/Chicago."
+    },
+    {
+      "trial": 4,
+      "passed": false,
+      "totalMs": 5955.632229999999,
+      "error": "Tool error for My kitchen has one oven, four burners, and one cook. My timezone is America/Chicago."
+    },
+    {
+      "trial": 5,
+      "passed": false,
+      "totalMs": 5659.2506909999975,
+      "error": "Tool error for My kitchen has one oven, four burners, and one cook. My timezone is America/Chicago."
+    }
+  ]
+}

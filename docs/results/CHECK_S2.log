@@ -1,0 +1,143 @@
+
+> one-oven@0.1.0 check
+> npm run build && npm run validate:recipes && npm test && npm run smoke && npm run e2e:text
+
+
+> one-oven@0.1.0 build
+> npm run build --workspace @one-oven/contracts && npm run build --workspace @one-oven/server && npm run build --workspace @one-oven/agent
+
+
+> @one-oven/contracts@0.1.0 build
+> tsc
+
+
+> @one-oven/server@0.1.0 build
+> tsc && node scripts/copy-assets.mjs
+
+
+> @one-oven/agent@0.1.0 build
+> tsc && tsc -p tsconfig.check.json
+
+
+> one-oven@0.1.0 validate:recipes
+> npm run validate:recipes --workspace @one-oven/server
+
+
+> @one-oven/server@0.1.0 validate:recipes
+> tsx scripts/validate-recipes.ts
+
+PASS: 8 original recipes; schema and semantic validation.
+
+> one-oven@0.1.0 test
+> npm run test --workspace @one-oven/server && npm run test --workspace @one-oven/agent
+
+
+> @one-oven/server@0.1.0 test
+> tsx --test test/*.test.ts
+
+✔ weekday (3.281022ms)
+✔ oven conflict (7.1573ms)
+✔ Thanksgiving eight dishes (3.067778ms)
+✔ oven compatibility uses full temperature range, not transitive pairs (0.911559ms)
+✔ burner and hands constraints at capacity one (1.907893ms)
+✔ delay preserves completed steps and running start; changes propagate only as needed (2.322209ms)
+✔ delay propagates a resource collision without overlapping hands (0.653561ms)
+✔ frozen conflict rejects atomically (0.95976ms)
+✔ rejects invalid delays, completed dishes and impossible kitchens (1.084942ms)
+✔ clock floor prevents moving pending work into the past (0.717553ms)
+✔ deterministic scenario sweep across capacities and delay targets (71.138657ms)
+✔ preheat is the first salmon action and completes before roasting (2.310104ms)
+✔ temperature transitions include heating and cooling, excluding food (7.066998ms)
+✔ capacity two serializes two pans; capacity four permits a shared midpoint (0.934671ms)
+✔ Thanksgiving oven handoff and all demo hold limits (6.815031ms)
+✔ independent verifier detects missing heating, transitions, segments and hold warnings (1.111983ms)
+{"performance":{"plan_meal":{"samples":200,"p50_ms":2.471,"p95_ms":3.639,"p99_ms":11.002,"max_ms":14.308},"report_delay":{"samples":200,"p50_ms":2.272,"p95_ms":5.328,"p99_ms":8.141,"max_ms":12.055}},"storage":"temporary file, SQLite WAL","warmup":20}
+✔ 8-dish service including SQLite writes meets plan p95 <=50ms and delay p95 <=20ms (1253.191903ms)
+{"property_runs":1000,"seed":20261015,"planned":849,"delayed":827,"swapped":344,"accepted_rejections":610,"violations":0}
+✔ 1,000 random kitchens, dish subsets, delays and swaps satisfy independent invariants (3805.886488ms)
+✔ golden weekday-3: deterministic plan and complete execution (83.639007ms)
+✔ golden salmon-delay: deterministic plan and complete execution (38.352755ms)
+✔ golden swap: deterministic plan and complete execution (31.968575ms)
+✔ golden thanksgiving-8: deterministic plan and complete execution (103.835706ms)
+✔ explicit keys replay every mutation, normalize defaults and survive subsequent versions (33.240898ms)
+✔ implicit retry is bounded by 20 seconds and current version; allow_repeat adds time (18.446306ms)
+✔ version conflicts and injected event/idempotency failures roll back every table (8.887478ms)
+✔ start now moves an eligible future step, preserves frozen work and rejects blocked oven starts (10.33657ms)
+✔ voice envelopes cover all tools, schema errors, metadata and domain errors (15.76883ms)
+✔ overdue steps, repeated completion and frozen conflicts are atomic and speakable (10.051705ms)
+✔ time-zone parsing handles rollover, DST skipped/repeated times and spoken local time (3.537045ms)
+✔ speech lint rejects long or machine/display-oriented speech (0.193748ms)
+✔ recipe validator rejects schema and semantic corruption (1.82685ms)
+✔ migrations upgrade an existing v1 database and survive reopening (39.766066ms)
+✔ BEGIN IMMEDIATE rolls back all writes and households scope queries (7.638791ms)
+✔ v1 pending plans gain missing transition gaps without discarding their identities (3.651734ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4090.193841
+
+> @one-oven/agent@0.1.0 test
+> tsx --test test/*.test.ts
+
+✔ AGENT_MODEL alone selects native providers, preserving colon-containing Bedrock ARNs; no requests (6.194578ms)
+✔ host timers use injected time, replace/cancel, expire, and deduplicate automatic suggestions (0.611187ms)
+✔ nullable optional adapter preserves required null errors and false/zero values (0.834862ms)
+✔ speech rejects machine/visual leakage and trace redacts secrets but retains token metrics (1.532536ms)
+✔ scripted weekday: real HTTP MCP, delay deduplication, timers, every step done, zero speech violations (347.151232ms)
+✔ gateway JSON + SSE preserve one session and real MCP state; invalid/cross-origin requests are rejected (173.910359ms)
+✔ gateway rejects concurrent turns and returns a readable SSE error after failure (8.405826ms)
+✔ simulation clock endpoint is absent by default, opt-in, monotonic, and same-origin only (11.158517ms)
+✔ session retains raw lint violations while returning safe speech and logs MCP domain errors (35.901854ms)
+✔ compiled chat CLI switches device, advances the real simulation clock, and calls MCP (430.557133ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1481.814203
+
+> one-oven@0.1.0 smoke
+> npm run smoke --workspace @one-oven/server
+
+
+> @one-oven/server@0.1.0 smoke
+> tsx scripts/smoke.ts
+
+{
+  "status": "PASS",
+  "protocol": "2025-11-25",
+  "tools": [
+    "set_kitchen",
+    "list_dishes",
+    "plan_meal",
+    "next_step",
+    "report_delay",
+    "swap_dish"
+  ],
+  "salmon_demo": {
+    "serve_local": "6:35 PM",
+    "changed_steps": [
+      "salmon:1",
+      "salmon:2"
+    ],
+    "deduplicated": true
+  },
+  "persistence": "SQLite reopen + plans, history, idempotency + HTTP resources/read passed",
+  "latency_ms": {
+    "calls": 24,
+    "max": 21.37,
+    "mean": 4.96
+  }
+}
+
+> one-oven@0.1.0 e2e:text
+> tsx packages/agent/scripts/e2e-text.ts --scripted
+
+{"trial":1,"passed":true,"turns":20,"toolCalls":20,"rawLintViolations":0,"outputLintViolations":0,"turnP50Ms":10.283455000000004,"turnP95Ms":16.05271000000016,"totalMs":373.038314,"finalVersion":18,"completedSteps":12,"protocolVersion":"2025-11-25"}
+Report: runs/s2-scripted-2026-10-15T08-11-03-065Z/report.json — 1/1

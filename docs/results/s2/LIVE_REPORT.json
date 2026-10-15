@@ -1,0 +1,73 @@
+{
+  "provider": "openai",
+  "modelId": "local-openai-compatible",
+  "baseUrl": "http://127.0.0.1:10100/v1",
+  "passed": 4,
+  "runs": 5,
+  "required": 4,
+  "reports": [
+    {
+      "trial": 1,
+      "passed": true,
+      "turns": 20,
+      "toolCalls": 21,
+      "rawLintViolations": 0,
+      "outputLintViolations": 0,
+      "turnP50Ms": 7193.006099999999,
+      "turnP95Ms": 8007.084722,
+      "totalMs": 136898.309764,
+      "finalVersion": 18,
+      "completedSteps": 12,
+      "protocolVersion": "2025-11-25"
+    },
+    {
+      "trial": 2,
+      "passed": false,
+      "totalMs": 185496.74321699998,
+      "error": "The turn did not finish; inspect the local trace before retrying.",
+      "cause": "Turn timed out"
+    },
+    {
+      "trial": 3,
+      "passed": true,
+      "turns": 20,
+      "toolCalls": 21,
+      "rawLintViolations": 0,
+      "outputLintViolations": 0,
+      "turnP50Ms": 6930.531495000003,
+      "turnP95Ms": 8358.56934799999,
+      "totalMs": 145971.94052399998,
+      "finalVersion": 18,
+      "completedSteps": 12,
+      "protocolVersion": "2025-11-25"
+    },
+    {
+      "trial": 4,
+      "passed": true,
+      "turns": 20,
+      "toolCalls": 21,
+      "rawLintViolations": 0,
+      "outputLintViolations": 0,
+      "turnP50Ms": 6611.79115100007,
+      "turnP95Ms": 8986.626708999975,
+      "totalMs": 139220.15957499994,
+      "finalVersion": 18,
+      "completedSteps": 12,
+      "protocolVersion": "2025-11-25"
+    },
+    {
+      "trial": 5,
+      "passed": true,
+      "turns": 20,
+      "toolCalls": 21,
+      "rawLintViolations": 0,
+      "outputLintViolations": 0,
+      "turnP50Ms": 6421.889207000029,
+      "turnP95Ms": 8311.710508999997,
+      "totalMs": 131391.99219800008,
+      "finalVersion": 18,
+      "completedSteps": 12,
+      "protocolVersion": "2025-11-25"
+    }
+  ]
+}

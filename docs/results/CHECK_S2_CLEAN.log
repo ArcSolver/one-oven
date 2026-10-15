@@ -1,0 +1,154 @@
+
+added 161 packages, and audited 165 packages in 2s
+
+38 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+npm warn install-scripts 1 package has install scripts not yet covered by allowScripts:
+npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+npm warn install-scripts
+npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.
+
+> one-oven@0.1.0 check
+> npm run build && npm run validate:recipes && npm test && npm run smoke && npm run e2e:text
+
+
+> one-oven@0.1.0 build
+> npm run build --workspace @one-oven/contracts && npm run build --workspace @one-oven/server && npm run build --workspace @one-oven/agent
+
+
+> @one-oven/contracts@0.1.0 build
+> tsc
+
+
+> @one-oven/server@0.1.0 build
+> tsc && node scripts/copy-assets.mjs
+
+
+> @one-oven/agent@0.1.0 build
+> tsc && tsc -p tsconfig.check.json
+
+
+> one-oven@0.1.0 validate:recipes
+> npm run validate:recipes --workspace @one-oven/server
+
+
+> @one-oven/server@0.1.0 validate:recipes
+> tsx scripts/validate-recipes.ts
+
+PASS: 8 original recipes; schema and semantic validation.
+
+> one-oven@0.1.0 test
+> npm run test --workspace @one-oven/server && npm run test --workspace @one-oven/agent
+
+
+> @one-oven/server@0.1.0 test
+> tsx --test test/*.test.ts
+
+✔ weekday (5.86493ms)
+✔ oven conflict (7.178094ms)
+✔ Thanksgiving eight dishes (3.027003ms)
+✔ oven compatibility uses full temperature range, not transitive pairs (0.81865ms)
+✔ burner and hands constraints at capacity one (1.136598ms)
+✔ delay preserves completed steps and running start; changes propagate only as needed (1.493258ms)
+✔ delay propagates a resource collision without overlapping hands (0.433286ms)
+✔ frozen conflict rejects atomically (0.379742ms)
+✔ rejects invalid delays, completed dishes and impossible kitchens (0.822347ms)
+✔ clock floor prevents moving pending work into the past (0.546567ms)
+✔ deterministic scenario sweep across capacities and delay targets (79.318943ms)
+✔ preheat is the first salmon action and completes before roasting (2.403902ms)
+✔ temperature transitions include heating and cooling, excluding food (8.66516ms)
+✔ capacity two serializes two pans; capacity four permits a shared midpoint (5.216606ms)
+✔ Thanksgiving oven handoff and all demo hold limits (3.681886ms)
+✔ independent verifier detects missing heating, transitions, segments and hold warnings (1.085656ms)
+{"performance":{"plan_meal":{"samples":200,"p50_ms":2.012,"p95_ms":3.805,"p99_ms":6.765,"max_ms":12.878},"report_delay":{"samples":200,"p50_ms":1.877,"p95_ms":4.69,"p99_ms":9.865,"max_ms":17.034}},"storage":"temporary file, SQLite WAL","warmup":20}
+✔ 8-dish service including SQLite writes meets plan p95 <=50ms and delay p95 <=20ms (1108.337053ms)
+{"property_runs":1000,"seed":20261015,"planned":849,"delayed":827,"swapped":344,"accepted_rejections":610,"violations":0}
+✔ 1,000 random kitchens, dish subsets, delays and swaps satisfy independent invariants (3849.214793ms)
+✔ golden weekday-3: deterministic plan and complete execution (82.993751ms)
+✔ golden salmon-delay: deterministic plan and complete execution (45.201125ms)
+✔ golden swap: deterministic plan and complete execution (40.24027ms)
+✔ golden thanksgiving-8: deterministic plan and complete execution (119.33057ms)
+✔ explicit keys replay every mutation, normalize defaults and survive subsequent versions (41.956567ms)
+✔ implicit retry is bounded by 20 seconds and current version; allow_repeat adds time (21.038034ms)
+✔ version conflicts and injected event/idempotency failures roll back every table (10.515379ms)
+✔ start now moves an eligible future step, preserves frozen work and rejects blocked oven starts (10.410596ms)
+✔ voice envelopes cover all tools, schema errors, metadata and domain errors (30.470506ms)
+✔ overdue steps, repeated completion and frozen conflicts are atomic and speakable (11.977162ms)
+✔ time-zone parsing handles rollover, DST skipped/repeated times and spoken local time (6.151445ms)
+✔ speech lint rejects long or machine/display-oriented speech (0.193711ms)
+✔ recipe validator rejects schema and semantic corruption (2.778146ms)
+✔ migrations upgrade an existing v1 database and survive reopening (37.906818ms)
+✔ BEGIN IMMEDIATE rolls back all writes and households scope queries (6.853412ms)
+✔ v1 pending plans gain missing transition gaps without discarding their identities (3.937015ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4374.720391
+
+> @one-oven/agent@0.1.0 test
+> tsx --test test/*.test.ts
+
+✔ AGENT_MODEL alone selects native providers, preserving colon-containing Bedrock ARNs; no requests (8.238509ms)
+✔ host timers use injected time, replace/cancel, expire, and deduplicate automatic suggestions (0.760628ms)
+✔ nullable optional adapter preserves required null errors and false/zero values (1.048394ms)
+✔ speech rejects machine/visual leakage and trace redacts secrets but retains token metrics (1.976247ms)
+✔ scripted weekday: real HTTP MCP, delay deduplication, timers, every step done, zero speech violations (387.923294ms)
+✔ gateway JSON + SSE preserve one session and real MCP state; invalid/cross-origin requests are rejected (185.824836ms)
+✔ gateway rejects concurrent turns and returns a readable SSE error after failure (8.553194ms)
+✔ simulation clock endpoint is absent by default, opt-in, monotonic, and same-origin only (11.334663ms)
+✔ session retains raw lint violations while returning safe speech and logs MCP domain errors (34.856085ms)
+✔ compiled chat CLI switches device, advances the real simulation clock, and calls MCP (502.076188ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1949.092212
+
+> one-oven@0.1.0 smoke
+> npm run smoke --workspace @one-oven/server
+
+
+> @one-oven/server@0.1.0 smoke
+> tsx scripts/smoke.ts
+
+{
+  "status": "PASS",
+  "protocol": "2025-11-25",
+  "tools": [
+    "set_kitchen",
+    "list_dishes",
+    "plan_meal",
+    "next_step",
+    "report_delay",
+    "swap_dish"
+  ],
+  "salmon_demo": {
+    "serve_local": "6:35 PM",
+    "changed_steps": [
+      "salmon:1",
+      "salmon:2"
+    ],
+    "deduplicated": true
+  },
+  "persistence": "SQLite reopen + plans, history, idempotency + HTTP resources/read passed",
+  "latency_ms": {
+    "calls": 24,
+    "max": 23.02,
+    "mean": 5.06
+  }
+}
+
+> one-oven@0.1.0 e2e:text
+> tsx packages/agent/scripts/e2e-text.ts --scripted
+
+{"trial":1,"passed":true,"turns":20,"toolCalls":20,"rawLintViolations":0,"outputLintViolations":0,"turnP50Ms":9.037209000000075,"turnP95Ms":14.617696000000024,"totalMs":356.07632999999987,"finalVersion":18,"completedSteps":12,"protocolVersion":"2025-11-25"}
+Report: /tmp/one-oven-s2-verify-mCr97S/repo/runs/s2-scripted-2026-10-15T08-07-45-594Z/report.json — 1/1
