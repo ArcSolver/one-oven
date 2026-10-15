@@ -30,3 +30,21 @@ not claims of work attempted or time lost in this repository.
 
 - [F-12: Structured MCP results disappear before reaching the model](entries/F-12-strands-structured-content.md): reproduced on Strands TS 1.21.0; public adapter preserves the ID chain.
 - F-10 provider seed resolved by [S2-0](../results/S2_SPIKE.md): native OpenAI and Anthropic providers exist; no provider blocker.
+
+## S3 findings
+
+- F-12 remains reproducible in the pinned SDK; the public adapter stays in place.
+  Voice mode now consumes validated `say` through the public `AfterToolsEvent.endTurn`
+  hook and keeps compact host state, so it avoids repeating the full structured
+  plan through additional model/timer round trips. See
+  [S3 measurements](../results/RESULT_S3.md) and [A/B evidence](../results/s3/LATENCY_AB.json).
+- No new F number in S3: no newly verified documentation mismatch or external
+  blocker lasting 15 minutes. Local synthetic speech experiments are preserved
+  as measured limitations, not attributed to an unsupported product defect:
+  [en-us recognition failures](../results/s3/ROUNDTRIP_EN_US_FAILURE.json),
+  [tiny.en experiment](../results/s3/ROUNDTRIP_TINY_EXPERIMENT.json).
+  A common vocabulary hint list and en-gb system voice passed the 12-clip base.en
+  check. The initial scripted completion mismatch is an internal harness issue,
+  retained in the S3 result, not an external-product friction entry.
+- Polly/Transcribe are mock-validated only; this stage supplies no evidence of
+  real AWS speech integration, latency, account onboarding, or service errors.

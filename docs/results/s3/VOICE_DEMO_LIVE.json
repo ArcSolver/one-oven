@@ -1,0 +1,220 @@
+{
+  "passed": true,
+  "stt": "whisper",
+  "tts": "system",
+  "provider": "openai",
+  "model": "local-openai-compatible",
+  "speed": 60,
+  "instant": false,
+  "clockPolicy": "accelerated idle time; paused during turns and output",
+  "playback": "file-ready (headless, no speaker measurement)",
+  "turns": 20,
+  "timerFires": 12,
+  "maxTimerLatenessMs": 0,
+  "finalVersion": 18,
+  "completedSteps": 12,
+  "serveAt": "2026-10-15T23:35:00.000Z",
+  "totalMs": 171748.172431,
+  "timings": [
+    {
+      "sttMs": 1393.3008249999998,
+      "agentMs": 1988.2175820000002,
+      "modelMs": 1951.9173980000005,
+      "toolMs": 21.211726000000453,
+      "ttsMs": 107.69362900000033,
+      "outputStartMs": 3488.5775200000003,
+      "totalMs": 3488.653422,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1398.506351,
+      "agentMs": 2462.520969000001,
+      "modelMs": 2447.020326,
+      "toolMs": 12.982573999999659,
+      "ttsMs": 112.00626499999998,
+      "outputStartMs": 3972.7237510000004,
+      "totalMs": 3972.746054,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1236.6227010000002,
+      "agentMs": 3163.7576569999947,
+      "modelMs": 3147.326036999999,
+      "toolMs": 12.223921999997401,
+      "ttsMs": 106.13249499999802,
+      "outputStartMs": 4506.588431000004,
+      "totalMs": 4506.640832000005,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1408.4088290000072,
+      "agentMs": 2451.872325000004,
+      "modelMs": 2434.6481029999995,
+      "toolMs": 13.885911000004853,
+      "ttsMs": 92.38033600000199,
+      "outputStartMs": 3952.0530080000026,
+      "totalMs": 3952.068001000007,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1614.2824330000003,
+      "agentMs": 2542.9390459999995,
+      "modelMs": 2530.9929459999985,
+      "toolMs": 7.994028000000981,
+      "ttsMs": 87.47697499999776,
+      "outputStartMs": 4243.1743600000045,
+      "totalMs": 4243.191575000004,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1374.098048999993,
+      "agentMs": 2489.3280449999875,
+      "modelMs": 2476.9128130000026,
+      "toolMs": 8.815583999996306,
+      "ttsMs": 91.00521000000299,
+      "outputStartMs": 3954.026444000003,
+      "totalMs": 3954.0531760000013,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1292.8193430000101,
+      "agentMs": 2723.679987999989,
+      "modelMs": 2713.456502000001,
+      "toolMs": 7.522522999992361,
+      "ttsMs": 103.68477399999392,
+      "outputStartMs": 4119.772653000007,
+      "totalMs": 4119.793339000011,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1221.068100000004,
+      "agentMs": 2278.370596000008,
+      "modelMs": 2268.579598000011,
+      "toolMs": 7.311495000001742,
+      "ttsMs": 75.5091390000016,
+      "outputStartMs": 3574.702636000002,
+      "totalMs": 3574.722078999999,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1252.6042060000036,
+      "agentMs": 2192.500610000003,
+      "modelMs": 2182.230672999998,
+      "toolMs": 7.624088999989908,
+      "ttsMs": 104.96114700000908,
+      "outputStartMs": 3550.132872000002,
+      "totalMs": 3550.1574110000074,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1193.5358479999995,
+      "agentMs": 2186.966566999996,
+      "modelMs": 2178.550840000011,
+      "toolMs": 5.692462000006344,
+      "ttsMs": 89.93620500000543,
+      "outputStartMs": 3470.0797459999885,
+      "totalMs": 3470.102192999999,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1259.0161589999916,
+      "agentMs": 2568.3303619999933,
+      "modelMs": 2554.3991340000066,
+      "toolMs": 9.824295999991591,
+      "ttsMs": 84.49866800000018,
+      "outputStartMs": 3910.516248999993,
+      "totalMs": 3910.5430479999923,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1280.6144219999987,
+      "agentMs": 2381.578649999996,
+      "modelMs": 2371.067047000004,
+      "toolMs": 8.07128200000443,
+      "ttsMs": 88.17903099999239,
+      "outputStartMs": 3750.903369000007,
+      "totalMs": 3750.9187040000106,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1255.1420970000036,
+      "agentMs": 2439.2237529999984,
+      "modelMs": 2430.1511549999996,
+      "toolMs": 7.163146000006236,
+      "ttsMs": 82.50588700000662,
+      "outputStartMs": 3776.6609739999985,
+      "totalMs": 3776.6684680000035,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1272.5413779999799,
+      "agentMs": 2490.016319999995,
+      "modelMs": 2481.843127,
+      "toolMs": 6.201315999991493,
+      "ttsMs": 75.93502299999818,
+      "outputStartMs": 3838.299214999992,
+      "totalMs": 3838.3081570000068,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1214.0134770000004,
+      "agentMs": 2306.889240999997,
+      "modelMs": 2298.5573330000043,
+      "toolMs": 6.274861999991117,
+      "ttsMs": 77.72066000002087,
+      "outputStartMs": 3598.5474499999837,
+      "totalMs": 3598.555548000004,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1205.6586689999967,
+      "agentMs": 4847.731693000009,
+      "modelMs": 4835.188995000004,
+      "toolMs": 9.783254000009038,
+      "ttsMs": 86.04787099998794,
+      "outputStartMs": 6139.012110999989,
+      "totalMs": 6139.0214540000015,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1238.84975199998,
+      "agentMs": 2701.1918599999917,
+      "modelMs": 2691.006864999974,
+      "toolMs": 7.323982000001706,
+      "ttsMs": 88.61543900001561,
+      "outputStartMs": 4027.6467379999813,
+      "totalMs": 4027.6542179999815,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1255.813106000016,
+      "agentMs": 2772.595059000014,
+      "modelMs": 2763.3497799999896,
+      "toolMs": 6.798384000023361,
+      "ttsMs": 104.25948199999402,
+      "outputStartMs": 4132.056398000015,
+      "totalMs": 4132.0631120000035,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1191.902522999997,
+      "agentMs": 2725.874763,
+      "modelMs": 2715.2330749999965,
+      "toolMs": 8.072988999978406,
+      "ttsMs": 79.19845300001907,
+      "outputStartMs": 3996.415789999999,
+      "totalMs": 3996.422716000001,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1146.82360600002,
+      "agentMs": 2297.1778130000166,
+      "modelMs": 2289.1937660000112,
+      "toolMs": 6.201873999991221,
+      "ttsMs": 80.37837600000785,
+      "outputStartMs": 3524.798676000006,
+      "totalMs": 3524.805005000002,
+      "playbackKind": "file-ready"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+
+> one-oven@0.1.0 voice:demo
+> node --env-file-if-exists=.env --import tsx packages/voice/scripts/demo.ts --scenario weekday-3 --speed 60
+
+.env not found. Continuing without it.
+{"transcript":"My kitchen has one oven, four burners, and one cook","reply":"Your kitchen has 1 oven, with capacity 4 pans respectively.","timings":{"sttMs":1301.275913,"agentMs":41.69941599999993,"modelMs":0.4537669999999707,"toolMs":26.281147000000146,"ttsMs":118.79441700000007,"outputStartMs":1461.212046,"totalMs":1461.28604,"playbackKind":"file-ready"}}
+{"transcript":"I want salmon, rice and green beans on the table at 6.30pm","reply":"Start at 5:55 PM. Set the oven to 400°F.","timings":{"sttMs":1316.541174,"agentMs":16.212268000000222,"modelMs":0.318608999999924,"toolMs":13.176005999999688,"ttsMs":95.02530500000012,"outputStartMs":1427.6053160000001,"totalMs":1427.6234370000002,"playbackKind":"file-ready"}}
+{"transcript":"what's next?","reply":"Set the oven to 400°F now.","timings":{"sttMs":1425.7547209999975,"agentMs":19.29911500000162,"modelMs":0.730545999998867,"toolMs":13.806149999996705,"ttsMs":112.1832560000039,"outputStartMs":1556.7410450000025,"totalMs":1556.770061000003,"playbackKind":"file-ready"}}
+{"transcript":"what's next?","reply":"Rinse the rice and fill the pot.","timings":{"sttMs":1303.628263999999,"agentMs":10.954147999997076,"modelMs":0.4420920000047772,"toolMs":7.255686999997124,"ttsMs":93.00179899999785,"outputStartMs":1407.296921000001,"totalMs":1407.3204409999962,"playbackKind":"file-ready"}}
+{"transcript":"I'm finished this step, rinse, mirice and fill the pot. What's next?","reply":"Which cooking step have you finished?","timings":{"sttMs":1322.815806999999,"agentMs":2.46126699999877,"modelMs":0.48968500000046333,"toolMs":0,"ttsMs":85.30766600000061,"outputStartMs":1410.7283899999966,"totalMs":1410.7478730000003,"playbackKind":"file-ready"}}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Missing next_step for I've finished this step: Rinse the rice and fill the pot. What's next?
+    at turn (packages/agent/test/weekday.ts:37:12)
+    at async runWeekday (packages/agent/test/weekday.ts:77:7)
+    at async runVoiceDemo (packages/voice/scripts/demo.ts:27:18)
+    at async <anonymous> (packages/voice/scripts/demo.ts:73:18) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

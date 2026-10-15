@@ -1,0 +1,220 @@
+{
+  "passed": true,
+  "stt": "whisper",
+  "tts": "system",
+  "provider": "scripted",
+  "model": "weekday-3",
+  "speed": 60,
+  "instant": false,
+  "clockPolicy": "accelerated idle time; paused during turns and output",
+  "playback": "file-ready (headless, no speaker measurement)",
+  "turns": 20,
+  "timerFires": 12,
+  "maxTimerLatenessMs": 0,
+  "finalVersion": 18,
+  "completedSteps": 12,
+  "serveAt": "2026-10-15T23:35:00.000Z",
+  "totalMs": 120614.35271199999,
+  "timings": [
+    {
+      "sttMs": 1339.190625,
+      "agentMs": 38.359265999999934,
+      "modelMs": 0.5565700000001925,
+      "toolMs": 21.79416500000025,
+      "ttsMs": 112.4236679999999,
+      "outputStartMs": 1489.212883,
+      "totalMs": 1489.282218,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1285.6430570000002,
+      "agentMs": 14.819892999999865,
+      "modelMs": 0.3019720000002053,
+      "toolMs": 12.048795000000155,
+      "ttsMs": 79.92057900000009,
+      "outputStartMs": 1380.1145020000004,
+      "totalMs": 1380.1302230000001,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1322.0972180000026,
+      "agentMs": 17.325643000003765,
+      "modelMs": 0.6569170000002487,
+      "toolMs": 12.286748999998963,
+      "ttsMs": 107.80664700000489,
+      "outputStartMs": 1446.7733919999955,
+      "totalMs": 1446.7976780000026,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1226.6448029999956,
+      "agentMs": 10.609500999999,
+      "modelMs": 0.5162189999973634,
+      "toolMs": 6.92004900000029,
+      "ttsMs": 83.07511699999304,
+      "outputStartMs": 1319.841124999999,
+      "totalMs": 1319.8625699999975,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1351.6628229999988,
+      "agentMs": 14.375778000001446,
+      "modelMs": 0.965942000002542,
+      "toolMs": 8.747088999996777,
+      "ttsMs": 94.79606399999466,
+      "outputStartMs": 1459.3625240000038,
+      "totalMs": 1459.3821910000042,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1299.6274580000027,
+      "agentMs": 10.526545999993687,
+      "modelMs": 0.5043359999981476,
+      "toolMs": 6.487336000005598,
+      "ttsMs": 90.81453899999906,
+      "outputStartMs": 1400.3807339999912,
+      "totalMs": 1400.4042329999938,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1223.9436480000004,
+      "agentMs": 12.510492999994312,
+      "modelMs": 0.5841470000013942,
+      "toolMs": 7.941064999991795,
+      "ttsMs": 99.99663899998995,
+      "outputStartMs": 1335.7304849999928,
+      "totalMs": 1335.773491999993,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1340.626707000003,
+      "agentMs": 12.789204000000609,
+      "modelMs": 0.5512520000047516,
+      "toolMs": 8.591766999990796,
+      "ttsMs": 99.30949600000167,
+      "outputStartMs": 1452.3165099999896,
+      "totalMs": 1452.346360999989,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1257.2394940000086,
+      "agentMs": 14.501952000005986,
+      "modelMs": 0.6545630000036908,
+      "toolMs": 9.476781000004848,
+      "ttsMs": 101.9927319999988,
+      "outputStartMs": 1373.1207710000017,
+      "totalMs": 1373.1572240000096,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1264.6967679999943,
+      "agentMs": 10.642697000002954,
+      "modelMs": 0.5648050000017975,
+      "toolMs": 5.964112000001478,
+      "ttsMs": 94.6795390000043,
+      "outputStartMs": 1369.5751690000034,
+      "totalMs": 1369.6173940000008,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1355.4814230000047,
+      "agentMs": 12.075654000000213,
+      "modelMs": 0.7303209999954561,
+      "toolMs": 6.74760500001139,
+      "ttsMs": 122.48843700000725,
+      "outputStartMs": 1489.2271869999968,
+      "totalMs": 1489.2471829999995,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1241.0798099999956,
+      "agentMs": 10.071988000010606,
+      "modelMs": 0.5429230000008829,
+      "toolMs": 5.886252999989665,
+      "ttsMs": 79.08082200000354,
+      "outputStartMs": 1329.6353319999907,
+      "totalMs": 1329.6414719999884,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1218.3472579999943,
+      "agentMs": 10.575490000002901,
+      "modelMs": 0.6881080000021029,
+      "toolMs": 6.214555999991717,
+      "ttsMs": 84.3933379999944,
+      "outputStartMs": 1312.8752499999973,
+      "totalMs": 1312.888552999997,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1443.4953879999957,
+      "agentMs": 14.499039999995148,
+      "modelMs": 0.8815259999973932,
+      "toolMs": 8.91621799999848,
+      "ttsMs": 87.02542900000117,
+      "outputStartMs": 1544.2919600000023,
+      "totalMs": 1544.3017189999955,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1396.2520120000117,
+      "agentMs": 12.521260000008624,
+      "modelMs": 0.9489140000077896,
+      "toolMs": 6.770480999999563,
+      "ttsMs": 97.67972700000973,
+      "outputStartMs": 1505.883320000008,
+      "totalMs": 1505.8972950000025,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1393.6457689999952,
+      "agentMs": 12.256618999992497,
+      "modelMs": 0.6576349999959348,
+      "toolMs": 7.35852700000396,
+      "ttsMs": 107.53451899999345,
+      "outputStartMs": 1512.885058999993,
+      "totalMs": 1512.891638000001,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1471.7107149999938,
+      "agentMs": 10.251994000005652,
+      "modelMs": 0.8151050000014948,
+      "toolMs": 5.51861500000814,
+      "ttsMs": 85.19962400000077,
+      "outputStartMs": 1566.8045629999979,
+      "totalMs": 1566.8111219999992,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1211.1589850000018,
+      "agentMs": 10.486873000001651,
+      "modelMs": 0.7977830000018002,
+      "toolMs": 5.790775000001304,
+      "ttsMs": 90.55394199999864,
+      "outputStartMs": 1311.8444339999987,
+      "totalMs": 1311.8522100000118,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1244.9596359999996,
+      "agentMs": 10.891926000011154,
+      "modelMs": 1.0292909999989206,
+      "toolMs": 5.775013999998919,
+      "ttsMs": 82.68083199999819,
+      "outputStartMs": 1338.2119629999943,
+      "totalMs": 1338.2185730000056,
+      "playbackKind": "file-ready"
+    },
+    {
+      "sttMs": 1334.8237850000005,
+      "agentMs": 11.616674999997485,
+      "modelMs": 0.9457510000065668,
+      "toolMs": 6.2045559999969555,
+      "ttsMs": 80.40181799999846,
+      "outputStartMs": 1426.6396609999938,
+      "totalMs": 1426.6530070000008,
+      "playbackKind": "file-ready"
+    }
+  ]
+}

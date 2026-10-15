@@ -1,0 +1,175 @@
+{
+  "stt": "whisper",
+  "server": "http://127.0.0.1:18080",
+  "passed": 12,
+  "total": 12,
+  "rows": [
+    {
+      "id": "01-kitchen",
+      "text": "My kitchen has one oven, four burners, and one cook.",
+      "intents": [
+        "kitchen",
+        "1",
+        "oven",
+        "4",
+        "burners",
+        "1",
+        "cook"
+      ],
+      "actual": "My kitchen has one oven, four burners, and one cook",
+      "ms": 1655.936397,
+      "missing": [],
+      "passed": true
+    },
+    {
+      "id": "02-meal",
+      "text": "Alexa, I want salmon, rice and green beans on the table at six thirty PM.",
+      "intents": [
+        "salmon",
+        "rice",
+        "green beans",
+        "6",
+        "30"
+      ],
+      "actual": "Alexa, I want salmon, rice and green beans on the table at 6.30pm",
+      "ms": 1763.007801,
+      "missing": [],
+      "passed": true
+    },
+    {
+      "id": "03-next",
+      "text": "Alexa, what's next?",
+      "intents": [
+        "next"
+      ],
+      "actual": "Alexa, what's next?",
+      "ms": 1581.3493780000003,
+      "missing": [],
+      "passed": true
+    },
+    {
+      "id": "04-delay",
+      "text": "The salmon needs five more minutes.",
+      "intents": [
+        "salmon",
+        "5",
+        "more",
+        "minutes"
+      ],
+      "actual": "The salmon needs five more minutes",
+      "ms": 1683.684803,
+      "missing": [],
+      "passed": true
+    },
+    {
+      "id": "05-swap",
+      "text": "Swap the green beans for glazed carrots.",
+      "intents": [
+        "swap",
+        "green beans",
+        "glazed carrots"
+      ],
+      "actual": "swap, green beans, four, glazed carrots",
+      "ms": 1546.990037999999,
+      "missing": [],
+      "passed": true
+    },
+    {
+      "id": "06-preheat",
+      "text": "I have finished preheating the oven. What's next?",
+      "intents": [
+        "finished",
+        "preheating",
+        "oven",
+        "next"
+      ],
+      "actual": "I have finished preheating the oven, what's next?",
+      "ms": 1411.4511710000006,
+      "missing": [],
+      "passed": true
+    },
+    {
+      "id": "07-salmon-prep",
+      "text": "I have finished preparing the salmon. What's next?",
+      "intents": [
+        "finished",
+        "preparing",
+        "salmon",
+        "next"
+      ],
+      "actual": "I have finished preparing the salmon. What's next?",
+      "ms": 1402.9242529999992,
+      "missing": [],
+      "passed": true
+    },
+    {
+      "id": "08-rice",
+      "text": "I have finished cooking the rice. What's next?",
+      "intents": [
+        "finished",
+        "cooking",
+        "rice",
+        "next"
+      ],
+      "actual": "I have finished cooking the rice. What's next?",
+      "ms": 1423.3876059999984,
+      "missing": [],
+      "passed": true
+    },
+    {
+      "id": "09-beans",
+      "text": "I have finished cooking the green beans. What's next?",
+      "intents": [
+        "finished",
+        "cooking",
+        "green beans",
+        "next"
+      ],
+      "actual": "I have finished cooking the green beans. What's next?",
+      "ms": 1379.211722,
+      "missing": [],
+      "passed": true
+    },
+    {
+      "id": "10-timer",
+      "text": "Set a salmon timer for five minutes.",
+      "intents": [
+        "salmon",
+        "timer",
+        "5",
+        "minutes"
+      ],
+      "actual": "set a salmon timer for five minutes",
+      "ms": 1331.3196719999996,
+      "missing": [],
+      "passed": true
+    },
+    {
+      "id": "11-cancel",
+      "text": "Cancel the salmon timer.",
+      "intents": [
+        "cancel",
+        "salmon",
+        "timer"
+      ],
+      "actual": "Cancel the salmon timer",
+      "ms": 1315.658519999999,
+      "missing": [],
+      "passed": true
+    },
+    {
+      "id": "12-serve",
+      "text": "The salmon is done resting. What's next?",
+      "intents": [
+        "salmon",
+        "done",
+        "resting",
+        "next"
+      ],
+      "actual": "The salmon is done resting, what's next?",
+      "ms": 1314.6554060000017,
+      "missing": [],
+      "passed": true
+    }
+  ]
+}

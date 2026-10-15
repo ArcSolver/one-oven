@@ -1,0 +1,29 @@
+{
+  "platform": "Linux-6.12.94+-x86_64-with-glibc2.41",
+  "node": "v24.21.0",
+  "whisperRevision": "4979e04f5dcaccb36057e059bbaed8a2f5288315",
+  "whisperVersion": "v1.8.2",
+  "threads": 4,
+  "beamSize": 1,
+  "bestOf": 1,
+  "noContext": true,
+  "defaultModel": "base.en",
+  "tts": "espeak-ng 1.52.0 en-gb, 155 words/minute",
+  "cpu": "Architecture:                            x86_64\nCPU op-mode(s):                          32-bit, 64-bit\nAddress sizes:                           46 bits physical, 57 bits virtual\nByte Order:                              Little Endian\nCPU(s):                                  8\nOn-line CPU(s) list:                     0-7\nVendor ID:                               GenuineIntel\nModel name:                              Intel(R) Xeon(R) Processor\nCPU family:                              6\nModel:                                   207\nThread(s) per core:                      1\nCore(s) per socket:                      8\nSocket(s):                               1\nStepping:                                2\nBogoMIPS:                                4800.00\nFlags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts mmx fxsr sse sse2 ss ht syscall nx pdpe1gb rdtscp lm constant_tsc pebs bts rep_good nopl xtopology nonstop_tsc cpuid tsc_known_freq pni pclmulqdq dtes64 vmx ssse3 fma cx16 pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand hypervisor lahf_lm abm 3dnowprefetch cpuid_fault ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx_vnni avx512_bf16 wbnoinvd arat vnmi avx512vbmi umip pku ospke avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid bus_lock_detect cldemote movdiri movdir64b fsrm md_clear serialize tsxldtrk amx_bf16 avx512_fp16 amx_tile amx_int8 flush_l1d arch_capabilities\nVirtualization:                          VT-x\nHypervisor vendor:                       KVM\nVirtualization type:                     full\nL1d cache:                               384 KiB (8 instances)\nL1i cache:                               256 KiB (8 instances)\nL2 cache:                                16 MiB (8 instances)\nL3 cache:                                320 MiB (1 instance)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-7\nVulnerability Gather data sampling:      Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; Enhanced / Automatic IBRS; IBPB conditional; PBRSB-eIBRS SW sequence; BHI BHI_DIS_S\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Not affected\nVulnerability Tsx async abort:           Mitigation; TSX disabled\nVulnerability Vmscape:                   Not affected\n",
+  "hashes": {
+    "packages/voice/fixtures/01-kitchen.wav": "373f9f28021d7987db9ed52cab86ebbffc5c24557fda935897ed24c716f3e8d9",
+    "packages/voice/fixtures/02-meal.wav": "048a0676152e4a665e5457016f29516668d5dd776c0fa07a1a5ffd3b8bad2645",
+    "packages/voice/fixtures/03-next.wav": "7dc7d42b81cea13bd3a35923405b006b2c2a3cd5ea9e38536ea563e534fa4c21",
+    "packages/voice/fixtures/04-delay.wav": "839a97b40bcabc178b853b5edb62d4521df23c4e6b028a9fa8e02b354fdf5bea",
+    "packages/voice/fixtures/05-swap.wav": "80c5851d39ed4d931606b9c75d3167a0961e03902436a9119c70b725354d6300",
+    "packages/voice/fixtures/06-preheat.wav": "b7e767657b74732e48c775c1b69214145aaccc0ede9abdf76483a8c565cf830f",
+    "packages/voice/fixtures/07-salmon-prep.wav": "4601b5a227482983bf44eeb938be07532ea563fc8c3bb314093a2ce240bb2c3b",
+    "packages/voice/fixtures/08-rice.wav": "dfc955d912fd025422d18316f7325e86a0937c4be5bf83472e6a6575b869cd27",
+    "packages/voice/fixtures/09-beans.wav": "b9d8d2abfaa0cb971cb41c8001609ff7b944ac3d3794ad841f698330f44c5223",
+    "packages/voice/fixtures/10-timer.wav": "2af8dccc4f42056a376353823dd8df9aba6dc25b3db8088964ac1dad81fc7513",
+    "packages/voice/fixtures/11-cancel.wav": "7756bfcd8930f984a2844740247c211abc7708a816e8537ac93ef6345eb85063",
+    "packages/voice/fixtures/12-serve.wav": "fa492ebf5b6cf5d9d02a16b0967237fcfc3540ef74710b82e0e809fd225ec12f",
+    "ggml-base.en.bin": "a03779c86df3323075f5e796cb2ce5029f00ec8869eee3fdfb897afe36c6d002",
+    "ggml-tiny.en.bin": "921e4cf8686fdd993dcd081a5da5b6c365bfde1162e72b08d75ac75289920b1f"
+  }
+}

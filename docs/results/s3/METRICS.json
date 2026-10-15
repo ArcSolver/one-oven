@@ -1,0 +1,2606 @@
+{
+  "baseline": {
+    "turnMs": {
+      "n": 20,
+      "p50": 6521.801338000001,
+      "p95": 8884.072331000003,
+      "max": 9319.227511999998
+    },
+    "modelMs": {
+      "n": 20,
+      "p50": 6506.265374000002,
+      "p95": 8860.170157999994,
+      "max": 9303.490739999994
+    },
+    "toolMs": {
+      "n": 21,
+      "p50": 9.186250999999174,
+      "p95": 24.34480700000131,
+      "max": 41.77601699999968
+    },
+    "modelRequests": 54,
+    "firstDeltaMs": {
+      "n": 54,
+      "p50": 2082.604238,
+      "p95": 3328.058435999992,
+      "max": 4606.35556299999
+    },
+    "inputTokens": 1559913,
+    "outputTokens": 2063,
+    "rawLintViolations": 0,
+    "fallbacks": 0,
+    "perTurn": [
+      {
+        "utterance": "My kitchen has one oven, four burners, and one cook. My timezone is America/Chicago.",
+        "timings": {
+          "modelMs": 5260.511925000001,
+          "toolMs": 41.77601699999968,
+          "totalMs": 5406.921612
+        },
+        "modelRequests": [
+          {
+            "ms": 2600.60056,
+            "requestIds": [],
+            "firstDeltaMs": 2599.771977,
+            "inputTokens": 1530,
+            "outputTokens": 45,
+            "totalTokens": 1575
+          },
+          {
+            "ms": 2659.9113650000004,
+            "requestIds": [],
+            "firstDeltaMs": 1981.2658900000001,
+            "inputTokens": 1821,
+            "outputTokens": 37,
+            "totalTokens": 1858
+          }
+        ]
+      },
+      {
+        "utterance": "I want salmon, rice and green beans on the table at 6:30 PM.",
+        "timings": {
+          "modelMs": 6251.416628000003,
+          "toolMs": 26.97979000000123,
+          "totalMs": 6283.651184
+        },
+        "modelRequests": [
+          {
+            "ms": 1772.222659000001,
+            "requestIds": [],
+            "firstDeltaMs": 1733.107763,
+            "inputTokens": 1882,
+            "outputTokens": 24,
+            "totalTokens": 1906
+          },
+          {
+            "ms": 2434.724443000001,
+            "requestIds": [],
+            "firstDeltaMs": 2369.3090740000007,
+            "inputTokens": 3720,
+            "outputTokens": 66,
+            "totalTokens": 3786
+          },
+          {
+            "ms": 2044.4695260000008,
+            "requestIds": [],
+            "firstDeltaMs": 1403.7456199999997,
+            "inputTokens": 7069,
+            "outputTokens": 31,
+            "totalTokens": 7100
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 6629.4925729999995,
+          "toolMs": 12.1874059999991,
+          "totalMs": 6648.278862000001
+        },
+        "modelRequests": [
+          {
+            "ms": 2449.4807870000004,
+            "requestIds": [],
+            "firstDeltaMs": 2403.4967939999988,
+            "inputTokens": 7109,
+            "outputTokens": 61,
+            "totalTokens": 7170
+          },
+          {
+            "ms": 2058.6270030000014,
+            "requestIds": [],
+            "firstDeltaMs": 2058.2991170000023,
+            "inputTokens": 9669,
+            "outputTokens": 25,
+            "totalTokens": 9694
+          },
+          {
+            "ms": 2121.3847829999977,
+            "requestIds": [],
+            "firstDeltaMs": 1779.226416999998,
+            "inputTokens": 9775,
+            "outputTokens": 24,
+            "totalTokens": 9799
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 6506.265374000002,
+          "toolMs": 9.186250999999174,
+          "totalMs": 6521.801338000001
+        },
+        "modelRequests": [
+          {
+            "ms": 2731.7281619999994,
+            "requestIds": [],
+            "firstDeltaMs": 2685.886133,
+            "inputTokens": 9808,
+            "outputTokens": 61,
+            "totalTokens": 9869
+          },
+          {
+            "ms": 1665.2132250000031,
+            "requestIds": [],
+            "firstDeltaMs": 1633.3271460000033,
+            "inputTokens": 12374,
+            "outputTokens": 24,
+            "totalTokens": 12398
+          },
+          {
+            "ms": 2109.3239869999998,
+            "requestIds": [],
+            "firstDeltaMs": 1866.2668830000002,
+            "inputTokens": 12476,
+            "outputTokens": 21,
+            "totalTokens": 12497
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Rinse the rice and fill the pot. What's next?",
+        "timings": {
+          "modelMs": 6234.651346000002,
+          "toolMs": 8.18210199999885,
+          "totalMs": 6250.5298729999995
+        },
+        "modelRequests": [
+          {
+            "ms": 2313.490514000001,
+            "requestIds": [],
+            "firstDeltaMs": 2269.8119750000005,
+            "inputTokens": 12520,
+            "outputTokens": 63,
+            "totalTokens": 12583
+          },
+          {
+            "ms": 1711.0018230000023,
+            "requestIds": [],
+            "firstDeltaMs": 1652.0275920000022,
+            "inputTokens": 15304,
+            "outputTokens": 24,
+            "totalTokens": 15328
+          },
+          {
+            "ms": 2210.159008999999,
+            "requestIds": [],
+            "firstDeltaMs": 2043.8875979999975,
+            "inputTokens": 15373,
+            "outputTokens": 19,
+            "totalTokens": 15392
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Bring the rice to a simmer. What's next?",
+        "timings": {
+          "modelMs": 6531.666241999999,
+          "toolMs": 7.312864999999874,
+          "totalMs": 6545.867764000002
+        },
+        "modelRequests": [
+          {
+            "ms": 2355.01642,
+            "requestIds": [],
+            "firstDeltaMs": 2302.917899,
+            "inputTokens": 15413,
+            "outputTokens": 63,
+            "totalTokens": 15476
+          },
+          {
+            "ms": 1734.8124680000037,
+            "requestIds": [],
+            "firstDeltaMs": 1705.4390630000053,
+            "inputTokens": 18217,
+            "outputTokens": 24,
+            "totalTokens": 18241
+          },
+          {
+            "ms": 2441.8373539999957,
+            "requestIds": [],
+            "firstDeltaMs": 2092.0401869999987,
+            "inputTokens": 18319,
+            "outputTokens": 20,
+            "totalTokens": 18339
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Set the oven to 400\u00b0F now. What's next?",
+        "timings": {
+          "modelMs": 4675.444551999994,
+          "toolMs": 11.709436999997706,
+          "totalMs": 4692.272404000003
+        },
+        "modelRequests": [
+          {
+            "ms": 2595.5502019999985,
+            "requestIds": [],
+            "firstDeltaMs": 2517.860111999995,
+            "inputTokens": 18362,
+            "outputTokens": 67,
+            "totalTokens": 18429
+          },
+          {
+            "ms": 2079.894349999995,
+            "requestIds": [],
+            "firstDeltaMs": 1727.889642000002,
+            "inputTokens": 20878,
+            "outputTokens": 30,
+            "totalTokens": 20908
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Season the salmon and prepare the tray. What's next?",
+        "timings": {
+          "modelMs": 6969.266794999996,
+          "toolMs": 10.734309999999823,
+          "totalMs": 6987.966054000004
+        },
+        "modelRequests": [
+          {
+            "ms": 2367.466692999995,
+            "requestIds": [],
+            "firstDeltaMs": 2332.9716249999983,
+            "inputTokens": 20930,
+            "outputTokens": 64,
+            "totalTokens": 20994
+          },
+          {
+            "ms": 2244.482704000002,
+            "requestIds": [],
+            "firstDeltaMs": 2168.653857000005,
+            "inputTokens": 23781,
+            "outputTokens": 24,
+            "totalTokens": 23805
+          },
+          {
+            "ms": 2357.3173979999992,
+            "requestIds": [],
+            "firstDeltaMs": 1794.9017789999998,
+            "inputTokens": 23850,
+            "outputTokens": 39,
+            "totalTokens": 23889
+          }
+        ]
+      },
+      {
+        "utterance": "The salmon needs five more minutes.",
+        "timings": {
+          "modelMs": 6397.225656000002,
+          "toolMs": 13.54066800000146,
+          "totalMs": 6420.209593
+        },
+        "modelRequests": [
+          {
+            "ms": 2315.8147580000004,
+            "requestIds": [],
+            "firstDeltaMs": 2263.820947,
+            "inputTokens": 23902,
+            "outputTokens": 59,
+            "totalTokens": 23961
+          },
+          {
+            "ms": 1755.7198629999984,
+            "requestIds": [],
+            "firstDeltaMs": 1705.242643999998,
+            "inputTokens": 26349,
+            "outputTokens": 24,
+            "totalTokens": 26373
+          },
+          {
+            "ms": 2325.6910350000035,
+            "requestIds": [],
+            "firstDeltaMs": 1925.7843560000038,
+            "inputTokens": 26418,
+            "outputTokens": 29,
+            "totalTokens": 26447
+          }
+        ]
+      },
+      {
+        "utterance": "The salmon needs five more minutes.",
+        "timings": {
+          "modelMs": 4748.174757999994,
+          "toolMs": 8.611727000003157,
+          "totalMs": 4763.587024
+        },
+        "modelRequests": [
+          {
+            "ms": 2582.3866139999955,
+            "requestIds": [],
+            "firstDeltaMs": 2516.3588789999994,
+            "inputTokens": 26460,
+            "outputTokens": 59,
+            "totalTokens": 26519
+          },
+          {
+            "ms": 2165.7881439999983,
+            "requestIds": [],
+            "firstDeltaMs": 1891.5048289999977,
+            "inputTokens": 28919,
+            "outputTokens": 25,
+            "totalTokens": 28944
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 6990.704296000011,
+          "toolMs": 7.026602999998431,
+          "totalMs": 7006.562383000004
+        },
+        "modelRequests": [
+          {
+            "ms": 2541.2968020000044,
+            "requestIds": [],
+            "firstDeltaMs": 2475.752698000004,
+            "inputTokens": 28953,
+            "outputTokens": 61,
+            "totalTokens": 29014
+          },
+          {
+            "ms": 2246.036230000005,
+            "requestIds": [],
+            "firstDeltaMs": 2158.1220329999996,
+            "inputTokens": 31561,
+            "outputTokens": 24,
+            "totalTokens": 31585
+          },
+          {
+            "ms": 2203.3712640000012,
+            "requestIds": [],
+            "firstDeltaMs": 1772.3450339999981,
+            "inputTokens": 31630,
+            "outputTokens": 20,
+            "totalTokens": 31650
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 9303.490739999994,
+          "toolMs": 6.585409999999683,
+          "totalMs": 9319.227511999998
+        },
+        "modelRequests": [
+          {
+            "ms": 2897.706235999998,
+            "requestIds": [],
+            "firstDeltaMs": 2860.898338999992,
+            "inputTokens": 31659,
+            "outputTokens": 61,
+            "totalTokens": 31720
+          },
+          {
+            "ms": 4673.01761499999,
+            "requestIds": [],
+            "firstDeltaMs": 4606.35556299999,
+            "inputTokens": 34330,
+            "outputTokens": 23,
+            "totalTokens": 34353
+          },
+          {
+            "ms": 1732.766889000006,
+            "requestIds": [],
+            "firstDeltaMs": 1592.3930140000011,
+            "inputTokens": 34429,
+            "outputTokens": 17,
+            "totalTokens": 34446
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Trim the green beans. What's next?",
+        "timings": {
+          "modelMs": 8353.888107000006,
+          "toolMs": 24.34480700000131,
+          "totalMs": 8397.721268000008
+        },
+        "modelRequests": [
+          {
+            "ms": 3358.5044409999973,
+            "requestIds": [],
+            "firstDeltaMs": 3328.058435999992,
+            "inputTokens": 34465,
+            "outputTokens": 65,
+            "totalTokens": 34530
+          },
+          {
+            "ms": 2946.427349000005,
+            "requestIds": [],
+            "firstDeltaMs": 2885.285883000004,
+            "inputTokens": 37336,
+            "outputTokens": 23,
+            "totalTokens": 37359
+          },
+          {
+            "ms": 2048.9563170000038,
+            "requestIds": [],
+            "firstDeltaMs": 1790.6275910000113,
+            "inputTokens": 37403,
+            "outputTokens": 18,
+            "totalTokens": 37421
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Heat water for the beans. What's next?",
+        "timings": {
+          "modelMs": 7174.524169000011,
+          "toolMs": 7.315426999994088,
+          "totalMs": 7190.577864999999
+        },
+        "modelRequests": [
+          {
+            "ms": 2774.837790999998,
+            "requestIds": [],
+            "firstDeltaMs": 2743.7676770000107,
+            "inputTokens": 37441,
+            "outputTokens": 65,
+            "totalTokens": 37506
+          },
+          {
+            "ms": 2106.446667000011,
+            "requestIds": [],
+            "firstDeltaMs": 2016.418663999997,
+            "inputTokens": 40321,
+            "outputTokens": 23,
+            "totalTokens": 40344
+          },
+          {
+            "ms": 2293.239711000002,
+            "requestIds": [],
+            "firstDeltaMs": 2010.3455810000014,
+            "inputTokens": 40388,
+            "outputTokens": 17,
+            "totalTokens": 40405
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Cook the covered rice gently. What's next?",
+        "timings": {
+          "modelMs": 8774.259412,
+          "toolMs": 9.257066999998642,
+          "totalMs": 8803.088740000007
+        },
+        "modelRequests": [
+          {
+            "ms": 3812.9407800000045,
+            "requestIds": [],
+            "firstDeltaMs": 3761.5860919999977,
+            "inputTokens": 40425,
+            "outputTokens": 63,
+            "totalTokens": 40488
+          },
+          {
+            "ms": 2557.936428999994,
+            "requestIds": [],
+            "firstDeltaMs": 2481.741718999998,
+            "inputTokens": 43306,
+            "outputTokens": 24,
+            "totalTokens": 43330
+          },
+          {
+            "ms": 2403.382203000001,
+            "requestIds": [],
+            "firstDeltaMs": 2049.054229000001,
+            "inputTokens": 43375,
+            "outputTokens": 21,
+            "totalTokens": 43396
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Cook the beans. What's next?",
+        "timings": {
+          "modelMs": 7078.7872729999945,
+          "toolMs": 12.62544699999853,
+          "totalMs": 7108.815247999999
+        },
+        "modelRequests": [
+          {
+            "ms": 2835.2285310000007,
+            "requestIds": [],
+            "firstDeltaMs": 2796.0679459999956,
+            "inputTokens": 43414,
+            "outputTokens": 65,
+            "totalTokens": 43479
+          },
+          {
+            "ms": 2161.756812000007,
+            "requestIds": [],
+            "firstDeltaMs": 2082.604238,
+            "inputTokens": 46201,
+            "outputTokens": 23,
+            "totalTokens": 46224
+          },
+          {
+            "ms": 2081.801929999987,
+            "requestIds": [],
+            "firstDeltaMs": 1908.836660999994,
+            "inputTokens": 46268,
+            "outputTokens": 18,
+            "totalTokens": 46286
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Rest the covered rice off the burner. What's next?",
+        "timings": {
+          "modelMs": 5188.6757399999915,
+          "toolMs": 8.924783999987994,
+          "totalMs": 5204.985524999996
+        },
+        "modelRequests": [
+          {
+            "ms": 2759.031548999992,
+            "requestIds": [],
+            "firstDeltaMs": 2694.4324419999903,
+            "inputTokens": 46308,
+            "outputTokens": 63,
+            "totalTokens": 46371
+          },
+          {
+            "ms": 2429.6441909999994,
+            "requestIds": [],
+            "firstDeltaMs": 1863.6791480000102,
+            "inputTokens": 48766,
+            "outputTokens": 28,
+            "totalTokens": 48794
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Drain and season the beans. What's next?",
+        "timings": {
+          "modelMs": 5029.109259000004,
+          "toolMs": 7.646085999993375,
+          "totalMs": 5044.058289000008
+        },
+        "modelRequests": [
+          {
+            "ms": 2513.126271000001,
+            "requestIds": [],
+            "firstDeltaMs": 2470.2057200000127,
+            "inputTokens": 48814,
+            "outputTokens": 65,
+            "totalTokens": 48879
+          },
+          {
+            "ms": 2515.9829880000034,
+            "requestIds": [],
+            "firstDeltaMs": 2037.8887430000032,
+            "inputTokens": 51245,
+            "outputTokens": 26,
+            "totalTokens": 51271
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Roast the salmon in the preheated oven. What's next?",
+        "timings": {
+          "modelMs": 8860.170157999994,
+          "toolMs": 10.414401000001817,
+          "totalMs": 8884.072331000003
+        },
+        "modelRequests": [
+          {
+            "ms": 2696.9349899999943,
+            "requestIds": [],
+            "firstDeltaMs": 2642.3335850000003,
+            "inputTokens": 51294,
+            "outputTokens": 64,
+            "totalTokens": 51358
+          },
+          {
+            "ms": 4077.498649999994,
+            "requestIds": [],
+            "firstDeltaMs": 2895.9981030000054,
+            "inputTokens": 53951,
+            "outputTokens": 24,
+            "totalTokens": 53975
+          },
+          {
+            "ms": 2085.736518000005,
+            "requestIds": [],
+            "firstDeltaMs": 1823.0556519999955,
+            "inputTokens": 54020,
+            "outputTokens": 19,
+            "totalTokens": 54039
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Rest the salmon before serving. What's next?",
+        "timings": {
+          "modelMs": 5347.765505000018,
+          "toolMs": 5.728166999993846,
+          "totalMs": 5361.512673999998
+        },
+        "modelRequests": [
+          {
+            "ms": 2686.371067,
+            "requestIds": [],
+            "firstDeltaMs": 2594.332639,
+            "inputTokens": 54059,
+            "outputTokens": 64,
+            "totalTokens": 54123
+          },
+          {
+            "ms": 2661.3944380000175,
+            "requestIds": [],
+            "firstDeltaMs": 1977.454614999995,
+            "inputTokens": 56323,
+            "outputTokens": 27,
+            "totalTokens": 56350
+          }
+        ]
+      }
+    ]
+  },
+  "voice": {
+    "turnMs": {
+      "n": 100,
+      "p50": 2461.411071999988,
+      "p95": 3182.7662339999997,
+      "max": 3678.0343720000237
+    },
+    "modelMs": {
+      "n": 100,
+      "p50": 2453.979382999998,
+      "p95": 3168.783615000001,
+      "max": 3667.272043999983
+    },
+    "toolMs": {
+      "n": 105,
+      "p50": 6.3101949999982025,
+      "p95": 16.50759399999515,
+      "max": 22.68741900002351
+    },
+    "modelRequests": 100,
+    "firstDeltaMs": {
+      "n": 100,
+      "p50": 2411.669407999987,
+      "p95": 3140.8714869999994,
+      "max": 3608.2388569999894
+    },
+    "inputTokens": 223180,
+    "outputTokens": 5976,
+    "rawLintViolations": 0,
+    "fallbacks": 0,
+    "perTurn": [
+      {
+        "utterance": "My kitchen has one oven, four burners, and one cook. My timezone is America/Chicago.",
+        "timings": {
+          "modelMs": 2312.9682009999815,
+          "toolMs": 7.5958999999566,
+          "totalMs": 2340.6621729999897
+        },
+        "modelRequests": [
+          {
+            "ms": 2312.9682009999815,
+            "requestIds": [],
+            "firstDeltaMs": 2292.5190690000018,
+            "inputTokens": 1760,
+            "outputTokens": 45,
+            "totalTokens": 1805
+          }
+        ]
+      },
+      {
+        "utterance": "I want salmon, rice and green beans on the table at 6:30 PM.",
+        "timings": {
+          "modelMs": 2428.141142999986,
+          "toolMs": 7.845131999987643,
+          "totalMs": 2437.3697140000004
+        },
+        "modelRequests": [
+          {
+            "ms": 2428.141142999986,
+            "requestIds": [],
+            "firstDeltaMs": 2389.178755000001,
+            "inputTokens": 1829,
+            "outputTokens": 67,
+            "totalTokens": 1896
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 2446.3721300000034,
+          "toolMs": 8.057897999999113,
+          "totalMs": 2455.997707999981
+        },
+        "modelRequests": [
+          {
+            "ms": 2446.3721300000034,
+            "requestIds": [],
+            "firstDeltaMs": 2427.725034000003,
+            "inputTokens": 2372,
+            "outputTokens": 58,
+            "totalTokens": 2430
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 2449.2111759999825,
+          "toolMs": 7.251515999989351,
+          "totalMs": 2458.204513000004
+        },
+        "modelRequests": [
+          {
+            "ms": 2449.2111759999825,
+            "requestIds": [],
+            "firstDeltaMs": 2417.359449999989,
+            "inputTokens": 2385,
+            "outputTokens": 58,
+            "totalTokens": 2443
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Rinse the rice and fill the pot. What's next?",
+        "timings": {
+          "modelMs": 2440.7289600000076,
+          "toolMs": 11.828892999998061,
+          "totalMs": 2454.3680950000125
+        },
+        "modelRequests": [
+          {
+            "ms": 2440.7289600000076,
+            "requestIds": [],
+            "firstDeltaMs": 2406.773467000021,
+            "inputTokens": 2410,
+            "outputTokens": 60,
+            "totalTokens": 2470
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Bring the rice to a simmer. What's next?",
+        "timings": {
+          "modelMs": 2429.866867999983,
+          "toolMs": 16.50759399999515,
+          "totalMs": 2450.461095000006
+        },
+        "modelRequests": [
+          {
+            "ms": 2429.866867999983,
+            "requestIds": [],
+            "firstDeltaMs": 2412.2783139999956,
+            "inputTokens": 2381,
+            "outputTokens": 60,
+            "totalTokens": 2441
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Set the oven to 400\u00b0F now. What's next?",
+        "timings": {
+          "modelMs": 2496.7414759999956,
+          "toolMs": 7.737032000004547,
+          "totalMs": 2505.702859000012
+        },
+        "modelRequests": [
+          {
+            "ms": 2496.7414759999956,
+            "requestIds": [],
+            "firstDeltaMs": 2444.312468999997,
+            "inputTokens": 2390,
+            "outputTokens": 64,
+            "totalTokens": 2454
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Season the salmon and prepare the tray. What's next?",
+        "timings": {
+          "modelMs": 2446.238939999981,
+          "toolMs": 6.02651899997727,
+          "totalMs": 2454.5049350000045
+        },
+        "modelRequests": [
+          {
+            "ms": 2446.238939999981,
+            "requestIds": [],
+            "firstDeltaMs": 2392.349473999988,
+            "inputTokens": 2352,
+            "outputTokens": 61,
+            "totalTokens": 2413
+          }
+        ]
+      },
+      {
+        "utterance": "The salmon needs five more minutes.",
+        "timings": {
+          "modelMs": 3073.1675270000123,
+          "toolMs": 22.68741900002351,
+          "totalMs": 3097.022174999991
+        },
+        "modelRequests": [
+          {
+            "ms": 3073.1675270000123,
+            "requestIds": [],
+            "firstDeltaMs": 3072.992115000001,
+            "inputTokens": 2306,
+            "outputTokens": 56,
+            "totalTokens": 2362
+          }
+        ]
+      },
+      {
+        "utterance": "The salmon needs five more minutes.",
+        "timings": {
+          "modelMs": 2185.021623000008,
+          "toolMs": 5.91170600001351,
+          "totalMs": 2193.579494000005
+        },
+        "modelRequests": [
+          {
+            "ms": 2185.021623000008,
+            "requestIds": [],
+            "firstDeltaMs": 2159.8319690000208,
+            "inputTokens": 2300,
+            "outputTokens": 56,
+            "totalTokens": 2356
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 2387.7885349999997,
+          "toolMs": 6.90986799998791,
+          "totalMs": 2396.84128600001
+        },
+        "modelRequests": [
+          {
+            "ms": 2387.7885349999997,
+            "requestIds": [],
+            "firstDeltaMs": 2359.0750169999956,
+            "inputTokens": 2300,
+            "outputTokens": 58,
+            "totalTokens": 2358
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 3667.272043999983,
+          "toolMs": 9.064790999982506,
+          "totalMs": 3678.0343720000237
+        },
+        "modelRequests": [
+          {
+            "ms": 3667.272043999983,
+            "requestIds": [],
+            "firstDeltaMs": 3608.2388569999894,
+            "inputTokens": 2285,
+            "outputTokens": 58,
+            "totalTokens": 2343
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Trim the green beans. What's next?",
+        "timings": {
+          "modelMs": 2457.359322000004,
+          "toolMs": 5.722570999991149,
+          "totalMs": 2464.492518999992
+        },
+        "modelRequests": [
+          {
+            "ms": 2457.359322000004,
+            "requestIds": [],
+            "firstDeltaMs": 2424.349171000009,
+            "inputTokens": 2305,
+            "outputTokens": 62,
+            "totalTokens": 2367
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Heat water for the beans. What's next?",
+        "timings": {
+          "modelMs": 2755.153907,
+          "toolMs": 5.660839999996824,
+          "totalMs": 2762.0050850000116
+        },
+        "modelRequests": [
+          {
+            "ms": 2755.153907,
+            "requestIds": [],
+            "firstDeltaMs": 2719.346760000015,
+            "inputTokens": 2277,
+            "outputTokens": 62,
+            "totalTokens": 2339
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Cook the covered rice gently. What's next?",
+        "timings": {
+          "modelMs": 3093.341067000001,
+          "toolMs": 8.629351999989012,
+          "totalMs": 3103.2498780000024
+        },
+        "modelRequests": [
+          {
+            "ms": 3093.341067000001,
+            "requestIds": [],
+            "firstDeltaMs": 2139.343533999985,
+            "inputTokens": 2247,
+            "outputTokens": 60,
+            "totalTokens": 2307
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Cook the beans. What's next?",
+        "timings": {
+          "modelMs": 2427.8446360000235,
+          "toolMs": 8.161563000001479,
+          "totalMs": 2437.4561600000015
+        },
+        "modelRequests": [
+          {
+            "ms": 2427.8446360000235,
+            "requestIds": [],
+            "firstDeltaMs": 2382.7745609999984,
+            "inputTokens": 2212,
+            "outputTokens": 62,
+            "totalTokens": 2274
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Rest the covered rice off the burner. What's next?",
+        "timings": {
+          "modelMs": 2390.3824210000166,
+          "toolMs": 6.695760999980848,
+          "totalMs": 2398.559058999992
+        },
+        "modelRequests": [
+          {
+            "ms": 2390.3824210000166,
+            "requestIds": [],
+            "firstDeltaMs": 2343.633619,
+            "inputTokens": 2178,
+            "outputTokens": 60,
+            "totalTokens": 2238
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Drain and season the beans. What's next?",
+        "timings": {
+          "modelMs": 2504.0496459999995,
+          "toolMs": 5.5032979999959935,
+          "totalMs": 2510.959799000004
+        },
+        "modelRequests": [
+          {
+            "ms": 2504.0496459999995,
+            "requestIds": [],
+            "firstDeltaMs": 2464.2055149999796,
+            "inputTokens": 2145,
+            "outputTokens": 62,
+            "totalTokens": 2207
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Roast the salmon in the preheated oven. What's next?",
+        "timings": {
+          "modelMs": 2911.0234139999957,
+          "toolMs": 6.3101949999982025,
+          "totalMs": 2919.343358000013
+        },
+        "modelRequests": [
+          {
+            "ms": 2911.0234139999957,
+            "requestIds": [],
+            "firstDeltaMs": 2873.5417829999933,
+            "inputTokens": 2119,
+            "outputTokens": 61,
+            "totalTokens": 2180
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Rest the salmon before serving. What's next?",
+        "timings": {
+          "modelMs": 2323.242965000012,
+          "toolMs": 6.035333999985596,
+          "totalMs": 2330.47941499998
+        },
+        "modelRequests": [
+          {
+            "ms": 2323.242965000012,
+            "requestIds": [],
+            "firstDeltaMs": 2309.8787960000045,
+            "inputTokens": 2068,
+            "outputTokens": 61,
+            "totalTokens": 2129
+          }
+        ]
+      },
+      {
+        "utterance": "My kitchen has one oven, four burners, and one cook. My timezone is America/Chicago.",
+        "timings": {
+          "modelMs": 2260.6701890000004,
+          "toolMs": 29.532837999999856,
+          "totalMs": 2383.47805
+        },
+        "modelRequests": [
+          {
+            "ms": 2260.6701890000004,
+            "requestIds": [],
+            "firstDeltaMs": 2241.976938,
+            "inputTokens": 1760,
+            "outputTokens": 45,
+            "totalTokens": 1805
+          }
+        ]
+      },
+      {
+        "utterance": "I want salmon, rice and green beans on the table at 6:30 PM.",
+        "timings": {
+          "modelMs": 2370.5357740000004,
+          "toolMs": 17.57049199999983,
+          "totalMs": 2390.6530759999996
+        },
+        "modelRequests": [
+          {
+            "ms": 2370.5357740000004,
+            "requestIds": [],
+            "firstDeltaMs": 2327.6698490000003,
+            "inputTokens": 1830,
+            "outputTokens": 68,
+            "totalTokens": 1898
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 3168.783615000001,
+          "toolMs": 11.52041300000019,
+          "totalMs": 3182.7662339999997
+        },
+        "modelRequests": [
+          {
+            "ms": 3168.783615000001,
+            "requestIds": [],
+            "firstDeltaMs": 3140.8714869999994,
+            "inputTokens": 2369,
+            "outputTokens": 54,
+            "totalTokens": 2423
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 2773.032744,
+          "toolMs": 6.882317999999941,
+          "totalMs": 2781.9429959999998
+        },
+        "modelRequests": [
+          {
+            "ms": 2773.032744,
+            "requestIds": [],
+            "firstDeltaMs": 2733.855286,
+            "inputTokens": 2382,
+            "outputTokens": 54,
+            "totalTokens": 2436
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Rinse the rice and fill the pot. What's next?",
+        "timings": {
+          "modelMs": 2253.5697020000007,
+          "toolMs": 8.489591000001383,
+          "totalMs": 2264.203823
+        },
+        "modelRequests": [
+          {
+            "ms": 2253.5697020000007,
+            "requestIds": [],
+            "firstDeltaMs": 2192.0980400000008,
+            "inputTokens": 2407,
+            "outputTokens": 56,
+            "totalTokens": 2463
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Bring the rice to a simmer. What's next?",
+        "timings": {
+          "modelMs": 2386.4915949999995,
+          "toolMs": 6.8665449999971315,
+          "totalMs": 2395.121460999999
+        },
+        "modelRequests": [
+          {
+            "ms": 2386.4915949999995,
+            "requestIds": [],
+            "firstDeltaMs": 2351.0445850000015,
+            "inputTokens": 2378,
+            "outputTokens": 56,
+            "totalTokens": 2434
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Set the oven to 400\u00b0F now. What's next?",
+        "timings": {
+          "modelMs": 2269.979685000002,
+          "toolMs": 5.9756149999993795,
+          "totalMs": 2277.547653999998
+        },
+        "modelRequests": [
+          {
+            "ms": 2269.979685000002,
+            "requestIds": [],
+            "firstDeltaMs": 2231.2377610000003,
+            "inputTokens": 2387,
+            "outputTokens": 60,
+            "totalTokens": 2447
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Season the salmon and prepare the tray. What's next?",
+        "timings": {
+          "modelMs": 2488.453497999999,
+          "toolMs": 7.19410599999901,
+          "totalMs": 2497.329772000001
+        },
+        "modelRequests": [
+          {
+            "ms": 2488.453497999999,
+            "requestIds": [],
+            "firstDeltaMs": 2437.5450149999997,
+            "inputTokens": 2349,
+            "outputTokens": 57,
+            "totalTokens": 2406
+          }
+        ]
+      },
+      {
+        "utterance": "The salmon needs five more minutes.",
+        "timings": {
+          "modelMs": 3014.785796,
+          "toolMs": 10.506908999999723,
+          "totalMs": 3027.519673999999
+        },
+        "modelRequests": [
+          {
+            "ms": 3014.785796,
+            "requestIds": [],
+            "firstDeltaMs": 3014.315441999999,
+            "inputTokens": 2303,
+            "outputTokens": 52,
+            "totalTokens": 2355
+          }
+        ]
+      },
+      {
+        "utterance": "The salmon needs five more minutes.",
+        "timings": {
+          "modelMs": 1965.940806999999,
+          "toolMs": 5.2049929999993765,
+          "totalMs": 1972.9753039999996
+        },
+        "modelRequests": [
+          {
+            "ms": 1965.940806999999,
+            "requestIds": [],
+            "firstDeltaMs": 1946.5088799999976,
+            "inputTokens": 2297,
+            "outputTokens": 52,
+            "totalTokens": 2349
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 2213.6381789999978,
+          "toolMs": 5.741749000000709,
+          "totalMs": 2220.747693000001
+        },
+        "modelRequests": [
+          {
+            "ms": 2213.6381789999978,
+            "requestIds": [],
+            "firstDeltaMs": 2198.800776,
+            "inputTokens": 2297,
+            "outputTokens": 54,
+            "totalTokens": 2351
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 2554.6386450000027,
+          "toolMs": 5.444295000001148,
+          "totalMs": 2561.5120239999997
+        },
+        "modelRequests": [
+          {
+            "ms": 2554.6386450000027,
+            "requestIds": [],
+            "firstDeltaMs": 2544.5535660000023,
+            "inputTokens": 2282,
+            "outputTokens": 54,
+            "totalTokens": 2336
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Trim the green beans. What's next?",
+        "timings": {
+          "modelMs": 3429.1639149999974,
+          "toolMs": 6.6123439999937546,
+          "totalMs": 3437.227243000001
+        },
+        "modelRequests": [
+          {
+            "ms": 3429.1639149999974,
+            "requestIds": [],
+            "firstDeltaMs": 3402.9501889999956,
+            "inputTokens": 2302,
+            "outputTokens": 58,
+            "totalTokens": 2360
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Heat water for the beans. What's next?",
+        "timings": {
+          "modelMs": 2503.284882,
+          "toolMs": 5.6863350000057835,
+          "totalMs": 2510.323390999998
+        },
+        "modelRequests": [
+          {
+            "ms": 2503.284882,
+            "requestIds": [],
+            "firstDeltaMs": 2403.7831460000016,
+            "inputTokens": 2274,
+            "outputTokens": 58,
+            "totalTokens": 2332
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Cook the covered rice gently. What's next?",
+        "timings": {
+          "modelMs": 2110.3882070000036,
+          "toolMs": 6.062986000004457,
+          "totalMs": 2117.8758570000064
+        },
+        "modelRequests": [
+          {
+            "ms": 2110.3882070000036,
+            "requestIds": [],
+            "firstDeltaMs": 2068.505486000002,
+            "inputTokens": 2244,
+            "outputTokens": 56,
+            "totalTokens": 2300
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Cook the beans. What's next?",
+        "timings": {
+          "modelMs": 2763.4951969999966,
+          "toolMs": 7.0933920000024955,
+          "totalMs": 2772.2024420000016
+        },
+        "modelRequests": [
+          {
+            "ms": 2763.4951969999966,
+            "requestIds": [],
+            "firstDeltaMs": 2724.810777999999,
+            "inputTokens": 2209,
+            "outputTokens": 58,
+            "totalTokens": 2267
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Rest the covered rice off the burner. What's next?",
+        "timings": {
+          "modelMs": 2247.7338139999993,
+          "toolMs": 7.3095460000040475,
+          "totalMs": 2256.671257999995
+        },
+        "modelRequests": [
+          {
+            "ms": 2247.7338139999993,
+            "requestIds": [],
+            "firstDeltaMs": 2208.8530360000004,
+            "inputTokens": 2175,
+            "outputTokens": 56,
+            "totalTokens": 2231
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Drain and season the beans. What's next?",
+        "timings": {
+          "modelMs": 2303.177313,
+          "toolMs": 5.909004000001005,
+          "totalMs": 2310.4533350000056
+        },
+        "modelRequests": [
+          {
+            "ms": 2303.177313,
+            "requestIds": [],
+            "firstDeltaMs": 2270.9793359999967,
+            "inputTokens": 2142,
+            "outputTokens": 58,
+            "totalTokens": 2200
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Roast the salmon in the preheated oven. What's next?",
+        "timings": {
+          "modelMs": 2131.904343000002,
+          "toolMs": 7.236497999998392,
+          "totalMs": 2140.647036000002
+        },
+        "modelRequests": [
+          {
+            "ms": 2131.904343000002,
+            "requestIds": [],
+            "firstDeltaMs": 2109.900518000002,
+            "inputTokens": 2116,
+            "outputTokens": 57,
+            "totalTokens": 2173
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Rest the salmon before serving. What's next?",
+        "timings": {
+          "modelMs": 3143.337338000005,
+          "toolMs": 8.055347000001348,
+          "totalMs": 3153.0238949999984
+        },
+        "modelRequests": [
+          {
+            "ms": 3143.337338000005,
+            "requestIds": [],
+            "firstDeltaMs": 3090.616560000002,
+            "inputTokens": 2065,
+            "outputTokens": 57,
+            "totalTokens": 2122
+          }
+        ]
+      },
+      {
+        "utterance": "My kitchen has one oven, four burners, and one cook. My timezone is America/Chicago.",
+        "timings": {
+          "modelMs": 2026.7540539999973,
+          "toolMs": 8.086133999990125,
+          "totalMs": 2057.6198250000016
+        },
+        "modelRequests": [
+          {
+            "ms": 2026.7540539999973,
+            "requestIds": [],
+            "firstDeltaMs": 1972.7114099999962,
+            "inputTokens": 1760,
+            "outputTokens": 45,
+            "totalTokens": 1805
+          }
+        ]
+      },
+      {
+        "utterance": "I want salmon, rice and green beans on the table at 6:30 PM.",
+        "timings": {
+          "modelMs": 3273.5793479999993,
+          "toolMs": 7.604902999999467,
+          "totalMs": 3282.7011800000037
+        },
+        "modelRequests": [
+          {
+            "ms": 3273.5793479999993,
+            "requestIds": [],
+            "firstDeltaMs": 3242.323618000002,
+            "inputTokens": 1832,
+            "outputTokens": 70,
+            "totalTokens": 1902
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 2424.974697999998,
+          "toolMs": 6.532457000001159,
+          "totalMs": 2433.162823999999
+        },
+        "modelRequests": [
+          {
+            "ms": 2424.974697999998,
+            "requestIds": [],
+            "firstDeltaMs": 2408.7896390000024,
+            "inputTokens": 2376,
+            "outputTokens": 59,
+            "totalTokens": 2435
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 2795.9558719999986,
+          "toolMs": 7.971358999995573,
+          "totalMs": 2805.4862790000043
+        },
+        "modelRequests": [
+          {
+            "ms": 2795.9558719999986,
+            "requestIds": [],
+            "firstDeltaMs": 2768.5564449999947,
+            "inputTokens": 2389,
+            "outputTokens": 59,
+            "totalTokens": 2448
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Rinse the rice and fill the pot. What's next?",
+        "timings": {
+          "modelMs": 2722.0737789999985,
+          "toolMs": 5.387604999996256,
+          "totalMs": 2728.9812999999995
+        },
+        "modelRequests": [
+          {
+            "ms": 2722.0737789999985,
+            "requestIds": [],
+            "firstDeltaMs": 2695.837621999999,
+            "inputTokens": 2414,
+            "outputTokens": 61,
+            "totalTokens": 2475
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Bring the rice to a simmer. What's next?",
+        "timings": {
+          "modelMs": 2597.5911970000016,
+          "toolMs": 5.382246000008308,
+          "totalMs": 2604.2412829999957
+        },
+        "modelRequests": [
+          {
+            "ms": 2597.5911970000016,
+            "requestIds": [],
+            "firstDeltaMs": 2575.367968999999,
+            "inputTokens": 2385,
+            "outputTokens": 61,
+            "totalTokens": 2446
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Set the oven to 400\u00b0F now. What's next?",
+        "timings": {
+          "modelMs": 2274.8250999999873,
+          "toolMs": 20.721223999993526,
+          "totalMs": 2296.9535139999934
+        },
+        "modelRequests": [
+          {
+            "ms": 2274.8250999999873,
+            "requestIds": [],
+            "firstDeltaMs": 2242.417027999996,
+            "inputTokens": 2394,
+            "outputTokens": 65,
+            "totalTokens": 2459
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Season the salmon and prepare the tray. What's next?",
+        "timings": {
+          "modelMs": 3326.662387999997,
+          "toolMs": 6.8314229999959935,
+          "totalMs": 3334.8960579999984
+        },
+        "modelRequests": [
+          {
+            "ms": 3326.662387999997,
+            "requestIds": [],
+            "firstDeltaMs": 3278.0658390000026,
+            "inputTokens": 2356,
+            "outputTokens": 62,
+            "totalTokens": 2418
+          }
+        ]
+      },
+      {
+        "utterance": "The salmon needs five more minutes.",
+        "timings": {
+          "modelMs": 2363.6436350000004,
+          "toolMs": 7.114165000006324,
+          "totalMs": 2372.2371619999903
+        },
+        "modelRequests": [
+          {
+            "ms": 2363.6436350000004,
+            "requestIds": [],
+            "firstDeltaMs": 2308.690757000004,
+            "inputTokens": 2310,
+            "outputTokens": 57,
+            "totalTokens": 2367
+          }
+        ]
+      },
+      {
+        "utterance": "The salmon needs five more minutes.",
+        "timings": {
+          "modelMs": 3440.33492400001,
+          "toolMs": 6.567987999995239,
+          "totalMs": 3448.5458939999953
+        },
+        "modelRequests": [
+          {
+            "ms": 3440.33492400001,
+            "requestIds": [],
+            "firstDeltaMs": 3415.482394000006,
+            "inputTokens": 2304,
+            "outputTokens": 57,
+            "totalTokens": 2361
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 2761.2895470000076,
+          "toolMs": 7.3867020000034245,
+          "totalMs": 2770.3137330000027
+        },
+        "modelRequests": [
+          {
+            "ms": 2761.2895470000076,
+            "requestIds": [],
+            "firstDeltaMs": 2735.199860000008,
+            "inputTokens": 2304,
+            "outputTokens": 59,
+            "totalTokens": 2363
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 2492.7321539999975,
+          "toolMs": 5.7192939999949886,
+          "totalMs": 2499.858110000001
+        },
+        "modelRequests": [
+          {
+            "ms": 2492.7321539999975,
+            "requestIds": [],
+            "firstDeltaMs": 2451.055972999995,
+            "inputTokens": 2289,
+            "outputTokens": 59,
+            "totalTokens": 2348
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Trim the green beans. What's next?",
+        "timings": {
+          "modelMs": 2465.3559550000064,
+          "toolMs": 5.754467000006116,
+          "totalMs": 2472.3872690000135
+        },
+        "modelRequests": [
+          {
+            "ms": 2465.3559550000064,
+            "requestIds": [],
+            "firstDeltaMs": 2396.098149000012,
+            "inputTokens": 2309,
+            "outputTokens": 63,
+            "totalTokens": 2372
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Heat water for the beans. What's next?",
+        "timings": {
+          "modelMs": 2067.1075839999976,
+          "toolMs": 5.640996999994968,
+          "totalMs": 2074.0609559999866
+        },
+        "modelRequests": [
+          {
+            "ms": 2067.1075839999976,
+            "requestIds": [],
+            "firstDeltaMs": 2030.4415799999988,
+            "inputTokens": 2281,
+            "outputTokens": 63,
+            "totalTokens": 2344
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Cook the covered rice gently. What's next?",
+        "timings": {
+          "modelMs": 2381.68275800001,
+          "toolMs": 5.8517290000017965,
+          "totalMs": 2388.9099759999954
+        },
+        "modelRequests": [
+          {
+            "ms": 2381.68275800001,
+            "requestIds": [],
+            "firstDeltaMs": 2341.876841999998,
+            "inputTokens": 2251,
+            "outputTokens": 61,
+            "totalTokens": 2312
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Cook the beans. What's next?",
+        "timings": {
+          "modelMs": 2564.245425999994,
+          "toolMs": 10.34391599999799,
+          "totalMs": 2575.994770999998
+        },
+        "modelRequests": [
+          {
+            "ms": 2564.245425999994,
+            "requestIds": [],
+            "firstDeltaMs": 2517.335680000004,
+            "inputTokens": 2216,
+            "outputTokens": 63,
+            "totalTokens": 2279
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Rest the covered rice off the burner. What's next?",
+        "timings": {
+          "modelMs": 2261.393120000008,
+          "toolMs": 5.790028000003076,
+          "totalMs": 2268.5652300000074
+        },
+        "modelRequests": [
+          {
+            "ms": 2261.393120000008,
+            "requestIds": [],
+            "firstDeltaMs": 2233.3554030000087,
+            "inputTokens": 2182,
+            "outputTokens": 61,
+            "totalTokens": 2243
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Drain and season the beans. What's next?",
+        "timings": {
+          "modelMs": 2488.8717580000084,
+          "toolMs": 5.167012999998406,
+          "totalMs": 2495.270909999992
+        },
+        "modelRequests": [
+          {
+            "ms": 2488.8717580000084,
+            "requestIds": [],
+            "firstDeltaMs": 2463.2790080000123,
+            "inputTokens": 2149,
+            "outputTokens": 63,
+            "totalTokens": 2212
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Roast the salmon in the preheated oven. What's next?",
+        "timings": {
+          "modelMs": 2360.3044059999957,
+          "toolMs": 5.160967999996501,
+          "totalMs": 2366.506699999998
+        },
+        "modelRequests": [
+          {
+            "ms": 2360.3044059999957,
+            "requestIds": [],
+            "firstDeltaMs": 2352.8824509999977,
+            "inputTokens": 2123,
+            "outputTokens": 62,
+            "totalTokens": 2185
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Rest the salmon before serving. What's next?",
+        "timings": {
+          "modelMs": 2223.0904819999996,
+          "toolMs": 4.904458999997587,
+          "totalMs": 2229.096795000005
+        },
+        "modelRequests": [
+          {
+            "ms": 2223.0904819999996,
+            "requestIds": [],
+            "firstDeltaMs": 2196.4049819999927,
+            "inputTokens": 2072,
+            "outputTokens": 62,
+            "totalTokens": 2134
+          }
+        ]
+      },
+      {
+        "utterance": "My kitchen has one oven, four burners, and one cook. My timezone is America/Chicago.",
+        "timings": {
+          "modelMs": 2527.124047999998,
+          "toolMs": 6.446778000012273,
+          "totalMs": 2553.7087960000063
+        },
+        "modelRequests": [
+          {
+            "ms": 2527.124047999998,
+            "requestIds": [],
+            "firstDeltaMs": 2493.5366169999907,
+            "inputTokens": 1760,
+            "outputTokens": 45,
+            "totalTokens": 1805
+          }
+        ]
+      },
+      {
+        "utterance": "I want salmon, rice and green beans on the table at 6:30 PM.",
+        "timings": {
+          "modelMs": 2188.676907000001,
+          "toolMs": 6.87052599999879,
+          "totalMs": 2196.6927399999986
+        },
+        "modelRequests": [
+          {
+            "ms": 2188.676907000001,
+            "requestIds": [],
+            "firstDeltaMs": 2158.5218860000023,
+            "inputTokens": 1829,
+            "outputTokens": 67,
+            "totalTokens": 1896
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 2783.7241630000062,
+          "toolMs": 9.650536999994074,
+          "totalMs": 2794.94206500001
+        },
+        "modelRequests": [
+          {
+            "ms": 2783.7241630000062,
+            "requestIds": [],
+            "firstDeltaMs": 2716.2020800000028,
+            "inputTokens": 2377,
+            "outputTokens": 63,
+            "totalTokens": 2440
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 2414.0588949999947,
+          "toolMs": 5.93888399998832,
+          "totalMs": 2421.6059499999974
+        },
+        "modelRequests": [
+          {
+            "ms": 2414.0588949999947,
+            "requestIds": [],
+            "firstDeltaMs": 2386.344020999997,
+            "inputTokens": 2390,
+            "outputTokens": 63,
+            "totalTokens": 2453
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Rinse the rice and fill the pot. What's next?",
+        "timings": {
+          "modelMs": 2536.256367000009,
+          "toolMs": 6.802555999995093,
+          "totalMs": 2544.4543159999885
+        },
+        "modelRequests": [
+          {
+            "ms": 2536.256367000009,
+            "requestIds": [],
+            "firstDeltaMs": 2515.8985140000004,
+            "inputTokens": 2415,
+            "outputTokens": 65,
+            "totalTokens": 2480
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Bring the rice to a simmer. What's next?",
+        "timings": {
+          "modelMs": 2461.3500399999903,
+          "toolMs": 6.691248999995878,
+          "totalMs": 2469.1722519999894
+        },
+        "modelRequests": [
+          {
+            "ms": 2461.3500399999903,
+            "requestIds": [],
+            "firstDeltaMs": 2428.6023009999917,
+            "inputTokens": 2386,
+            "outputTokens": 65,
+            "totalTokens": 2451
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Set the oven to 400\u00b0F now. What's next?",
+        "timings": {
+          "modelMs": 2880.5385030000034,
+          "toolMs": 7.1271199999901,
+          "totalMs": 2889.006276999993
+        },
+        "modelRequests": [
+          {
+            "ms": 2880.5385030000034,
+            "requestIds": [],
+            "firstDeltaMs": 2831.4699120000005,
+            "inputTokens": 2395,
+            "outputTokens": 69,
+            "totalTokens": 2464
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Season the salmon and prepare the tray. What's next?",
+        "timings": {
+          "modelMs": 2711.030461999995,
+          "toolMs": 6.014620000001742,
+          "totalMs": 2718.3811350000033
+        },
+        "modelRequests": [
+          {
+            "ms": 2711.030461999995,
+            "requestIds": [],
+            "firstDeltaMs": 2687.700954,
+            "inputTokens": 2357,
+            "outputTokens": 66,
+            "totalTokens": 2423
+          }
+        ]
+      },
+      {
+        "utterance": "The salmon needs five more minutes.",
+        "timings": {
+          "modelMs": 2191.8412309999985,
+          "toolMs": 7.613501999992877,
+          "totalMs": 2200.7585959999997
+        },
+        "modelRequests": [
+          {
+            "ms": 2191.8412309999985,
+            "requestIds": [],
+            "firstDeltaMs": 2149.699860000008,
+            "inputTokens": 2311,
+            "outputTokens": 61,
+            "totalTokens": 2372
+          }
+        ]
+      },
+      {
+        "utterance": "The salmon needs five more minutes.",
+        "timings": {
+          "modelMs": 2410.7300289999985,
+          "toolMs": 4.0428589999937685,
+          "totalMs": 2416.0773669999908
+        },
+        "modelRequests": [
+          {
+            "ms": 2410.7300289999985,
+            "requestIds": [],
+            "firstDeltaMs": 2369.521664,
+            "inputTokens": 2305,
+            "outputTokens": 61,
+            "totalTokens": 2366
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 2694.1084289999853,
+          "toolMs": 5.792133000009926,
+          "totalMs": 2701.0256729999965
+        },
+        "modelRequests": [
+          {
+            "ms": 2694.1084289999853,
+            "requestIds": [],
+            "firstDeltaMs": 2636.9052910000028,
+            "inputTokens": 2305,
+            "outputTokens": 63,
+            "totalTokens": 2368
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 2259.5624210000096,
+          "toolMs": 5.933281000005081,
+          "totalMs": 2266.6948629999824
+        },
+        "modelRequests": [
+          {
+            "ms": 2259.5624210000096,
+            "requestIds": [],
+            "firstDeltaMs": 2223.552633000014,
+            "inputTokens": 2290,
+            "outputTokens": 63,
+            "totalTokens": 2353
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Trim the green beans. What's next?",
+        "timings": {
+          "modelMs": 2872.3021639999934,
+          "toolMs": 7.067026999982772,
+          "totalMs": 2880.861142000009
+        },
+        "modelRequests": [
+          {
+            "ms": 2872.3021639999934,
+            "requestIds": [],
+            "firstDeltaMs": 2856.1123840000073,
+            "inputTokens": 2310,
+            "outputTokens": 67,
+            "totalTokens": 2377
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Heat water for the beans. What's next?",
+        "timings": {
+          "modelMs": 2997.4308040000033,
+          "toolMs": 7.328604999987874,
+          "totalMs": 3006.5297919999866
+        },
+        "modelRequests": [
+          {
+            "ms": 2997.4308040000033,
+            "requestIds": [],
+            "firstDeltaMs": 2932.0526150000223,
+            "inputTokens": 2282,
+            "outputTokens": 67,
+            "totalTokens": 2349
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Cook the covered rice gently. What's next?",
+        "timings": {
+          "modelMs": 2432.212277999992,
+          "toolMs": 9.54555700000492,
+          "totalMs": 2443.3715889999876
+        },
+        "modelRequests": [
+          {
+            "ms": 2432.212277999992,
+            "requestIds": [],
+            "firstDeltaMs": 2406.529547000013,
+            "inputTokens": 2252,
+            "outputTokens": 65,
+            "totalTokens": 2317
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Cook the beans. What's next?",
+        "timings": {
+          "modelMs": 2828.0936180000135,
+          "toolMs": 5.0881159999989904,
+          "totalMs": 2834.529573000007
+        },
+        "modelRequests": [
+          {
+            "ms": 2828.0936180000135,
+            "requestIds": [],
+            "firstDeltaMs": 2793.212896000012,
+            "inputTokens": 2217,
+            "outputTokens": 67,
+            "totalTokens": 2284
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Rest the covered rice off the burner. What's next?",
+        "timings": {
+          "modelMs": 2882.7798220000113,
+          "toolMs": 5.7679019999923185,
+          "totalMs": 2889.9784130000044
+        },
+        "modelRequests": [
+          {
+            "ms": 2882.7798220000113,
+            "requestIds": [],
+            "firstDeltaMs": 2825.0185250000213,
+            "inputTokens": 2183,
+            "outputTokens": 65,
+            "totalTokens": 2248
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Drain and season the beans. What's next?",
+        "timings": {
+          "modelMs": 2682.863209000003,
+          "toolMs": 6.22868900001049,
+          "totalMs": 2690.419947999995
+        },
+        "modelRequests": [
+          {
+            "ms": 2682.863209000003,
+            "requestIds": [],
+            "firstDeltaMs": 2650.5754540000053,
+            "inputTokens": 2150,
+            "outputTokens": 67,
+            "totalTokens": 2217
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Roast the salmon in the preheated oven. What's next?",
+        "timings": {
+          "modelMs": 2608.697613999975,
+          "toolMs": 6.039257999975234,
+          "totalMs": 2615.890509000019
+        },
+        "modelRequests": [
+          {
+            "ms": 2608.697613999975,
+            "requestIds": [],
+            "firstDeltaMs": 2566.233431999979,
+            "inputTokens": 2124,
+            "outputTokens": 66,
+            "totalTokens": 2190
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Rest the salmon before serving. What's next?",
+        "timings": {
+          "modelMs": 2859.846679999988,
+          "toolMs": 5.60755300000892,
+          "totalMs": 2866.5467230000068
+        },
+        "modelRequests": [
+          {
+            "ms": 2859.846679999988,
+            "requestIds": [],
+            "firstDeltaMs": 2813.3779909999867,
+            "inputTokens": 2073,
+            "outputTokens": 66,
+            "totalTokens": 2139
+          }
+        ]
+      },
+      {
+        "utterance": "My kitchen has one oven, four burners, and one cook. My timezone is America/Chicago.",
+        "timings": {
+          "modelMs": 2426.823961999995,
+          "toolMs": 6.4016910000063945,
+          "totalMs": 2454.445829000004
+        },
+        "modelRequests": [
+          {
+            "ms": 2426.823961999995,
+            "requestIds": [],
+            "firstDeltaMs": 2382.9243800000113,
+            "inputTokens": 1760,
+            "outputTokens": 45,
+            "totalTokens": 1805
+          }
+        ]
+      },
+      {
+        "utterance": "I want salmon, rice and green beans on the table at 6:30 PM.",
+        "timings": {
+          "modelMs": 2433.8026100000134,
+          "toolMs": 6.61704500002088,
+          "totalMs": 2441.5266079999856
+        },
+        "modelRequests": [
+          {
+            "ms": 2433.8026100000134,
+            "requestIds": [],
+            "firstDeltaMs": 2411.669407999987,
+            "inputTokens": 1828,
+            "outputTokens": 66,
+            "totalTokens": 1894
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 2673.0306600000185,
+          "toolMs": 10.661779000016395,
+          "totalMs": 2685.41857899999
+        },
+        "modelRequests": [
+          {
+            "ms": 2673.0306600000185,
+            "requestIds": [],
+            "firstDeltaMs": 2622.115745999996,
+            "inputTokens": 2370,
+            "outputTokens": 57,
+            "totalTokens": 2427
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 2343.2177719999745,
+          "toolMs": 7.403871999995317,
+          "totalMs": 2352.223032000009
+        },
+        "modelRequests": [
+          {
+            "ms": 2343.2177719999745,
+            "requestIds": [],
+            "firstDeltaMs": 2315.754935999983,
+            "inputTokens": 2383,
+            "outputTokens": 57,
+            "totalTokens": 2440
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Rinse the rice and fill the pot. What's next?",
+        "timings": {
+          "modelMs": 2453.979382999998,
+          "toolMs": 6.103231999994023,
+          "totalMs": 2461.411071999988
+        },
+        "modelRequests": [
+          {
+            "ms": 2453.979382999998,
+            "requestIds": [],
+            "firstDeltaMs": 2422.6067280000134,
+            "inputTokens": 2408,
+            "outputTokens": 59,
+            "totalTokens": 2467
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Bring the rice to a simmer. What's next?",
+        "timings": {
+          "modelMs": 2435.2461189999885,
+          "toolMs": 5.938388999988092,
+          "totalMs": 2442.340802999999
+        },
+        "modelRequests": [
+          {
+            "ms": 2435.2461189999885,
+            "requestIds": [],
+            "firstDeltaMs": 2409.98477499999,
+            "inputTokens": 2379,
+            "outputTokens": 59,
+            "totalTokens": 2438
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Set the oven to 400\u00b0F now. What's next?",
+        "timings": {
+          "modelMs": 2482.336901999981,
+          "toolMs": 17.92182899999898,
+          "totalMs": 2501.6448670000245
+        },
+        "modelRequests": [
+          {
+            "ms": 2482.336901999981,
+            "requestIds": [],
+            "firstDeltaMs": 2457.880126999982,
+            "inputTokens": 2388,
+            "outputTokens": 63,
+            "totalTokens": 2451
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Season the salmon and prepare the tray. What's next?",
+        "timings": {
+          "modelMs": 2863.0305170000065,
+          "toolMs": 5.342493999982253,
+          "totalMs": 2869.67582199999
+        },
+        "modelRequests": [
+          {
+            "ms": 2863.0305170000065,
+            "requestIds": [],
+            "firstDeltaMs": 2824.9731109999993,
+            "inputTokens": 2350,
+            "outputTokens": 60,
+            "totalTokens": 2410
+          }
+        ]
+      },
+      {
+        "utterance": "The salmon needs five more minutes.",
+        "timings": {
+          "modelMs": 2222.0923699999985,
+          "toolMs": 6.025980000005802,
+          "totalMs": 2229.3035640000016
+        },
+        "modelRequests": [
+          {
+            "ms": 2222.0923699999985,
+            "requestIds": [],
+            "firstDeltaMs": 2166.532454,
+            "inputTokens": 2304,
+            "outputTokens": 55,
+            "totalTokens": 2359
+          }
+        ]
+      },
+      {
+        "utterance": "The salmon needs five more minutes.",
+        "timings": {
+          "modelMs": 2386.3439889999863,
+          "toolMs": 4.263810999982525,
+          "totalMs": 2392.020432999998
+        },
+        "modelRequests": [
+          {
+            "ms": 2386.3439889999863,
+            "requestIds": [],
+            "firstDeltaMs": 2368.0393739999854,
+            "inputTokens": 2298,
+            "outputTokens": 55,
+            "totalTokens": 2353
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 2931.9184210000094,
+          "toolMs": 5.13798400000087,
+          "totalMs": 2938.2557220000017
+        },
+        "modelRequests": [
+          {
+            "ms": 2931.9184210000094,
+            "requestIds": [],
+            "firstDeltaMs": 2901.037810000009,
+            "inputTokens": 2298,
+            "outputTokens": 57,
+            "totalTokens": 2355
+          }
+        ]
+      },
+      {
+        "utterance": "What's next?",
+        "timings": {
+          "modelMs": 2353.541475999984,
+          "toolMs": 6.129114999988815,
+          "totalMs": 2360.951047999988
+        },
+        "modelRequests": [
+          {
+            "ms": 2353.541475999984,
+            "requestIds": [],
+            "firstDeltaMs": 2325.4008759999997,
+            "inputTokens": 2283,
+            "outputTokens": 57,
+            "totalTokens": 2340
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Trim the green beans. What's next?",
+        "timings": {
+          "modelMs": 2424.5949609999952,
+          "toolMs": 6.0808669999823906,
+          "totalMs": 2431.956732999999
+        },
+        "modelRequests": [
+          {
+            "ms": 2424.5949609999952,
+            "requestIds": [],
+            "firstDeltaMs": 2372.8353960000095,
+            "inputTokens": 2303,
+            "outputTokens": 61,
+            "totalTokens": 2364
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Heat water for the beans. What's next?",
+        "timings": {
+          "modelMs": 2455.297093000001,
+          "toolMs": 5.026442000002135,
+          "totalMs": 2461.6118140000035
+        },
+        "modelRequests": [
+          {
+            "ms": 2455.297093000001,
+            "requestIds": [],
+            "firstDeltaMs": 2406.3914450000157,
+            "inputTokens": 2275,
+            "outputTokens": 61,
+            "totalTokens": 2336
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Cook the covered rice gently. What's next?",
+        "timings": {
+          "modelMs": 2849.566143999982,
+          "toolMs": 7.032825000002049,
+          "totalMs": 2858.134770000004
+        },
+        "modelRequests": [
+          {
+            "ms": 2849.566143999982,
+            "requestIds": [],
+            "firstDeltaMs": 2849.305953000003,
+            "inputTokens": 2245,
+            "outputTokens": 59,
+            "totalTokens": 2304
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Cook the beans. What's next?",
+        "timings": {
+          "modelMs": 2184.3809410000104,
+          "toolMs": 5.17374899997958,
+          "totalMs": 2190.760534000001
+        },
+        "modelRequests": [
+          {
+            "ms": 2184.3809410000104,
+            "requestIds": [],
+            "firstDeltaMs": 2123.7038849999954,
+            "inputTokens": 2210,
+            "outputTokens": 61,
+            "totalTokens": 2271
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Rest the covered rice off the burner. What's next?",
+        "timings": {
+          "modelMs": 2504.8934709999885,
+          "toolMs": 7.738274000003003,
+          "totalMs": 2513.9028199999884
+        },
+        "modelRequests": [
+          {
+            "ms": 2504.8934709999885,
+            "requestIds": [],
+            "firstDeltaMs": 2465.271638999984,
+            "inputTokens": 2176,
+            "outputTokens": 59,
+            "totalTokens": 2235
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Drain and season the beans. What's next?",
+        "timings": {
+          "modelMs": 2255.8771530000085,
+          "toolMs": 6.984324999997625,
+          "totalMs": 2264.215769000002
+        },
+        "modelRequests": [
+          {
+            "ms": 2255.8771530000085,
+            "requestIds": [],
+            "firstDeltaMs": 2219.454467000003,
+            "inputTokens": 2143,
+            "outputTokens": 61,
+            "totalTokens": 2204
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Roast the salmon in the preheated oven. What's next?",
+        "timings": {
+          "modelMs": 2999.7808079999813,
+          "toolMs": 6.534755000000587,
+          "totalMs": 3007.769078000012
+        },
+        "modelRequests": [
+          {
+            "ms": 2999.7808079999813,
+            "requestIds": [],
+            "firstDeltaMs": 2961.8716469999927,
+            "inputTokens": 2117,
+            "outputTokens": 60,
+            "totalTokens": 2177
+          }
+        ]
+      },
+      {
+        "utterance": "I've finished this step: Rest the salmon before serving. What's next?",
+        "timings": {
+          "modelMs": 2076.607899000024,
+          "toolMs": 5.022685000003548,
+          "totalMs": 2082.6932050000178
+        },
+        "modelRequests": [
+          {
+            "ms": 2076.607899000024,
+            "requestIds": [],
+            "firstDeltaMs": 2039.4948080000177,
+            "inputTokens": 2066,
+            "outputTokens": 60,
+            "totalTokens": 2126
+          }
+        ]
+      }
+    ]
+  },
+  "liveAudio": {
+    "sttMs": {
+      "n": 20,
+      "p50": 1255.1420970000036,
+      "p95": 1408.4088290000072,
+      "max": 1614.2824330000003
+    },
+    "agentMs": {
+      "n": 20,
+      "p50": 2462.520969000001,
+      "p95": 3163.7576569999947,
+      "max": 4847.731693000009
+    },
+    "modelMs": {
+      "n": 20,
+      "p50": 2447.020326,
+      "p95": 3147.326036999999,
+      "max": 4835.188995000004
+    },
+    "toolMs": {
+      "n": 20,
+      "p50": 7.624088999989908,
+      "p95": 13.885911000004853,
+      "max": 21.211726000000453
+    },
+    "ttsMs": {
+      "n": 20,
+      "p50": 88.17903099999239,
+      "p95": 107.69362900000033,
+      "max": 112.00626499999998
+    },
+    "outputStartMs": {
+      "n": 20,
+      "p50": 3910.516248999993,
+      "p95": 4506.588431000004,
+      "max": 6139.012110999989
+    },
+    "totalMs": {
+      "n": 20,
+      "p50": 3910.5430479999923,
+      "p95": 4506.640832000005,
+      "max": 6139.0214540000015
+    }
+  },
+  "scriptedAudio": {
+    "sttMs": {
+      "n": 20,
+      "p50": 1299.6274580000027,
+      "p95": 1443.4953879999957,
+      "max": 1471.7107149999938
+    },
+    "agentMs": {
+      "n": 20,
+      "p50": 12.075654000000213,
+      "p95": 17.325643000003765,
+      "max": 38.359265999999934
+    },
+    "modelMs": {
+      "n": 20,
+      "p50": 0.6569170000002487,
+      "p95": 0.965942000002542,
+      "max": 1.0292909999989206
+    },
+    "toolMs": {
+      "n": 20,
+      "p50": 6.770480999999563,
+      "p95": 12.286748999998963,
+      "max": 21.79416500000025
+    },
+    "ttsMs": {
+      "n": 20,
+      "p50": 90.81453899999906,
+      "p95": 112.4236679999999,
+      "max": 122.48843700000725
+    },
+    "outputStartMs": {
+      "n": 20,
+      "p50": 1400.3807339999912,
+      "p95": 1544.2919600000023,
+      "max": 1566.8045629999979
+    },
+    "totalMs": {
+      "n": 20,
+      "p50": 1400.4042329999938,
+      "p95": 1544.3017189999955,
+      "max": 1566.8111219999992
+    }
+  },
+  "whisperBase": {
+    "n": 12,
+    "p50": 1411.4511710000006,
+    "p95": 1763.007801,
+    "max": 1763.007801
+  },
+  "whisperCli": {
+    "n": 12,
+    "p50": 1331.3613570000007,
+    "p95": 1450.505314,
+    "max": 1450.505314
+  },
+  "whisperTiny": {
+    "n": 12,
+    "p50": 701.8633139999997,
+    "p95": 795.3484330000001,
+    "max": 795.3484330000001
+  }
+}

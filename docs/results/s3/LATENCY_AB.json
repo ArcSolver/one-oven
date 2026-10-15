@@ -1,0 +1,87 @@
+{
+  "spec": {
+    "provider": "openai",
+    "modelId": "local-openai-compatible",
+    "temperature": 0,
+    "maxTokens": 2048,
+    "baseUrl": "http://127.0.0.1:10100/v1"
+  },
+  "reports": [
+    {
+      "mode": "baseline",
+      "trial": 1,
+      "passed": true,
+      "turns": 20,
+      "modelRequests": 54,
+      "mcpCalls": 21,
+      "rawLintViolations": 0,
+      "turnMs": {
+        "n": 20,
+        "p50": 6521.801338000001,
+        "p95": 8884.072331000003,
+        "max": 9319.227511999998
+      },
+      "modelMs": {
+        "n": 20,
+        "p50": 6506.265374000002,
+        "p95": 8860.170157999994,
+        "max": 9303.490739999994
+      },
+      "firstDeltaMs": {
+        "n": 54,
+        "p50": 2082.604238,
+        "p95": 3328.058435999992,
+        "max": 4606.35556299999
+      },
+      "toolMs": {
+        "n": 21,
+        "p50": 9.186250999999174,
+        "p95": 24.34480700000131,
+        "max": 41.77601699999968
+      },
+      "inputTokens": 1559913,
+      "outputTokens": 2063,
+      "totalMs": 132916.801852,
+      "completedSteps": 12,
+      "finalVersion": 18
+    },
+    {
+      "mode": "voice",
+      "trial": 1,
+      "passed": true,
+      "turns": 20,
+      "modelRequests": 20,
+      "mcpCalls": 21,
+      "rawLintViolations": 0,
+      "turnMs": {
+        "n": 20,
+        "p50": 2454.5049350000045,
+        "p95": 3103.2498780000024,
+        "max": 3678.0343720000237
+      },
+      "modelMs": {
+        "n": 20,
+        "p50": 2446.238939999981,
+        "p95": 3093.341067000001,
+        "max": 3667.272043999983
+      },
+      "firstDeltaMs": {
+        "n": 20,
+        "p50": 2406.773467000021,
+        "p95": 3072.992115000001,
+        "max": 3608.2388569999894
+      },
+      "toolMs": {
+        "n": 21,
+        "p50": 6.90986799998791,
+        "p95": 16.50759399999515,
+        "max": 22.68741900002351
+      },
+      "inputTokens": 44621,
+      "outputTokens": 1191,
+      "totalMs": 51879.32433999999,
+      "completedSteps": 12,
+      "finalVersion": 18
+    }
+  ]
+}
