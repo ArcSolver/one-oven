@@ -10,9 +10,9 @@
   },
   "scripts": {
     "dev": "node --env-file-if-exists=.env --import tsx packages/server/src/main.ts",
-    "build": "npm run build --workspace @one-oven/contracts && npm run build --workspace @one-oven/server && npm run build --workspace @one-oven/agent",
+    "build": "npm run build --workspace @one-oven/contracts && npm run build --workspace @one-oven/server && npm run build --workspace @one-oven/agent && npm run build --workspace @one-oven/voice",
     "start": "node --env-file-if-exists=.env packages/server/dist/src/main.js",
-    "test": "npm run test --workspace @one-oven/server && npm run test --workspace @one-oven/agent",
+    "test": "npm run test --workspace @one-oven/server && npm run test --workspace @one-oven/agent && npm run test --workspace @one-oven/voice",
     "smoke": "npm run smoke --workspace @one-oven/server",
     "check": "npm run build && npm run validate:recipes && npm test && npm run smoke && npm run e2e:text",
     "validate:recipes": "npm run validate:recipes --workspace @one-oven/server",
@@ -20,7 +20,14 @@
     "e2e:text": "tsx packages/agent/scripts/e2e-text.ts --scripted",
     "e2e:live": "node --env-file-if-exists=.env --import tsx packages/agent/scripts/e2e-text.ts --live",
     "chat": "node --env-file-if-exists=.env --import tsx packages/agent/src/cli.ts",
-    "gateway": "node --env-file-if-exists=.env --import tsx packages/agent/src/gateway.ts"
+    "gateway": "node --env-file-if-exists=.env --import tsx packages/agent/src/gateway.ts",
+    "voice": "node --env-file-if-exists=.env --import tsx packages/voice/src/cli.ts",
+    "voice:demo": "node --env-file-if-exists=.env --import tsx packages/voice/scripts/demo.ts",
+    "voice:fixtures": "tsx packages/voice/scripts/fixtures.ts",
+    "voice:roundtrip": "node --env-file-if-exists=.env --import tsx packages/voice/scripts/roundtrip.ts",
+    "voice:setup": "bash packages/voice/scripts/setup-local.sh",
+    "voice:check": "npm run voice:roundtrip && npm run voice:demo -- --scenario weekday-3 --speed 60",
+    "voice:latency": "node --env-file-if-exists=.env --import tsx packages/voice/scripts/latency.ts"
   },
   "workspaces": [
     "packages/*"

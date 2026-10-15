@@ -4,13 +4,13 @@
 
 One Oven plans a meal backward from dinner time, accounts for oven heating and
 pan capacity, and repairs the schedule when cooking runs late. The repository includes
-a deterministic engine, a local MCP server, and a Strands text host for the Alexa+ hackathon track.
+a deterministic engine, a local MCP server, and a Strands text/voice host for the Alexa+ hackathon track.
 It is not an official Alexa product. All spoken output is English; the intended
 audience is adult home cooks.
 
 ## Run locally
 
-Node.js **22.13+** with `node:sqlite` and npm; S1/S2 verified with Node **24.21.0**.
+Node.js **22.13+** with `node:sqlite` and npm; S1–S3 verified with Node **24.21.0**.
 No account, API key, paid service or cloud deployment is needed.
 
 ```sh
@@ -83,7 +83,7 @@ current state, device and clock are injected as host context on every model call
 `set_timer`, `cancel_timer`, and `list_timers` are host tools. They are not MCP
 server tools. Live agents choose timers from suggestions; `HOST_AUTO_TIMERS=1`
 lets deterministic hosts install/update suggestions once per step/end time.
-S2 timers expose remaining time and elapsed state; S3 will add callbacks and sound.
+S3 adds timer expiry callbacks, an original chime and local speech output.
 
 The loopback gateway accepts `POST /session/:id/turn` with JSON
 `{"utterance":"What's next?"}`. `Accept: application/json` returns a `TurnResult`;
@@ -105,6 +105,21 @@ lint violation rather than hiding it. Automatic mutation retries are disabled.
 
 See [S2 spike](docs/results/S2_SPIKE.md) and [S2 results](docs/results/RESULT_S2.md)
 for the exact versions, trials, traces and known limits.
+
+## Voice host (S3)
+
+`packages/voice` provides local whisper.cpp STT, system TTS, terminal push-to-talk,
+and host timer sounds with simulated time. No UI or paid speech service is needed.
+See [voice setup and acceptance commands](packages/voice/README.md). `npm run check`
+includes the voice adapter/queue/timer tests without downloading speech models.
+After local speech setup, run `npm run voice:check` for real WAV recognition and
+the unattended 60× cooking replay. `npm run voice` uses the microphone.
+
+The optimized path keeps Strands/MCP and speaks validated server `say` directly,
+removing the extra model reply and timer-tool round trips. Local real-model A/B
+measurement reduced 20-turn p50 from 6.52s to 2.45s and p95 from 8.88s to 3.10s;
+see [S3 results](docs/results/RESULT_S3.md) for sample sizes, full voice timing,
+failed experiments and hardware measurement limits. No AWS request was made.
 
 ## MCP interface
 

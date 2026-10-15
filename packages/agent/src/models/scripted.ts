@@ -32,7 +32,8 @@ export class ScriptedModel extends Model {
       else if (/salmon needs (five|5) more/i.test(utterance)) call = { name: 'report_delay', input: { plan_id: plan?.plan_id, dish_id: 'salmon', minutes: 5 } };
       else if (/done|finished/i.test(utterance)) {
         const running = (plan?.display?.steps as ScheduledStep[] ?? []).filter(s => s.status === 'running');
-        const done = running.find(s => utterance.toLowerCase().replace(/[^a-z0-9 ]/g, '').includes(s.text.toLowerCase().replace(/[^a-z0-9 ]/g, ''))) ?? (running.length === 1 ? running[0] : undefined);
+        const named = running.filter(s => s.dish_id ? utterance.toLowerCase().includes(s.dish_id.replaceAll('-', ' ')) : /\boven\b/i.test(utterance));
+        const done = running.find(s => utterance.toLowerCase().replace(/[^a-z0-9 ]/g, '').includes(s.text.toLowerCase().replace(/[^a-z0-9 ]/g, ''))) ?? (named.length === 1 ? named[0] : running.length === 1 ? running[0] : undefined);
         if (done) call = { name: 'next_step', input: { plan_id: plan?.plan_id, done_step_id: done.step_id } };
         else reply = 'Which cooking step have you finished?';
       } else if (/next/i.test(utterance)) call = { name: 'next_step', input: { plan_id: plan?.plan_id } };

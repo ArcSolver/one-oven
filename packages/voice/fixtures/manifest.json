@@ -1,0 +1,14 @@
+[
+  {"id":"01-kitchen","text":"My kitchen has one oven, four burners, and one cook.","intents":["kitchen","1 oven","4 burners","1 cook"]},
+  {"id":"02-meal","text":"Alexa, I want salmon, rice and green beans on the table at six thirty PM.","intents":["salmon","rice","green beans","6","30"]},
+  {"id":"03-next","text":"Alexa, what's next?","intents":["next"]},
+  {"id":"04-delay","text":"The salmon needs five more minutes.","intents":["salmon","5","more","minutes"]},
+  {"id":"05-swap","text":"Swap the green beans for glazed carrots.","intents":["swap","green beans","glazed carrots"]},
+  {"id":"06-preheat","text":"I have finished preheating the oven. What's next?","intents":["finished","preheating","oven","next"]},
+  {"id":"07-salmon-prep","text":"I have finished preparing the salmon. What's next?","intents":["finished","preparing","salmon","next"]},
+  {"id":"08-rice","text":"I have finished cooking the rice. What's next?","intents":["finished","cooking","rice","next"]},
+  {"id":"09-beans","text":"I have finished cooking the green beans. What's next?","intents":["finished","cooking","green beans","next"]},
+  {"id":"10-timer","text":"Set a salmon timer for five minutes.","intents":["salmon","timer","5","minutes"]},
+  {"id":"11-cancel","text":"Cancel the salmon timer.","intents":["cancel","salmon","timer"]},
+  {"id":"12-serve","text":"The salmon is done resting. What's next?","intents":["salmon","done","resting","next"]}
+]
