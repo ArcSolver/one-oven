@@ -67,7 +67,7 @@ export function scriptSrt(rows: ScriptRow[]): string {
   return rows.filter(r => r.line || r.caption).map((r, i) => `${i + 1}\n${stamp(r.start)} --> ${stamp(r.start + r.seconds)}\n${
     r.speaker === 'User' || r.speaker === 'Alexa' ? `${r.speaker}: ${r.line}` : r.line || r.caption}\n`).join('\n');
 }
-const PRIORITY = ['agent-live', 'voice-live', 'voice', 'agent', 'mcp', 'engine'];
+const PRIORITY = ['voice-live', 'agent-live', 'voice', 'agent', 'mcp', 'engine'];
 /** Latest passing run for a scenario, preferring live model runs. */
 export function findSource(runsRoot: string, scenario: Scenario): SourceRun | undefined {
   const directory = join(runsRoot, scenario.id);

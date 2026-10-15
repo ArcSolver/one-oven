@@ -1,0 +1,79 @@
+{
+  "source": "runs/scenarios/summary-2026-10-15T09-52-39-901Z-live.json",
+  "model": "openai:local-openai-compatible",
+  "required": 4,
+  "rows": [
+    {
+      "scenario": "weekday-3",
+      "mode": "agent live",
+      "passed": 5,
+      "runs": 5,
+      "turns": 90,
+      "turnP50Ms": 2611.505675000022,
+      "turnP95Ms": 3715.794433999996,
+      "turnMaxMs": 8009.215956999993,
+      "toolP95Ms": 9.74869200000012,
+      "modelRequestsPerTurn": 1,
+      "lintViolations": 0,
+      "softWording": 0,
+      "idCorrections": 0,
+      "failures": []
+    },
+    {
+      "scenario": "salmon-delay",
+      "mode": "agent live",
+      "passed": 5,
+      "runs": 5,
+      "turns": 100,
+      "turnP50Ms": 2579.7849099999876,
+      "turnP95Ms": 3408.2982740000007,
+      "turnMaxMs": 3637.3654100000276,
+      "toolP95Ms": 8.223195000027772,
+      "modelRequestsPerTurn": 1,
+      "lintViolations": 0,
+      "softWording": 0,
+      "idCorrections": 0,
+      "failures": []
+    },
+    {
+      "scenario": "swap",
+      "mode": "agent live",
+      "passed": 5,
+      "runs": 5,
+      "turns": 85,
+      "turnP50Ms": 2507.091575999977,
+      "turnP95Ms": 3290.642381999991,
+      "turnMaxMs": 4023.841262000031,
+      "toolP95Ms": 7.26621199992951,
+      "modelRequestsPerTurn": 1,
+      "lintViolations": 0,
+      "softWording": 0,
+      "idCorrections": 0,
+      "failures": []
+    },
+    {
+      "scenario": "thanksgiving-8",
+      "mode": "agent live",
+      "passed": 4,
+      "runs": 5,
+      "turns": 160,
+      "turnP50Ms": 2413.5218570000725,
+      "turnP95Ms": 3194.953822000185,
+      "turnMaxMs": 4926.478816999937,
+      "toolP95Ms": 8.7066970000742,
+      "modelRequestsPerTurn": 1,
+      "lintViolations": 0,
+      "softWording": 0,
+      "idCorrections": 0,
+      "failures": [
+        {
+          "trial": 4,
+          "beat": "cook-through",
+          "iteration": 28,
+          "category": "turn_error",
+          "message": "The turn did not finish; inspect the local trace before retrying.: Turn timed out"
+        }
+      ]
+    }
+  ]
+}

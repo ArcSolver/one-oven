@@ -1,0 +1,66 @@
+{
+  "live": true,
+  "required": 4,
+  "modes": [
+    "agent"
+  ],
+  "model": "openai:local-openai-compatible",
+  "table": [
+    {
+      "scenario": "weekday-3",
+      "mode": "agent live",
+      "passed": 5,
+      "runs": 5,
+      "ok": true,
+      "directories": [
+        "runs/scenarios/weekday-3/2026-10-15T09-52-39-901Z-agent-live-t1",
+        "runs/scenarios/weekday-3/2026-10-15T09-52-39-901Z-agent-live-t2",
+        "runs/scenarios/weekday-3/2026-10-15T09-52-39-901Z-agent-live-t3",
+        "runs/scenarios/weekday-3/2026-10-15T09-52-39-901Z-agent-live-t4",
+        "runs/scenarios/weekday-3/2026-10-15T09-52-39-901Z-agent-live-t5"
+      ]
+    },
+    {
+      "scenario": "salmon-delay",
+      "mode": "agent live",
+      "passed": 5,
+      "runs": 5,
+      "ok": true,
+      "directories": [
+        "runs/scenarios/salmon-delay/2026-10-15T09-52-39-901Z-agent-live-t1",
+        "runs/scenarios/salmon-delay/2026-10-15T09-52-39-901Z-agent-live-t2",
+        "runs/scenarios/salmon-delay/2026-10-15T09-52-39-901Z-agent-live-t3",
+        "runs/scenarios/salmon-delay/2026-10-15T09-52-39-901Z-agent-live-t4",
+        "runs/scenarios/salmon-delay/2026-10-15T09-52-39-901Z-agent-live-t5"
+      ]
+    },
+    {
+      "scenario": "swap",
+      "mode": "agent live",
+      "passed": 5,
+      "runs": 5,
+      "ok": true,
+      "directories": [
+        "runs/scenarios/swap/2026-10-15T09-52-39-901Z-agent-live-t1",
+        "runs/scenarios/swap/2026-10-15T09-52-39-901Z-agent-live-t2",
+        "runs/scenarios/swap/2026-10-15T09-52-39-901Z-agent-live-t3",
+        "runs/scenarios/swap/2026-10-15T09-52-39-901Z-agent-live-t4",
+        "runs/scenarios/swap/2026-10-15T09-52-39-901Z-agent-live-t5"
+      ]
+    },
+    {
+      "scenario": "thanksgiving-8",
+      "mode": "agent live",
+      "passed": 4,
+      "runs": 5,
+      "ok": true,
+      "directories": [
+        "runs/scenarios/thanksgiving-8/2026-10-15T09-52-39-901Z-agent-live-t1",
+        "runs/scenarios/thanksgiving-8/2026-10-15T09-52-39-901Z-agent-live-t2",
+        "runs/scenarios/thanksgiving-8/2026-10-15T09-52-39-901Z-agent-live-t3",
+        "runs/scenarios/thanksgiving-8/2026-10-15T09-52-39-901Z-agent-live-t4",
+        "runs/scenarios/thanksgiving-8/2026-10-15T09-52-39-901Z-agent-live-t5"
+      ]
+    }
+  ]
+}

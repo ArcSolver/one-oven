@@ -1,0 +1,369 @@
+{
+  "model": "openai:local-openai-compatible",
+  "required": 4,
+  "table": [
+    {
+      "scenario": "weekday-3",
+      "mode": "agent live",
+      "passed": 5,
+      "runs": 5,
+      "ok": true
+    },
+    {
+      "scenario": "salmon-delay",
+      "mode": "agent live",
+      "passed": 5,
+      "runs": 5,
+      "ok": true
+    },
+    {
+      "scenario": "swap",
+      "mode": "agent live",
+      "passed": 5,
+      "runs": 5,
+      "ok": true
+    },
+    {
+      "scenario": "thanksgiving-8",
+      "mode": "agent live",
+      "passed": 3,
+      "runs": 5,
+      "ok": false
+    }
+  ],
+  "trials": [
+    {
+      "scenario": "weekday-3",
+      "trial": "1",
+      "passed": true,
+      "turns": 18,
+      "failures": [],
+      "summary": {
+        "turns": 18,
+        "toolCalls": 19,
+        "turnP50Ms": 2639.5380349999978,
+        "turnP95Ms": 4147.125390000001,
+        "toolP95Ms": 14.743796999999176,
+        "timerFires": 12,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "weekday-3",
+      "trial": "2",
+      "passed": true,
+      "turns": 18,
+      "failures": [],
+      "summary": {
+        "turns": 18,
+        "toolCalls": 19,
+        "turnP50Ms": 2788.3600860000006,
+        "turnP95Ms": 3668.833163999996,
+        "toolP95Ms": 18.18789200000174,
+        "timerFires": 12,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "weekday-3",
+      "trial": "3",
+      "passed": true,
+      "turns": 18,
+      "failures": [],
+      "summary": {
+        "turns": 18,
+        "toolCalls": 19,
+        "turnP50Ms": 2696.4666000000143,
+        "turnP95Ms": 3916.910281000004,
+        "toolP95Ms": 10.784015000012005,
+        "timerFires": 12,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "weekday-3",
+      "trial": "4",
+      "passed": true,
+      "turns": 18,
+      "failures": [],
+      "summary": {
+        "turns": 18,
+        "toolCalls": 19,
+        "turnP50Ms": 2668.553283999994,
+        "turnP95Ms": 4057.8902309999976,
+        "toolP95Ms": 7.027094000019133,
+        "timerFires": 12,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "weekday-3",
+      "trial": "5",
+      "passed": true,
+      "turns": 18,
+      "failures": [],
+      "summary": {
+        "turns": 18,
+        "toolCalls": 19,
+        "turnP50Ms": 2670.1345069999807,
+        "turnP95Ms": 3537.532887999987,
+        "toolP95Ms": 8.437501000007614,
+        "timerFires": 12,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "salmon-delay",
+      "trial": "1",
+      "passed": true,
+      "turns": 20,
+      "failures": [],
+      "summary": {
+        "turns": 20,
+        "toolCalls": 21,
+        "turnP50Ms": 2830.1064230000484,
+        "turnP95Ms": 3629.8056780000334,
+        "toolP95Ms": 9.08676999999443,
+        "timerFires": 12,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "salmon-delay",
+      "trial": "2",
+      "passed": true,
+      "turns": 20,
+      "failures": [],
+      "summary": {
+        "turns": 20,
+        "toolCalls": 21,
+        "turnP50Ms": 2615.7268269999768,
+        "turnP95Ms": 2983.866133000003,
+        "toolP95Ms": 8.974197999981698,
+        "timerFires": 12,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "salmon-delay",
+      "trial": "3",
+      "passed": true,
+      "turns": 20,
+      "failures": [],
+      "summary": {
+        "turns": 20,
+        "toolCalls": 21,
+        "turnP50Ms": 2620.1787309999927,
+        "turnP95Ms": 3138.2198579999967,
+        "toolP95Ms": 7.474258000031114,
+        "timerFires": 12,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "salmon-delay",
+      "trial": "4",
+      "passed": true,
+      "turns": 20,
+      "failures": [],
+      "summary": {
+        "turns": 20,
+        "toolCalls": 21,
+        "turnP50Ms": 2768.0267100000056,
+        "turnP95Ms": 3069.0193820000277,
+        "toolP95Ms": 7.3169599999673665,
+        "timerFires": 12,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "salmon-delay",
+      "trial": "5",
+      "passed": true,
+      "turns": 20,
+      "failures": [],
+      "summary": {
+        "turns": 20,
+        "toolCalls": 21,
+        "turnP50Ms": 2937.951698000019,
+        "turnP95Ms": 4353.952744000009,
+        "toolP95Ms": 6.230853000015486,
+        "timerFires": 12,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "swap",
+      "trial": "1",
+      "passed": true,
+      "turns": 17,
+      "failures": [],
+      "summary": {
+        "turns": 17,
+        "toolCalls": 18,
+        "turnP50Ms": 2826.677187000052,
+        "turnP95Ms": 4605.812631000066,
+        "toolP95Ms": 12.667323000030592,
+        "timerFires": 11,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "swap",
+      "trial": "2",
+      "passed": true,
+      "turns": 17,
+      "failures": [],
+      "summary": {
+        "turns": 17,
+        "toolCalls": 18,
+        "turnP50Ms": 2935.8180339999963,
+        "turnP95Ms": 9798.452012000023,
+        "toolP95Ms": 10.196438999962993,
+        "timerFires": 11,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "swap",
+      "trial": "3",
+      "passed": true,
+      "turns": 17,
+      "failures": [],
+      "summary": {
+        "turns": 17,
+        "toolCalls": 18,
+        "turnP50Ms": 2764.0242970000254,
+        "turnP95Ms": 3690.3418459999375,
+        "toolP95Ms": 9.388506999937817,
+        "timerFires": 11,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "swap",
+      "trial": "4",
+      "passed": true,
+      "turns": 17,
+      "failures": [],
+      "summary": {
+        "turns": 17,
+        "toolCalls": 18,
+        "turnP50Ms": 2865.2332820000593,
+        "turnP95Ms": 5576.023210999905,
+        "toolP95Ms": 7.0186070000054315,
+        "timerFires": 11,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "swap",
+      "trial": "5",
+      "passed": true,
+      "turns": 17,
+      "failures": [],
+      "summary": {
+        "turns": 17,
+        "toolCalls": 18,
+        "turnP50Ms": 2601.3549270000076,
+        "turnP95Ms": 3777.1042489999672,
+        "toolP95Ms": 6.030987999984063,
+        "timerFires": 11,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "thanksgiving-8",
+      "trial": "1",
+      "passed": false,
+      "turns": 13,
+      "failures": [
+        {
+          "beat": "cook-through",
+          "iteration": 11,
+          "category": "arguments",
+          "message": "Expected next_step({\"plan_id\":\"af16170d-aee0-4cbb-a59c-0986ed1ef9f0\",\"done_step_id\":\"potatoes:0\"}); observed [{\"name\":\"next_step\",\"args\":{\"plan_id\":\"af16170d-aee0-4cbb-a59c-0986ed1ef9f0\",\"done_step_id\":\"potatoes:0 / end\"}}]; reply \"Only a step already in progress can be completed.\""
+        }
+      ],
+      "summary": {
+        "turns": 13,
+        "toolCalls": 14,
+        "turnP50Ms": 2793.272337000002,
+        "turnP95Ms": 3217.722744000028,
+        "toolP95Ms": 8.86277699994389,
+        "timerFires": 6,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "thanksgiving-8",
+      "trial": "2",
+      "passed": true,
+      "turns": 40,
+      "failures": [],
+      "summary": {
+        "turns": 40,
+        "toolCalls": 41,
+        "turnP50Ms": 2684.8854029999347,
+        "turnP95Ms": 3297.137820999953,
+        "toolP95Ms": 10.54067000001669,
+        "timerFires": 28,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "thanksgiving-8",
+      "trial": "3",
+      "passed": true,
+      "turns": 40,
+      "failures": [],
+      "summary": {
+        "turns": 40,
+        "toolCalls": 41,
+        "turnP50Ms": 2745.0434140000725,
+        "turnP95Ms": 3311.3192719999934,
+        "toolP95Ms": 9.399764999980107,
+        "timerFires": 28,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "thanksgiving-8",
+      "trial": "4",
+      "passed": false,
+      "turns": 2,
+      "failures": [
+        {
+          "beat": "plan",
+          "category": "tool_selection",
+          "message": "Expected plan_meal({\"kitchen_id\":\"f81af3ac-9f67-4a69-97be-0764f6f5cf3b\",\"dish_ids\":[\"turkey\",\"salmon\",\"potatoes\",\"stuffing\",\"rice\",\"green-beans\",\"carrots\",\"gravy\"],\"serve_at\":\"16:00\"}); observed [{\"name\":\"set_kitchen\",\"args\":{\"ovens\":1,\"burners\":4,\"helpers\":2,\"timezone\":\"America/Chicago\"}}]; reply \"Your kitchen has 1 oven that holds 4 pans, 4 burners and 2 cooks.\""
+        }
+      ],
+      "summary": {
+        "turns": 2,
+        "toolCalls": 3,
+        "turnP50Ms": 2371.3625959998462,
+        "turnP95Ms": 2438.825453000143,
+        "toolP95Ms": 4.6162570000160486,
+        "timerFires": 0,
+        "lintViolations": 0
+      }
+    },
+    {
+      "scenario": "thanksgiving-8",
+      "trial": "5",
+      "passed": true,
+      "turns": 40,
+      "failures": [],
+      "summary": {
+        "turns": 40,
+        "toolCalls": 41,
+        "turnP50Ms": 2796.284731999971,
+        "turnP95Ms": 3776.7973180001136,
+        "toolP95Ms": 7.9641549999359995,
+        "timerFires": 28,
+        "lintViolations": 0
+      }
+    }
+  ]
+}

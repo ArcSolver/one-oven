@@ -1,0 +1,85 @@
+{
+  "source": "runs/scenarios/summary-2026-10-15T09-31-55-080Z-live.json",
+  "model": "openai:local-openai-compatible",
+  "required": 4,
+  "rows": [
+    {
+      "scenario": "weekday-3",
+      "mode": "agent live",
+      "passed": 5,
+      "runs": 5,
+      "turns": 90,
+      "turnP50Ms": 2712.292298000015,
+      "turnP95Ms": 3667.891027999998,
+      "turnMaxMs": 4147.125390000001,
+      "toolP95Ms": 10.566064000000097,
+      "modelRequestsPerTurn": 1,
+      "lintViolations": 0,
+      "softWording": 0,
+      "idCorrections": 0,
+      "failures": []
+    },
+    {
+      "scenario": "salmon-delay",
+      "mode": "agent live",
+      "passed": 5,
+      "runs": 5,
+      "turns": 100,
+      "turnP50Ms": 2752.893623999902,
+      "turnP95Ms": 3650.099676999962,
+      "turnMaxMs": 4522.396137000003,
+      "toolP95Ms": 7.947230999998283,
+      "modelRequestsPerTurn": 1,
+      "lintViolations": 0,
+      "softWording": 0,
+      "idCorrections": 0,
+      "failures": []
+    },
+    {
+      "scenario": "swap",
+      "mode": "agent live",
+      "passed": 5,
+      "runs": 5,
+      "turns": 85,
+      "turnP50Ms": 2804.110944000073,
+      "turnP95Ms": 4605.812631000066,
+      "turnMaxMs": 9798.452012000023,
+      "toolP95Ms": 8.35388900001999,
+      "modelRequestsPerTurn": 1,
+      "lintViolations": 0,
+      "softWording": 0,
+      "idCorrections": 0,
+      "failures": []
+    },
+    {
+      "scenario": "thanksgiving-8",
+      "mode": "agent live",
+      "passed": 3,
+      "runs": 5,
+      "turns": 120,
+      "turnP50Ms": 2742.3260470000096,
+      "turnP95Ms": 3436.2328870000783,
+      "turnMaxMs": 7119.863480000058,
+      "toolP95Ms": 9.449493000051007,
+      "modelRequestsPerTurn": 1,
+      "lintViolations": 0,
+      "softWording": 0,
+      "idCorrections": 0,
+      "failures": [
+        {
+          "trial": 1,
+          "beat": "cook-through",
+          "iteration": 11,
+          "category": "arguments",
+          "message": "Expected next_step({\"plan_id\":\"af16170d-aee0-4cbb-a59c-0986ed1ef9f0\",\"done_step_id\":\"potatoes:0\"}); observed [{\"name\":\"next_step\",\"args\":{\"plan_id\":\"af16170d-aee0-4cbb-a59c-0986ed1ef9f0\",\"done_step_id\":\"potatoes:0 / end\"}}]; reply \"Only a step already in progress can be completed.\""
+        },
+        {
+          "trial": 4,
+          "beat": "plan",
+          "category": "tool_selection",
+          "message": "Expected plan_meal({\"kitchen_id\":\"f81af3ac-9f67-4a69-97be-0764f6f5cf3b\",\"dish_ids\":[\"turkey\",\"salmon\",\"potatoes\",\"stuffing\",\"rice\",\"green-beans\",\"carrots\",\"gravy\"],\"serve_at\":\"16:00\"}); observed [{\"name\":\"set_kitchen\",\"args\":{\"ovens\":1,\"burners\":4,\"helpers\":2,\"timezone\":\"America/Chicago\"}}]; reply \"Your kitchen has 1 oven that holds 4 pans, 4 burners and 2 cooks.\""
+        }
+      ]
+    }
+  ]
+}

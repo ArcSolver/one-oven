@@ -15,7 +15,7 @@ No account, API key, paid service or cloud deployment is needed.
 
 ```sh
 npm ci
-npm run check             # build, recipes, tests, HTTP smoke, scripted text E2E
+npm run check             # build, recipes, tests, HTTP smoke, scripted text E2E, 4 scenarios x 3 modes
 npm run dev               # http://127.0.0.1:3000/mcp
 # Or: npm run build && npm start
 ```
@@ -52,7 +52,7 @@ OPENAI_BASE_URL=http://127.0.0.1:10100/v1
 
 Inspect `http://127.0.0.1:10100/v1/models` for an available ID and replace the
 placeholder. A loopback endpoint without authentication uses a dummy key; real
-credentials belong only in `.env`. `npm run e2e:live` explicitly runs **five**
+credentials belong only in `.env`. `npm run e2e:text:live` explicitly runs **five**
 complete weekday trials against that local endpoint, including a five-minute
 salmon delay and a repeated request. It writes `runs/s2-*/report.json` and per-trial
 `trace.jsonl`. All recipe and oven actions must finish, dinner must remain at
@@ -120,6 +120,22 @@ removing the extra model reply and timer-tool round trips. Local real-model A/B
 measurement reduced 20-turn p50 from 6.52s to 2.45s and p95 from 8.88s to 3.10s;
 see [S3 results](docs/results/RESULT_S3.md) for sample sizes, full voice timing,
 failed experiments and hardware measurement limits. No AWS request was made.
+
+## Scenarios and demo script (S4)
+
+`packages/scenarios` holds four YAML scenarios (weekday dinner, mid-roast salmon delay,
+side-dish swap, eight-dish Thanksgiving) that are both the regression suite and the demo
+video script. One runner executes them through the service, a plain MCP client, the Strands
+agent, or the local voice pipeline, and judges each turn by stored plan state.
+
+```sh
+npm run e2e:scenarios     # engine + MCP + scripted agent; part of check
+npm run e2e:live          # live local model, 4 scenarios x 5 trials, 4/5 required each
+npm run e2e:voice         # espeak -> Whisper -> agent -> TTS files; needs WHISPER_SERVER_URL
+npm run video:script      # docs/submission/VIDEO_SCRIPT.md and .srt from the best passing runs
+```
+
+See the [scenarios README](packages/scenarios/README.md) and [S4 results](docs/results/RESULT_S4.md).
 
 ## MCP interface
 
