@@ -46,6 +46,7 @@ export class ConversationSession {
   private turnCallStart = 0;
   private speech?: (text: string) => void;
   private spokeTool = false;
+  private corrected = false;
   private state: Record<string, unknown> = {};
   private readonly tools: ToolCallTrace[];
   readonly provider: string;
@@ -82,6 +83,13 @@ export class ConversationSession {
       const calls = this.tools.slice(this.turnCallStart);
       const last = calls.at(-1);
       if (!last || last.name === 'list_dishes') return;
+      // An identifier the host never supplied is a model slip, not a user error: return the
+      // failure to the model once so it can correct the ID instead of speaking the error.
+      if (last.result?.isError && !this.corrected && this.inventedIds(last.args).length) {
+        this.corrected = true;
+        opts.trace.write({ type: 'voice_correction', tool: last.name, invented: this.inventedIds(last.args) });
+        return;
+      }
       const say = (last.result?.structuredContent as { say?: string } | undefined)?.say;
       if (say && lintReply(say).ok) {
         event.endTurn = say;
@@ -89,6 +97,19 @@ export class ConversationSession {
         this.speech?.(say);
       }
     });
+  }
+  /** Argument IDs that do not appear in the trusted host context (kitchen, plan, steps or catalog). */
+  private inventedIds(args: unknown): string[] {
+    if (!args || typeof args !== 'object') return [];
+    const display = this.state.display as { steps?: { step_id: string }[] } | undefined;
+    const catalog = (this.state.dishes as { dish_id: string }[] | undefined)?.map(d => d.dish_id) ?? [];
+    const known: Record<string, string[]> = {
+      plan_id: [String(this.state.plan_id ?? '')], kitchen_id: [String(this.state.kitchen_id ?? '')],
+      done_step_id: display?.steps?.map(s => s.step_id) ?? [], start_step_id: display?.steps?.map(s => s.step_id) ?? [],
+      dish_id: catalog, replacement_id: catalog,
+    };
+    return Object.entries(args as Record<string, unknown>)
+      .filter(([key, value]) => typeof value === 'string' && known[key] && !known[key].includes(value)).map(([key]) => key);
   }
   private compactState(): Record<string, unknown> {
     const display = this.state.display as { steps?: Record<string, unknown>[] } | undefined;
@@ -114,6 +135,7 @@ export class ConversationSession {
     this.busy = true;
     this.speech = onSpeech;
     this.spokeTool = false;
+    this.corrected = false;
     const at = performance.now();
     const callStart = this.tools.length, actionStart = this.timers.actions.length, modelStart = this.measured.requests.length;
     this.turnCallStart = callStart;
