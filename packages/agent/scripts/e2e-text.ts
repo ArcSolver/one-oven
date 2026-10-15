@@ -7,6 +7,7 @@ import { runWeekday } from '../test/weekday.js';
 
 const spec = parseModelSpec(process.argv.includes('--scripted') ? { AGENT_MODEL: 'scripted:weekday-3' } : process.env);
 const live = process.argv.includes('--live');
+if (live && spec.provider === 'scripted') throw new Error('Set AGENT_MODEL=openai:<available-model-id> for a live run');
 if (spec.provider === 'bedrock' || spec.provider === 'anthropic') throw new Error('S2 E2E permits scripted or the local OpenAI-compatible endpoint only');
 if (spec.provider !== 'scripted' && (!live || !spec.baseUrl || new URL(spec.baseUrl).origin !== 'http://127.0.0.1:10100')) {
   throw new Error('Live S2 requires --live and OPENAI_BASE_URL=http://127.0.0.1:10100/v1');
