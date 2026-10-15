@@ -9,14 +9,18 @@
     "node": ">=22.13"
   },
   "scripts": {
-    "dev": "npm run dev --workspace @one-oven/server",
-    "build": "npm run build --workspace @one-oven/contracts && npm run build --workspace @one-oven/server",
-    "start": "npm run start --workspace @one-oven/server",
-    "test": "npm run test --workspace @one-oven/server",
+    "dev": "node --env-file-if-exists=.env --import tsx packages/server/src/main.ts",
+    "build": "npm run build --workspace @one-oven/contracts && npm run build --workspace @one-oven/server && npm run build --workspace @one-oven/agent",
+    "start": "node --env-file-if-exists=.env packages/server/dist/src/main.js",
+    "test": "npm run test --workspace @one-oven/server && npm run test --workspace @one-oven/agent",
     "smoke": "npm run smoke --workspace @one-oven/server",
-    "check": "npm run build && npm run validate:recipes && npm test && npm run smoke",
+    "check": "npm run build && npm run validate:recipes && npm test && npm run smoke && npm run e2e:text",
     "validate:recipes": "npm run validate:recipes --workspace @one-oven/server",
-    "friction:new": "node scripts/friction-new.mjs"
+    "friction:new": "node scripts/friction-new.mjs",
+    "e2e:text": "tsx packages/agent/scripts/e2e-text.ts --scripted",
+    "e2e:live": "node --env-file-if-exists=.env --import tsx packages/agent/scripts/e2e-text.ts --live",
+    "chat": "node --env-file-if-exists=.env --import tsx packages/agent/src/cli.ts",
+    "gateway": "node --env-file-if-exists=.env --import tsx packages/agent/src/gateway.ts"
   },
   "workspaces": [
     "packages/*"

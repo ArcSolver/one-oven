@@ -3,32 +3,108 @@
 “Salmon, rice and green beans on the table at 6:30.”
 
 One Oven plans a meal backward from dinner time, accounts for oven heating and
-pan capacity, and repairs the schedule when cooking runs late. Stage 1 provides
-a deterministic engine and a local MCP server for the Alexa+ hackathon track.
+pan capacity, and repairs the schedule when cooking runs late. The repository includes
+a deterministic engine, a local MCP server, and a Strands text host for the Alexa+ hackathon track.
 It is not an official Alexa product. All spoken output is English; the intended
 audience is adult home cooks.
 
 ## Run locally
 
-Node.js **22.13+** with `node:sqlite` and npm; S1 verified with Node **24.21.0**.
+Node.js **22.13+** with `node:sqlite` and npm; S1/S2 verified with Node **24.21.0**.
 No account, API key, paid service or cloud deployment is needed.
 
 ```sh
 npm ci
-npm run check             # build -> validate:recipes -> test -> real HTTP smoke
+npm run check             # build, recipes, tests, HTTP smoke, scripted text E2E
 npm run dev               # http://127.0.0.1:3000/mcp
 # Or: npm run build && npm start
 ```
 
 `PORT` defaults to 3000. `DB_PATH` defaults to `data/one-oven.sqlite` under the
 original command directory, including when npm changes to the server workspace.
-Set environment variables in the shell; `.env.example` lists the options. `.env`
-is ignored and is not automatically loaded. The server binds to loopback,
+Set environment variables in the shell or the ignored root `.env`. Root `dev`,
+`start`, `chat`, `gateway` and `e2e:live` commands load `.env` when present. The server binds to loopback,
 checks Host and Origin, and currently uses the fixed household `local`.
 
 The workspaces are `packages/contracts` (Zod schemas, types, speech lint) and
-`packages/server` (engine, recipes, SQLite, service, MCP, tests). JSON recipes and
+`packages/server` (engine, recipes, SQLite, service, MCP, tests), and
+`packages/agent` (Strands models, MCP client, sessions, timers, text gateway). JSON recipes and
 SQL migrations are copied into the production build.
+
+## Text host (S2)
+
+```sh
+npm run e2e:text                 # always scripted; starts its own local HTTP MCP server
+npm run dev                     # terminal 1: MCP server
+npm run chat                    # terminal 2: Strands REPL, defaults to scripted:weekday-3
+npm run gateway                 # optional: http://127.0.0.1:3001
+```
+
+The scripted model is a narrow CI fixture. Start with “My kitchen has one oven,
+four burners, and one cook”, then “I want salmon, rice and green beans on the
+table at 6:30 PM.” Use “What's next?” and confirm the named step when done.
+For natural conversation select the local development model in `.env`:
+
+```dotenv
+AGENT_MODEL=openai:<model-id-returned-by-v1-models>
+OPENAI_BASE_URL=http://127.0.0.1:10100/v1
+```
+
+Inspect `http://127.0.0.1:10100/v1/models` for an available ID and replace the
+placeholder. A loopback endpoint without authentication uses a dummy key; real
+credentials belong only in `.env`. `npm run e2e:live` explicitly runs **five**
+complete weekday trials against that local endpoint, including a five-minute
+salmon delay and a repeated request. It writes `runs/s2-*/report.json` and per-trial
+`trace.jsonl`. All recipe and oven actions must finish, dinner must remain at
+6:35 PM, other dishes must stay unchanged during the delay, and raw/final speech
+must both pass lint. A failed trial is retained; at least four of five must pass.
+The S2 live runner rejects Bedrock and nonlocal URLs.
+
+Once credentials and settings are prepared, change **only `AGENT_MODEL`** to
+`anthropic:<model-id>` or `bedrock:<model-or-inference-profile-id>` to select the
+native Strands provider. `AWS_REGION` selects the Bedrock region. S2 tests only
+construct the Bedrock object; **actual Bedrock validation belongs to S6**.
+No default cloud model ID is embedded in application code.
+
+For simulated time set `ENABLE_DEV_CLOCK=1` and an offset timestamp such as
+`SIM_CLOCK_START=2026-10-15T17:05:00-05:00` in both server and host environments.
+The normal server has no `/dev/clock` route. The opted-in route checks loopback
+and Origin and allows only nonnegative advances. REPL commands are `:dot`,
+`:show`, `:advance 10`, and `:quit`. No clock control is added to the six MCP tools.
+
+The session uses real Strands `Agent` and `McpClient` calls. The S2-0 decision was
+**A**, using native TypeScript providers. A public client adapter preserves
+`structuredContent` for the model ([F-12](docs/friction/entries/F-12-strands-structured-content.md)).
+The model-facing schemas omit host-managed retry/version fields and permit null
+for unused optional values; the client removes only optional nulls before MCP
+validation. Server schemas and the six-tool contract stay intact. Last plan ID,
+current state, device and clock are injected as host context on every model call.
+
+`set_timer`, `cancel_timer`, and `list_timers` are host tools. They are not MCP
+server tools. Live agents choose timers from suggestions; `HOST_AUTO_TIMERS=1`
+lets deterministic hosts install/update suggestions once per step/end time.
+S2 timers expose remaining time and elapsed state; S3 will add callbacks and sound.
+
+The loopback gateway accepts `POST /session/:id/turn` with JSON
+`{"utterance":"What's next?"}`. `Accept: application/json` returns a `TurnResult`;
+`Accept: text/event-stream` sends `start`, heartbeat comments, and a `turn` event
+(or an `error` event). Speech is released only after lint, not as unchecked token
+deltas. Delete `/session/:id` to close a session. Concurrent turns on one session
+return 409; at most 32 sessions are retained. Conversation/timer state is per
+session, while the S2 MCP server still uses the shared `local` household.
+OAuth and household selection remain S5 work.
+
+Traces include negotiated MCP version, tool discovery, utterances, raw model
+speech, lint/fallback flags, normalized tool arguments, raw MCP results, model
+usage and latency, and request IDs when the transport supplies them. Bedrock
+request IDs are captured from response headers by its configured HTTP handler;
+none were obtained in S2 because no AWS request was made. Trace files contain
+local conversation data, are ignored by Git, and must be reviewed before sharing.
+The output guard falls back to a valid tool `say`; live grading still fails a raw
+lint violation rather than hiding it. Automatic mutation retries are disabled.
+
+See [S2 spike](docs/results/S2_SPIKE.md) and [S2 results](docs/results/RESULT_S2.md)
+for the exact versions, trials, traces and known limits.
 
 ## MCP interface
 
@@ -89,7 +165,7 @@ action steps automatically. Confirm completion with `done_step_id`; overdue
 running steps block new starts until confirmed or extended. `start_step_id`
 starts eligible future work now, checks dependencies and frozen resources, and
 repairs pending work. Preheats and transitions are real system actions requiring
-confirmation. Timer suggestions are a handoff for a later host, not running timers.
+confirmation. The S2 host consumes timer suggestions; audible expiry is S3 work.
 
 ## Scheduling and storage
 
@@ -160,8 +236,8 @@ information, not professional advice or a doneness assessment. The catalogue's
 poultry/fish temperature notes reference the
 [USDA minimum internal temperature chart](https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart).
 
-S2–S8 remain: Strands host, voice and timers, scenario runners, OAuth, AWS
-integration, MCP App UI and submission artifacts. No push, deployment, signup,
-payment or submission was performed in S1.
+S3–S8 remain: voice and audible timers, YAML scenario runners, OAuth, AWS
+validation, MCP App UI and submission artifacts. S2 made no AWS requests, push,
+deployment, signup, payment or submission.
 
 [MIT](LICENSE).
