@@ -17,7 +17,9 @@ const fmt = (minute: number) => new Intl.DateTimeFormat('en-US', { timeZone: sta
 const ros = new RunOfShow($('#ros'), fmt);
 const speaker = new Speaker(active => { speaking = active; activity(); });
 const mic = new Microphone();
-const sim = { get state() { return state; }, bars: [] as unknown[], film };
+const sim = { get state() { return state; }, bars: [] as unknown[], film,
+  /** Same path as typing in the dock; scripted takes use it so the dock stays out of the recorded frame. */
+  say: (utterance: string, label?: { beat?: string; iteration?: number }) => say(utterance, label) };
 Object.assign(window, { __sim: sim });
 
 function activity(): void {
@@ -181,10 +183,10 @@ async function turn(path: string, body: unknown, type?: string): Promise<void> {
     text('#reply', `(${error instanceof Error ? error.message : 'failed'})`);
   } finally { busy = false; activity(); }
 }
-async function say(utterance: string): Promise<void> {
-  uilog('ui_submit', { input: 'text', utterance });
+async function say(utterance: string, label: { beat?: string; iteration?: number } = {}): Promise<void> {
+  uilog('ui_submit', { input: 'text', utterance, ...label });
   text('#you', utterance);
-  await turn('/api/turn', { utterance });
+  await turn('/api/turn', { utterance, ...label });
 }
 async function toggleMic(): Promise<void> {
   void speaker.unlock();

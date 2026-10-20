@@ -23,6 +23,20 @@ export type SimHostOptions = { backend: Backend; stt: SttEngine; tts: TtsEngine;
 type Take = { id: string; dir: string; runtime: Runtime; log: SyncLog; turns: number; busy: boolean; plan?: PlanState;
   last?: TurnView; speeches: number; stopTimers: () => void };
 class HttpError extends Error { constructor(readonly status: number, message: string) { super(message); } }
+/** Optional scenario beat a scripted take attaches to a turn, so sync logs can be matched to scenario beats. */
+type BeatLabel = { beat?: string; iteration?: number };
+function beatLabel(body: { beat?: unknown; iteration?: unknown } | undefined): BeatLabel {
+  const label: BeatLabel = {};
+  if (body?.beat !== undefined) {
+    if (typeof body.beat !== 'string' || !/^[a-z][a-z0-9-]{0,31}$/.test(body.beat)) throw new HttpError(400, 'beat is a short lowercase id');
+    label.beat = body.beat;
+  }
+  if (body?.iteration !== undefined) {
+    if (!Number.isInteger(body.iteration) || (body.iteration as number) < 1 || (body.iteration as number) > 999) throw new HttpError(400, 'iteration is 1–999');
+    label.iteration = body.iteration as number;
+  }
+  return label;
+}
 
 const loopback = ['127.0.0.1', 'localhost', '[::1]', '::1'];
 const b64 = (bytes: Uint8Array) => Buffer.from(bytes).toString('base64');
@@ -91,13 +105,13 @@ export function createSimHost(options: SimHostOptions) {
     broadcast({ type: 'state', state: state() });
   }
 
-  async function runTurn(input: { kind: 'text'; utterance: string } | { kind: 'voice'; wav: Uint8Array }) {
+  async function runTurn(input: { kind: 'text'; utterance: string } | { kind: 'voice'; wav: Uint8Array }, label: BeatLabel = {}) {
     const t = current();
     if (t.busy) throw new HttpError(409, 'A turn is already running');
     t.busy = true;
     const turn = ++t.turns;
     const view: TurnView = { turn, input: input.kind, utterance: input.kind === 'text' ? input.utterance : '', tools: [] };
-    t.log.write('turn_start', { turn, input: input.kind, ...(input.kind === 'text' ? { utterance: input.utterance } : { audio_bytes: input.wav.length }) });
+    t.log.write('turn_start', { turn, input: input.kind, ...(input.kind === 'text' ? { utterance: input.utterance } : { audio_bytes: input.wav.length }), ...label });
     broadcast({ type: 'turn_start', turn, input: input.kind, utterance: view.utterance || undefined });
     try {
       await t.runtime.serverClock?.sync();
@@ -119,7 +133,7 @@ export function createSimHost(options: SimHostOptions) {
       });
       Object.assign(view, { reply: result.reply, replySource: result.replySource, tools: result.toolCalls.map(toolView) });
       t.last = view;
-      t.log.write('turn_end', { turn, utterance: view.utterance, reply: result.reply, reply_source: result.replySource,
+      t.log.write('turn_end', { turn, ...label, utterance: view.utterance, reply: result.reply, reply_source: result.replySource,
         total_ms: Math.round(result.timings.totalMs), model_ms: Math.round(result.timings.modelMs), tool_ms: Math.round(result.timings.toolMs),
         tools: view.tools.map(c => c.name) });
       const speech = await Promise.all(speeches);
@@ -157,7 +171,7 @@ export function createSimHost(options: SimHostOptions) {
   router.post('/api/turn', express.json({ limit: '8kb' }), handle(request => {
     const utterance = request.body?.utterance;
     if (typeof utterance !== 'string' || !utterance.trim() || utterance.length > 4000) throw new HttpError(400, 'Utterance required');
-    return runTurn({ kind: 'text', utterance: utterance.trim() });
+    return runTurn({ kind: 'text', utterance: utterance.trim() }, beatLabel(request.body));
   }));
   router.post('/api/voice', express.raw({ type: 'audio/wav', limit: '4mb' }), handle(request => {
     if (!Buffer.isBuffer(request.body) || request.body.length < 45) throw new HttpError(400, 'Send 16 kHz mono WAV audio');

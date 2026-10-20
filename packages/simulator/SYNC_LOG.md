@@ -30,14 +30,14 @@ Within one page load `ui_ms` is monotonic. Host and UI records interleave by `t_
 | `take_start` | host | `take`, `t0_mono_ms` (host `performance.now()` at `t_ms` 0; the agent runs in the same process, so a trace `mono_ms` equals `t_ms + t0_mono_ms`), `trace` (agent trace path), `mcp_url`, `protocol` (negotiated MCP version), `model`, `device`, `sim_now` (ISO), `timezone`, `stt`, `tts` |
 | `clock_sync` | host | `ui_send_ms`, `ui_receive_ms`, `host_t_ms`, `rtt_ms`, `offset_ms` (best so far; `ui_t_ms = ui_ms + offset_ms`) |
 | `ui_hello` | ui | `film`, `viewport`, `dpr`, `stage` {x, y, width, height} in viewport CSS px, `user_agent` |
-| `ui_submit` | ui | `input` (`text`/`voice`), `utterance` or `audio_bytes`. The moment the user pressed Enter or stopped talking |
+| `ui_submit` | ui | `input` (`text`/`voice`), `utterance` or `audio_bytes`, optional `beat`/`iteration`. The moment the user pressed Enter or stopped talking |
 | `mic_start` / `mic_end` | ui | `sample_rate` / `audio_ms` |
-| `turn_start` | host | `turn` (1, 2… per take), `input`, `utterance` or `audio_bytes` |
+| `turn_start` | host | `turn` (1, 2… per take), `input`, `utterance` or `audio_bytes`; `beat`, `iteration` when the text turn was sent with a scenario label (scripted takes, `__sim.say`) |
 | `stt_end` | host | `turn`, `heard` (raw Whisper text), `utterance` (wake word removed), `stt_ms` |
 | `tool_return` | host | `turn`, `name`, `args`, `ok`, `ms`, `version`, `deduplicated`, `error_code`, `plan_id`. Written when the MCP result arrives, before the reply is spoken |
 | `plan` | host | `turn`, `plan_id`, `version`, `serve_at_local`, `changed_step_ids` (from the tool's `changed_steps`) |
 | `reply_ready` | host | `turn`, `text`: validated speech handed to TTS |
-| `turn_end` | host | `turn`, `utterance`, `reply`, `reply_source` (`tool-say`/`model`), `total_ms`, `model_ms`, `tool_ms`, `tools` |
+| `turn_end` | host | `turn`, `beat`/`iteration` (as in `turn_start`), `utterance`, `reply`, `reply_source` (`tool-say`/`model`), `total_ms`, `model_ms`, `tool_ms`, `tools` |
 | `turn_error` | host | `turn`, `error` |
 | `tts_ready` | host | `id`, `turn`, `kind` (`reply`/`timer`), `text`, `voice`, `synth_ms`, `audio_ms` |
 | `tts_play_start` / `tts_play_end` | ui | `id`, `turn`, `kind` (`reply`/`timer`/`chime`), `audio_ms`, `ctx_state`. Web Audio `start()` and `ended` |

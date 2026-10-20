@@ -81,5 +81,18 @@ and decoded pixels; the repeated request must be deduplicated and cooking contin
 done with dinner still at 6:35 PM. `SIM_E2E_OUT` chooses where screenshots and the copied log go (default
 `runs/sim-e2e/`).
 
+`e2e/film-take.spec.ts` records one film take and is skipped unless `SIM_FILM_OUT` is set:
+
+```sh
+SIM_FILM_OUT=$PWD/runs/film-take npm run sim:e2e -- film-take
+```
+
+It captures the 1600×704 frame with Playwright's video recorder (WebM, 25 fps), presses **M** after
+recording starts and again at the end, and types the salmon-delay beats through `__sim.say`, the same
+path as the dock's text box, so the dock never covers the frame. Each turn carries its scenario beat
+(`beat`, `iteration` in `turn_start`/`turn_end`), and the device switches to the speaker from beat
+`finish`, like `--device show,finish=dot` in the scenario runner. `take.json` in the output directory
+names the take's `runs/sim-*/` directory and the video file.
+
 Fonts: Manrope and JetBrains Mono variable fonts under `public/fonts/` (SIL OFL 1.1, licence files
 alongside).
