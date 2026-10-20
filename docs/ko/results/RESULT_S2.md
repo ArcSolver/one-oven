@@ -38,7 +38,7 @@ OpenAI SDK는 `6.49.0`, Anthropic SDK는 `0.109.1`로 lockfile에 고정됐다.
   자격 증명·엔드포인트·리전을 준비한 뒤 이 한 줄만 바꾸면 공급자가 전환된다.
   실제 클라우드 모델 ID는 코드나 `.env.example`의 기본값에 넣지 않았다.
 - 개발 실모델은 사용자가 지정한 **`http://127.0.0.1:10100/v1`**을 사용했다.
-  `/v1/models`에서 확인한 `local-openai-compatible`를 실행 환경변수로 선택했다.
+  `/v1/models`에서 확인한 로컬 OpenAI 호환 모델을 실행 환경변수로 선택했다.
   키 없는 루프백에는 더미 키를 사용한다. 별도 가입·결제·API 키 발급은 하지 않았다.
 - Strands `Agent` → `McpClient` → `StreamableHTTPClientTransport` → 로컬 서버가 실제로 연결된다.
   결정적 모델도 같은 에이전트 루프와 HTTP 경로를 사용한다.
@@ -90,7 +90,7 @@ OpenAI SDK는 `6.49.0`, Anthropic SDK는 `0.109.1`로 lockfile에 고정됐다.
 
 ## 4. 실모델 결과와 실패 분류
 
-조건: 로컬 OpenAI 호환 API, 모델 `local-openai-compatible`, temperature 0,
+조건: 로컬 OpenAI 호환 모델, temperature 0,
 maxTokens 2048, Dot, America/Chicago, 모의 시계 2026-10-15 17:05,
 매 회 새 SQLite·MCP 서버·대화 세션, 호출 순차 실행. AWS는 사용하지 않았다.
 

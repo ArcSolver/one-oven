@@ -16,8 +16,8 @@ repository. Bedrock is a selectable provider that is **not validated**.
 | [`packages/agent/src/models.ts`](../packages/agent/src/models.ts) | One `AGENT_MODEL` value picks `OpenAIModel`, `AnthropicModel`, `BedrockModel` or the scripted test model |
 | [`packages/simulator/src/host/`](../packages/simulator/src/host/) | The web simulator opens the same Strands session as the text gateway |
 
-Measured results through this Strands path, all with a local OpenAI-compatible endpoint
-(`local-openai-compatible`), are in the Korean stage reports:
+Measured results through this Strands path, all with a local OpenAI-compatible model, are in the
+Korean stage reports:
 [S2](ko/results/RESULT_S2.md) (text, 4/5 trials),
 [S3](ko/results/RESULT_S3.md) (voice-mode latency A/B), and
 [S4](ko/results/RESULT_S4.md) (19/20 scenario trials, 4/4 voice runs).

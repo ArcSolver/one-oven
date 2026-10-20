@@ -68,9 +68,10 @@ everything on screen comes from `structuredContent` of real tool results.
   simulator”. No Alexa+ device, account, add-on registration or OAuth was used. Alexa's built-in timers are
   emulated by the host because we found no documented handoff ([F-09](docs/friction/entries/F-09-alexa-timer-handoff-contract.md)).
 - **Models.** Without a `.env`, `AGENT_MODEL` defaults to `scripted:weekday-3`, a deterministic test fixture and
-  not a language model. The live trials above used a local OpenAI-compatible endpoint with the model
-  `local-openai-compatible`, selected through `AGENT_MODEL`. Anthropic and Bedrock are selectable Strands providers
-  but were never called; see [AWS_BUILDER.md](docs/AWS_BUILDER.md).
+  not a language model. The live trials above used a local OpenAI-compatible model, selected through
+  `AGENT_MODEL`. Anthropic and Bedrock are selectable Strands providers but were never called; see
+  [AWS_BUILDER.md](docs/AWS_BUILDER.md). Model identifiers in recorded traces were redacted to
+  `local-openai-compatible`; no other field changed.
 - **Not done yet**: a take with a human voice (all recorded speech so far is synthetic), the
   [human-voice check](docs/ko/calibration/VOICE_MANUAL_S3.md), a real kitchen calibration (recipes are timing
   fixtures, not kitchen-tested), Bedrock validation, OAuth and a public deployment.

@@ -48,7 +48,7 @@ Bedrock·AWS 호출, 유료 STT/TTS, push·배포·가입·결제는 하지 않�
 | swap | show | 같음 | 17:10 시작 전 green beans → glazed carrots | 같은 plan_id, 버전 +1, 6:30 PM, 연어·밥 불변, 경고 0 |
 | thanksgiving-8 | show | 오븐 1(용량 4)·화구 4·2명, 12:00 | 8요리 16:00 계획 → 끝까지 | 4:00 PM, 예열과 온도 전환 존재, 칠면조 휴지(turkey:2)와 감자·스터핑 오븐 단계 겹침, 경고 0 |
 
-영상 대본은 **voice-live 실행 4개**(espeak 음성 → Whisper base.en → local-openai-compatible → 서버)에서 생성했다. 예상 길이 **2:19**.
+영상 대본은 **voice-live 실행 4개**(espeak 음성 → Whisper base.en → 로컬 OpenAI 호환 모델 → 서버)에서 생성했다. 예상 길이 **2:19**.
 Alexa 대사는 이 에뮬레이터가 실제로 낸 문장이다. 실제 Alexa+는 반환 데이터로 문장을 직접 만들기 때문에 기기 문구는 다를 수 있다고 대본 머리말에 적었다.
 
 | 시각 | 화자 | 대사 |
@@ -98,7 +98,7 @@ Alexa 대사는 이 에뮬레이터가 실제로 낸 문장이다. 실제 Alexa+
 시나리오 테스트는 스키마 거절, 인자 일치 규칙, **러너가 실제로 실패하는지**(틀린 상태 기대값 → state, 의도 단어가 빠진 발화 → tool_selection),
 scripted 4개 실행으로 만든 대본의 길이 상한을 검사한다.
 
-### 3-2. 실모델(로컬 OpenAI 호환 `http://127.0.0.1:10100/v1`, `local-openai-compatible`)
+### 3-2. 실모델(`http://127.0.0.1:10100/v1`의 로컬 OpenAI 호환 모델)
 
 조건: temperature 0, maxTokens 2048, 음성 모드 응답(턴당 모델 요청 1회), 매 회 새 SQLite·서버·세션, 순차 실행.
 
@@ -200,7 +200,7 @@ S3와 같이 헤드리스라 물리적 첫 소리가 아니라 파일 준비 시
 ```sh
 npm ci
 npm run check                                   # 64 tests + smoke + e2e:text + 4 scenarios x 3 modes
-AGENT_MODEL=openai:local-openai-compatible OPENAI_BASE_URL=http://127.0.0.1:10100/v1 npm run e2e:live
+AGENT_MODEL=openai:<model-id> OPENAI_BASE_URL=http://127.0.0.1:10100/v1 npm run e2e:live
 npm run voice:setup                             # 무료 whisper.cpp + base.en, 계정 불필요
 .local/voice/whisper.cpp/build/bin/whisper-server -m .local/voice/models/ggml-base.en.bin --host 127.0.0.1 --port 18080 -t 4 -bs 1 -bo 1 -nc
 WHISPER_SERVER_URL=http://127.0.0.1:18080 npm run e2e:voice            # scripted 에이전트
