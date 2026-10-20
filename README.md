@@ -1,14 +1,88 @@
 # One Oven
 
-“Salmon, rice and green beans on the table at 6:30.”
+**When cooking runs late, One Oven fixes only what changed.**
+At 6:20 PM the salmon needs five more minutes: the salmon steps move, dinner moves from 6:30 to
+6:35 PM, and the rice and green beans keep their times.
 
-One Oven plans a meal backward from dinner time, accounts for oven heating and
-pan capacity, and repairs the schedule when cooking runs late. The repository includes
-a deterministic engine, a local MCP server, and a Strands text/voice host for the Alexa+ hackathon track.
-It is not an official Alexa product. All spoken output is English; the intended
-audience is adult home cooks.
+One Oven plans a home meal backward from dinner time, accounts for oven heating and pan capacity,
+and repairs the schedule when one dish runs late. It is an MCP server built for the Alexa+ track of
+the Amazon Developer Hackathon, shown through our own web simulator. It is not an official Alexa product.
+Spoken output is English; the intended audience is adult home cooks.
 
-## Run locally
+## Try it
+
+Node.js 22.13 or newer. No account, API key or cloud service is needed.
+
+```sh
+npm ci
+npm run build
+npm run sim        # then open http://127.0.0.1:5180/
+```
+
+Type into the dock, or hold to talk once local Whisper is installed (`npm run voice:setup`, see
+[packages/voice](packages/voice/README.md)). Text input works without Whisper. The default model is the
+scripted fixture `scripted:weekday-3`, so start with the weekday phrases: “My kitchen has one oven,
+four burners, and one cook”, then “I want salmon, rice and green beans on the table at 6:30 PM.”
+`npm run check` runs the full deterministic verification.
+
+## What actually works
+
+Each item below was run in this repository; the linked reports hold the numbers and conditions.
+
+- **MCP server**: six tools over Streamable HTTP, protocol version 2025-11-25 negotiated in the smoke
+  test and the scenario runner. Plans are computed only on the server and stored in SQLite with a
+  version history, retry keys and an independent plan verifier.
+- **Delay repair**: in the salmon-delay scenario only `salmon:1` and `salmon:2` change, dinner moves to
+  6:35 PM, and repeating the same sentence is deduplicated instead of adding five more minutes.
+- **`npm run check`** (last run 2026-10-20): build, recipe validation, 79 unit and integration tests,
+  HTTP smoke, scripted text E2E, and 4 YAML scenarios × engine, MCP and agent modes (12/12).
+  The tests include 1,000 seeded random kitchen, delay and swap cases checked by the verifier.
+- **Strands host**: a real Strands `Agent` and `McpClient` drive the server over HTTP, in text, local
+  voice and the web simulator.
+- **Live local model**: 19/20 scenario trials (4 scenarios × 5) and 4/4 voice runs with local Whisper
+  and synthetic espeak speech ([S4 report, Korean](docs/ko/results/RESULT_S4.md)). Voice-mode latency is
+  measured in the [S3 report, Korean](docs/ko/results/RESULT_S3.md).
+- **Web simulator**: a screen device (Now card, Run of Show) and a voice-only speaker mode. On a delay
+  only the changed bars animate; a Playwright test checks from the sync log that every other bar kept its
+  rectangle ([simulator README](packages/simulator/README.md)).
+
+## Architecture
+
+```text
+browser UI ──loopback──> simulator host ──> Strands Agent (packages/agent)
+  text / mic WAV          Whisper STT          │  OneOvenMcpClient
+  speech playback  <───── system TTS           ▼  Streamable HTTP, MCP 2025-11-25
+                                          MCP server (packages/server)
+                                          deterministic engine + SQLite
+```
+
+`packages/contracts` holds the shared Zod schemas and speech lint, `packages/voice` the local speech
+pipeline and host timers, and `packages/scenarios` the four YAML scenarios that serve as both the
+regression suite and the demo script. The browser never calls MCP and never computes a schedule;
+everything on screen comes from `structuredContent` of real tool results.
+
+## What is simulated and what is not done
+
+- **Simulated Alexa+ experience.** The simulator frame says “Simulated Alexa+ experience · our web
+  simulator”. No Alexa+ device, account, add-on registration or OAuth was used. Alexa's built-in timers are
+  emulated by the host because we found no documented handoff ([F-09](docs/friction/entries/F-09-alexa-timer-handoff-contract.md)).
+- **Models.** Without a `.env`, `AGENT_MODEL` defaults to `scripted:weekday-3`, a deterministic test fixture and
+  not a language model. The live trials above used a local OpenAI-compatible endpoint with the model
+  `local-openai-compatible`, selected through `AGENT_MODEL`. Anthropic and Bedrock are selectable Strands providers
+  but were never called; see [AWS_BUILDER.md](docs/AWS_BUILDER.md).
+- **Not done yet**: a take with a human voice (all recorded speech so far is synthetic), the
+  [human-voice check](docs/ko/calibration/VOICE_MANUAL_S3.md), a real kitchen calibration (recipes are timing
+  fixtures, not kitchen-tested), Bedrock validation, OAuth and a public deployment.
+
+Product feedback per tool is in [docs/FEEDBACK.md](docs/FEEDBACK.md), external friction in the
+[friction log](docs/friction/FRICTION_LOG.md), and requests in [docs/FEATURE_REQUESTS.md](docs/FEATURE_REQUESTS.md).
+Earlier Korean stage reports are under [docs/ko](docs/ko/README.md).
+
+## Reference
+
+The sections below document each part in detail.
+
+## Run the MCP server and checks
 
 Node.js **22.13+** with `node:sqlite` and npm; S1–S3 verified with Node **24.21.0**.
 No account, API key, paid service or cloud deployment is needed.
@@ -256,8 +330,8 @@ DST and malformed recipe data. A 200-sample benchmark includes file-backed SQLit
 writes and asserts plan p95 ≤50ms and delay p95 ≤20ms.
 
 See [S1 results](docs/ko/results/RESULT_S1.md) for measurements, snapshot summaries,
-completion criteria and deviations. [Friction log](docs/friction/FRICTION_LOG.md)
-reserves the design's F-01–F-11 leads without presenting them as verified incidents.
+completion criteria and deviations. The [friction log](docs/friction/FRICTION_LOG.md)
+lists verified external incidents and keeps the design's other F-01–F-11 leads as unverified seeds.
 
 Recipes are original timing fixtures in `packages/server/src/data/dishes`.
 Zod and semantic validation enforce resource fields, timing bounds, English
@@ -273,8 +347,7 @@ information, not professional advice or a doneness assessment. The catalogue's
 poultry/fish temperature notes reference the
 [USDA minimum internal temperature chart](https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart).
 
-S3–S8 remain: voice and audible timers, YAML scenario runners, OAuth, AWS
-validation, MCP App UI and submission artifacts. S2 made no AWS requests, push,
-deployment, signup, payment or submission.
+Still open: OAuth and household selection, AWS validation, and an MCP App UI. No stage has made an
+AWS request, deployment, signup or payment.
 
 [MIT](LICENSE).
