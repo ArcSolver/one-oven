@@ -14,6 +14,8 @@ export type Lane = { id: string; kind: 'dish' | 'oven'; dish_id?: string; oven?:
 export type Bar = {
   key: string; lane: string; step_id: string; dish_id: string | null; source: StepView['source'];
   start: number; end: number; status: StepStatus; label: string; x: number; width: number;
+  /** Sub-row inside the lane when steps overlap (dishes sharing one oven); 0 of 1 otherwise. */
+  row: number; rows: number;
 };
 export type BarChange = 'moved' | 'status' | 'added' | 'removed';
 
@@ -46,6 +48,11 @@ export function lockAxis(previous: { plan_id: string; axis: Axis } | undefined, 
 }
 export function xOf(minute: number, axis: Axis, track: Track): number {
   return Math.round(track.x0 + (minute - axis.start) * track.width / (axis.end - axis.start));
+}
+/** Smallest readable tick interval: labels at least `minPx` apart (10 minutes for a weekday dinner). */
+export function tickStep(axis: Axis, width: number, minPx = 72): number {
+  const perMinute = width / (axis.end - axis.start);
+  return [5, TICK_MINUTES, 15, 20, 30, 60, 120].find(step => step * perMinute >= minPx) ?? 240;
 }
 export function ticks(axis: Axis, every = TICK_MINUTES): number[] {
   const result: number[] = [];
@@ -85,13 +92,23 @@ export function bars(laneList: Lane[], steps: StepView[], axis: Axis, track: Tra
   for (const lane of laneList) {
     const members = steps.filter(s => lane.kind === 'dish' ? s.dish_id === lane.dish_id
       : s.oven === lane.oven && (s.source !== 'recipe' || s.kind === 'oven'));
+    // Greedy interval rows by (start, step_id): overlapping oven occupancy stacks instead of hiding.
+    const ends: number[] = [];
+    const rowOf = new Map<string, number>();
+    for (const step of [...members].sort((a, b) => a.start - b.start || a.step_id.localeCompare(b.step_id))) {
+      let row = ends.findIndex(end => end <= step.start);
+      if (row < 0) row = ends.length;
+      ends[row] = step.end;
+      rowOf.set(step.step_id, row);
+    }
     for (const step of members) {
       const x = xOf(step.start, axis, track);
       const width = Math.max(MIN_BAR, xOf(step.end, axis, track) - x - BAR_GAP);
       const label = lane.kind === 'oven' && step.dish_id
         ? `${step.dish_id[0].toUpperCase()}${step.dish_id.slice(1).replaceAll('-', ' ')} ${shortLabel(step).split(' ')[0].toLowerCase()}` : shortLabel(step);
       result.push({ key: `${lane.id}/${step.step_id}`, lane: lane.id, step_id: step.step_id, dish_id: step.dish_id,
-        source: step.source, start: step.start, end: step.end, status: step.status, label, x, width });
+        source: step.source, start: step.start, end: step.end, status: step.status, label, x, width,
+        row: rowOf.get(step.step_id)!, rows: Math.max(1, ends.length) });
     }
   }
   return result;
@@ -103,7 +120,7 @@ export function diffBars(previous: Bar[], next: Bar[]): Map<string, BarChange> {
   for (const bar of next) {
     const old = before.get(bar.key);
     if (!old) changes.set(bar.key, 'added');
-    else if (old.x !== bar.x || old.width !== bar.width) changes.set(bar.key, 'moved');
+    else if (old.x !== bar.x || old.width !== bar.width || old.row !== bar.row || old.rows !== bar.rows) changes.set(bar.key, 'moved');
     else if (old.status !== bar.status || old.label !== bar.label) changes.set(bar.key, 'status');
     before.delete(bar.key);
   }

@@ -1,5 +1,5 @@
 import type { PlanState } from '../shared/api.js';
-import { bars, diffBars, lanes, laneOrder, lockAxis, ticks, xOf, type Axis, type Bar, type BarChange, type Lane, type Track } from '../shared/timeline.js';
+import { bars, diffBars, lanes, laneOrder, lockAxis, ticks, tickStep, xOf, type Axis, type Bar, type BarChange, type Lane, type Track } from '../shared/timeline.js';
 
 /** Fixed pixel layout inside the 1084×532 Run of Show card; never measured, so it cannot drift. */
 export const LAYOUT = { trackLeft: 190, trackWidth: 862, lanesTop: 52, lanesBottom: 488, maxLane: 110, maxBar: 56 };
@@ -65,7 +65,9 @@ export class RunOfShow {
       this.style(el, bar, lane);
       if (!animate || relayout) continue;
       if (change === 'moved' && before) {
-        animations.push(el.animate([{ left: `${before.x}px`, width: `${before.width}px` }, { left: `${bar.x}px`, width: `${bar.width}px` }],
+        const from = this.box(before, lane), to = this.box(bar, lane);
+        animations.push(el.animate([{ left: `${before.x}px`, width: `${before.width}px`, top: `${from.top}px`, height: `${from.height}px` },
+          { left: `${bar.x}px`, width: `${bar.width}px`, top: `${to.top}px`, height: `${to.height}px` }],
           { duration: ANIM_MS, easing: 'cubic-bezier(.2,.8,.2,1)' }).finished);
       } else if (change === 'added') {
         animations.push(el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: ANIM_MS, easing: 'ease-out' }).finished);
@@ -119,16 +121,22 @@ export class RunOfShow {
     if (!this.tones.has(dishId)) this.tones.set(dishId, TONES[this.tones.size % TONES.length]);
     return this.tones.get(dishId)!;
   }
+  private box(bar: Bar, lane: Geometry): { top: number; height: number } {
+    const full = Math.min(LAYOUT.maxBar, lane.height - 18);
+    const height = Math.floor((full - (bar.rows - 1) * 2) / bar.rows);
+    return { top: lane.top + Math.round((lane.height - full) / 2) + bar.row * (height + 2), height };
+  }
   private style(el: HTMLElement, bar: Bar, lane: Geometry): void {
-    const height = Math.min(LAYOUT.maxBar, lane.height - 18);
-    // Hide a label that would not fit rather than show a clipped fragment; the Now card has the full text.
-    const fits = bar.label.length * 8 + 18 <= bar.width;
-    el.className = `bar ${bar.status}${bar.source === 'recipe' ? '' : ' system'}${fits ? '' : ' tiny'}`;
+    const { top, height } = this.box(bar, lane);
+    el.className = `bar ${bar.status}${bar.source === 'recipe' ? '' : ' system'}`;
     if (bar.source === 'recipe') el.style.setProperty('--tone', this.tone(bar.dish_id));
-    Object.assign(el.style, { left: `${bar.x}px`, width: `${bar.width}px`, top: `${lane.top + Math.round((lane.height - height) / 2)}px`, height: `${height}px` });
+    Object.assign(el.style, { left: `${bar.x}px`, width: `${bar.width}px`, top: `${top}px`, height: `${height}px` });
     el.dataset.status = bar.status;
-    el.firstElementChild!.textContent = bar.label;
+    const label = el.firstElementChild as HTMLElement;
+    label.textContent = bar.label;
     el.title = bar.step_id;
+    // Hide a label that would be clipped rather than show a fragment; the Now card has the full text.
+    if (height < 22 || label.scrollWidth > label.clientWidth) el.classList.add('tiny');
   }
   private scaffold(laneList: Lane[], axis: Axis, plan: PlanState): void {
     this.root.replaceChildren();
@@ -147,7 +155,8 @@ export class RunOfShow {
       this.labels.set(lane.id, label);
       add('lane-sep', { top: `${g.top + g.height}px` });
     }
-    for (const t of ticks(axis)) {
+    this.root.classList.toggle('compact', geometry.get(laneList[0].id)!.height < 64);
+    for (const t of ticks(axis, tickStep(axis, LAYOUT.trackWidth))) {
       const x = xOf(t, axis, this.track) + LAYOUT.trackLeft;
       add('tick', { left: `${x}px` }, this.fmt(t).replace(/ [AP]M$/, '')).dataset.x = String(x);
       add('grid', { left: `${x}px` });

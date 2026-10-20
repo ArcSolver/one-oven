@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { bars, diffBars, focus, lanes, laneOrder, lockAxis, planAxis, shortLabel, ticks, xOf, type StepView } from '../src/shared/timeline.js';
+import { bars, diffBars, focus, lanes, laneOrder, lockAxis, planAxis, shortLabel, ticks, tickStep, xOf, type StepView } from '../src/shared/timeline.js';
 
 // Minute epochs on 2026-10-15 in Chicago (UTC-5): 17:40 local = 22:40 UTC.
 const at = (hhmm: string) => Date.parse(`2026-10-15T${hhmm}:00-05:00`) / 60000;
@@ -75,4 +75,17 @@ test('Now shows running steps, Next the earliest pending step', () => {
   assert.equal(view.current?.step_id, 'salmon:1');
   assert.deepEqual(view.also.map(s => s.step_id), ['rice:2', 'green-beans:1']);
   assert.equal(view.next?.step_id, 'green-beans:2');
+});
+test('tick spacing stays readable for long plans', () => {
+  assert.equal(tickStep({ start: at('17:40'), end: at('18:45') }, 862), 10);
+  assert.equal(tickStep({ start: at('11:45'), end: at('16:15') }, 862), 30);
+});
+test('steps sharing an oven stack in rows instead of covering each other', () => {
+  const shared = [step('potatoes:1', 'potatoes', '15:20', '15:55', { kind: 'oven', oven: 0 }),
+    step('stuffing:1', 'stuffing', '15:25', '15:50', { kind: 'oven', oven: 0 }),
+    step('salmon:1', 'salmon', '15:55', '16:10', { kind: 'oven', oven: 0 })];
+  const oven = bars(lanes([], shared), shared, planAxis(shared, at('16:15')), track);
+  assert.deepEqual(oven.map(b => [b.step_id, b.row, b.rows]), [['potatoes:1', 0, 2], ['stuffing:1', 1, 2], ['salmon:1', 0, 2]]);
+  const single = bars(lanes(['salmon'], before), before, planAxis(before, at('18:30')), track);
+  assert.ok(single.every(b => b.row === 0 && b.rows === 1));
 });

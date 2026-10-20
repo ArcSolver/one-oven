@@ -69,6 +69,8 @@ body.film .stage * { cursor: none; }
 .ros .lane-label { position: absolute; left: 24px; width: 150px; display: flex; flex-direction: column; justify-content: center; }
 .ros .lane-label .n { font-size: 19px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ros .lane-label .r { font-size: 13px; color: var(--ink-2); margin-top: 3px; font-family: "JetBrains Mono", monospace; }
+.ros.compact .lane-label .n { font-size: 16px; }
+.ros.compact .lane-label .r { font-size: 11px; margin-top: 1px; }
 .ros .lane-sep { position: absolute; left: 24px; right: 24px; height: 1px; background: var(--line); }
 .bar {
   position: absolute; border-radius: 12px; display: flex; align-items: center; padding: 0 12px; overflow: hidden;
