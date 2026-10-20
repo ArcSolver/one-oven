@@ -20,7 +20,8 @@ npm run sim        # then open http://127.0.0.1:5180/
 ```
 
 Type into the dock, or hold to talk once local Whisper is installed (`npm run voice:setup`, see
-[packages/voice](packages/voice/README.md)). Text input works without Whisper. The default model is the
+[packages/voice](packages/voice/README.md)). Text input works without Whisper. Spoken replies use the system TTS (macOS `say` or espeak-ng) and
+ffmpeg, listed in the same README. The default model is the
 scripted fixture `scripted:weekday-3`, so start with the weekday phrases: “My kitchen has one oven,
 four burners, and one cook”, then “I want salmon, rice and green beans on the table at 6:30 PM.”
 `npm run check` runs the full deterministic verification.

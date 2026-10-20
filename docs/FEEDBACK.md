@@ -33,8 +33,9 @@ Used for the agent loop, the MCP client and the model providers; see [AWS_BUILDE
   ([S2-0 spike, Korean](ko/results/S2_SPIKE.md)). `McpClient` accepted the MCP SDK's
   `StreamableHTTPClientTransport` directly.
 - **Worked:** the public `AfterToolsEvent.endTurn` hook let voice mode speak the tool's validated `say`
-  instead of asking the model to rephrase it. Model requests per 20-turn flow fell from 54 to 20 and the
-  turn p50 from 6.52 s to 2.46 s ([LATENCY_AB.json](results/s3/LATENCY_AB.json),
+  instead of asking the model to rephrase it. Together with host-applied timers and a trimmed context,
+  this optimized voice path cut model requests per 20-turn flow from 54 to 20 and the turn p50 from
+  6.52 s to 2.46 s ([LATENCY_AB.json](results/s3/LATENCY_AB.json),
   [S3 report, Korean](ko/results/RESULT_S3.md)).
 - **Friction ([F-12](friction/entries/F-12-strands-structured-content.md)):** `McpTool.stream` forwards only
   `content` and drops `structuredContent`, so the model never saw the `kitchen_id` it needed for the next

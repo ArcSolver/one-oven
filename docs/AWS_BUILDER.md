@@ -21,7 +21,8 @@ Measured results through this Strands path, all with a local OpenAI-compatible e
 [S2](ko/results/RESULT_S2.md) (text, 4/5 trials),
 [S3](ko/results/RESULT_S3.md) (voice-mode latency A/B), and
 [S4](ko/results/RESULT_S4.md) (19/20 scenario trials, 4/4 voice runs).
-The tool-say hook cut the 20-turn p50 from 6.52 s to 2.46 s in the S3 measurement
+The optimized voice path (this hook, host-applied timers and a trimmed context) cut the 20-turn p50
+from 6.52 s to 2.46 s in the S3 measurement
 ([LATENCY_AB.json](results/s3/LATENCY_AB.json)).
 
 ## AWS services: not called
