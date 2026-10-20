@@ -91,5 +91,5 @@ Toolkit, CLI or web simulator.
 - **Friction ([F-05](friction/entries/F-05-no-participant-simulator-access.md)):**
   the docs home says “At this time, Category SDK and MCP Toolkit are available to select partners only,”
   and the hackathon FAQ says participants do not get the official toolkit, CLI or web simulator. We could
-  not test how Alexa+ would actually call our six tools, so we built our own simulator.
+  not test how Alexa+ would call our six tools, so we built our own simulator.
 - **Suggestion:** see [FEATURE_REQUESTS.md](FEATURE_REQUESTS.md), items 1 and 2.

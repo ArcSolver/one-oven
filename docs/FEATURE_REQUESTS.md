@@ -8,7 +8,7 @@ build, **Nice to have** costs time but has an easy workaround.
 
 From [F-09](friction/entries/F-09-alexa-timer-handoff-contract.md).
 
-A cooking assistant lives on timers. Every One Oven plan result already returns `timer_suggestions`
+Cooking runs on timers. Every One Oven plan result already returns `timer_suggestions`
 with `step_id`, `label`, `minutes`, an absolute `ends_at` and a spoken line, but we found no documented
 way for an add-on to ask Alexa to create those as built-in timers. Today the host emulates them
 (`HostTimers` in [`packages/agent/src/host-tools.ts`](../packages/agent/src/host-tools.ts)), and the video

@@ -25,13 +25,13 @@ scripted fixture `scripted:weekday-3`, so start with the weekday phrases: “My 
 four burners, and one cook”, then “I want salmon, rice and green beans on the table at 6:30 PM.”
 `npm run check` runs the full deterministic verification.
 
-## What actually works
+## What works today
 
-Each item below was run in this repository; the linked reports hold the numbers and conditions.
+Everything below was run in this repository. The linked reports give the numbers and conditions.
 
 - **MCP server**: six tools over Streamable HTTP, protocol version 2025-11-25 negotiated in the smoke
-  test and the scenario runner. Plans are computed only on the server and stored in SQLite with a
-  version history, retry keys and an independent plan verifier.
+  test and the scenario runner. Plans are computed only on the server, checked by an independent
+  verifier, and stored in SQLite with version history and retry keys.
 - **Delay repair**: in the salmon-delay scenario only `salmon:1` and `salmon:2` change, dinner moves to
   6:35 PM, and repeating the same sentence is deduplicated instead of adding five more minutes.
 - **`npm run check`** (last run 2026-10-20): build, recipe validation, 79 unit and integration tests,
