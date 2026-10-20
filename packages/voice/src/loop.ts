@@ -8,7 +8,9 @@ import type { AudioPlayer, PlaybackReceipt } from './audio/play.js';
 import { COOKING_HINTS, stripWakeWord, type SttEngine } from './stt/index.js';
 import type { TtsEngine } from './tts/index.js';
 export type VoiceResult = { transcript: string; turn: TurnResult; timings: { sttMs: number; agentMs: number;
-  modelMs: number; toolMs: number; ttsMs: number; outputStartMs: number; totalMs: number; playbackKind: PlaybackReceipt['kind'] } };
+  modelMs: number; toolMs: number; ttsMs: number; outputStartMs: number; totalMs: number; playbackKind: PlaybackReceipt['kind'] };
+  /** performance.now() milestones: audio accepted (mic stopped), STT done, last tool returned, reply audio started. */
+  mono: { accept_ms: number; stt_end_ms: number; tool_return_ms?: number; tts_play_start_ms: number; end_ms: number } };
 export type VoiceSession = { turn: ConversationSession['turn']; timers: Pick<HostTimers, 'onFire' | 'start' | 'stop'>; opts: { clock: Clock } };
 export class VoiceLoop {
   private queue: Promise<void> = Promise.resolve();
@@ -69,8 +71,11 @@ export class VoiceLoop {
       const agentMs = performance.now() - agentAt;
       if (!speech) throw new Error('No validated speech from session');
       const { ttsMs, receipt } = await speech;
+      const end = performance.now();
       const result: VoiceResult = { transcript: utterance, turn, timings: { sttMs, agentMs, modelMs: turn.timings.modelMs,
-        toolMs: turn.timings.toolMs, ttsMs, outputStartMs: receipt.startMs - at, totalMs: performance.now() - at, playbackKind: receipt.kind } };
+        toolMs: turn.timings.toolMs, ttsMs, outputStartMs: receipt.startMs - at, totalMs: end - at, playbackKind: receipt.kind },
+        mono: { accept_ms: at, stt_end_ms: at + sttMs, tool_return_ms: turn.toolCalls?.at(-1)?.mono?.return_ms,
+          tts_play_start_ms: receipt.startMs, end_ms: end } };
       this.opts.trace.write({ type: 'voice_turn', ...result });
       return result;
     } catch (error) {

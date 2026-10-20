@@ -4,6 +4,8 @@ import type { TraceSink } from './trace.js';
 
 export type ToolCallTrace = {
   name: string; args: JSONValue; result?: Record<string, unknown>; ms: number; error?: string;
+  /** performance.now() at request and at return; the trace clock for lining up recordings. */
+  mono?: { start_ms: number; return_ms: number };
 };
 type Schema = NonNullable<ToolSpec['inputSchema']>;
 const objectSchema = (value: unknown): Schema => value && typeof value === 'object' && !Array.isArray(value) ? value as Schema : {};
@@ -66,6 +68,7 @@ export class OneOvenMcpClient extends McpClient {
     try {
       const raw = await super.callTool(...params) as Record<string, JSONValue>;
       call.ms = performance.now() - start;
+      call.mono = { start_ms: start, return_ms: start + call.ms };
       call.result = raw;
       this.calls.push(call);
       this.onResult?.(call);
@@ -76,6 +79,7 @@ export class OneOvenMcpClient extends McpClient {
         : raw;
     } catch {
       call.ms = performance.now() - start;
+      call.mono = { start_ms: start, return_ms: start + call.ms };
       call.error = 'mcp_transport_error';
       this.calls.push(call);
       throw new Error('One Oven MCP request failed');

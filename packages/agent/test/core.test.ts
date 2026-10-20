@@ -74,3 +74,20 @@ test('speech rejects machine/visual leakage and trace redacts secrets but retain
     assert.equal(JSON.parse(text).inputTokens, 42);
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });
+
+test('JSONL trace stamps every record on one monotonic clock and marks recording sync points', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'one-oven-trace-'));
+  try {
+    const path = join(dir, 'trace.jsonl');
+    const trace = new JsonlTrace(path);
+    trace.write({ type: 'turn', at: '2026-10-15T23:20:00.000Z' });
+    trace.mark('recording_t0');
+    trace.write({ type: 'turn', at: '2026-10-15T23:20:00.000Z' });
+    const records = readFileSync(path, 'utf8').trim().split('\n').map(line => JSON.parse(line));
+    assert.deepEqual(records.map(r => r.type), ['turn', 'sync_marker', 'turn']);
+    assert.equal(records[1].name, 'recording_t0');
+    for (const r of records) { assert.equal(typeof r.mono_ms, 'number'); assert.ok(Number.isFinite(Date.parse(r.wall_iso))); }
+    assert.ok(records[0].mono_ms <= records[1].mono_ms && records[1].mono_ms <= records[2].mono_ms);
+    assert.equal(records[0].at, '2026-10-15T23:20:00.000Z', 'simulated time is kept apart from the recording clock');
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});

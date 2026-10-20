@@ -20,14 +20,17 @@ let recording: Awaited<ReturnType<typeof startRecording>> | undefined;
 let count = 0;
 try {
   await runtime.session.prepare();
-  console.log('Simulated Alexa+ experience. Enter starts/stops recording; :quit exits. Local recordings are saved under ' + directory);
+  console.log('Simulated Alexa+ experience. Enter starts/stops recording; :mark notes recording_t0 when screen capture starts; :quit exits. Local recordings are saved under ' + directory);
   while (true) {
     const answer = await input.question('Enter to record > ');
     if (answer === ':quit') break;
+    if (answer === ':mark') { trace.mark('recording_t0'); console.log('Marked recording_t0'); continue; }
     await loop.flush();
     recording = await startRecording();
+    trace.write({ type: 'mic_start' });
     await input.question('Listening. Enter to finish > ');
     const clip = await recording.stop(); recording = undefined;
+    trace.write({ type: 'mic_end' });
     await mkdir(directory, { recursive: true }); await writeFile(join(directory, `user-${++count}.wav`), clip.wav);
     await runtime.serverClock?.sync();
     try { const result = await loop.accept(clip); console.log(`You: ${result.transcript}\nOne Oven: ${result.turn.reply}`); }

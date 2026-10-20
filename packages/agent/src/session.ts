@@ -16,6 +16,8 @@ export type TurnResult = {
   lint: SpeechLintResult; rawLint: SpeechLintResult; fallback: boolean;
   timings: { modelMs: number; toolMs: number; totalMs: number }; provider: string; modelId: string;
   modelRequests: ModelCallTrace[]; replySource?: 'model' | 'tool-say';
+  /** performance.now() at turn start and end (same clock as tool calls and trace mono_ms). */
+  mono?: { start_ms: number; end_ms: number };
 };
 class MeasuredModel extends Model {
   readonly requests: ModelCallTrace[] = [];
@@ -162,7 +164,8 @@ export class ConversationSession {
       const output: TurnResult = { utterance, reply, rawReply, rawLint, fallback: !rawLint.ok,
         toolCalls, hostActions: this.timers.actions.slice(actionStart), lint: lintReply(reply),
         timings: { modelMs: modelRequests.reduce((n, r) => n + r.ms, 0), toolMs: toolCalls.reduce((n, c) => n + c.ms, 0), totalMs: performance.now() - at },
-        provider: this.provider, modelId: this.modelId, modelRequests, replySource: this.spokeTool ? 'tool-say' : 'model' };
+        provider: this.provider, modelId: this.modelId, modelRequests, replySource: this.spokeTool ? 'tool-say' : 'model',
+        mono: { start_ms: at, end_ms: performance.now() } };
       if (!this.spokeTool) onSpeech?.(reply);
       this.opts.trace.write({ type: 'turn', at: new Date(this.opts.clock.now()).toISOString(), device: this.opts.device.deviceClass, ...output });
       return output;

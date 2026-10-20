@@ -5,7 +5,7 @@ import { openSession } from './runtime.js';
 const runtime = await openSession();
 const rl = createInterface({ input: stdin, output: stdout, terminal: stdin.isTTY });
 console.log(`One Oven text chat (${runtime.session.provider}:${runtime.session.modelId}).`);
-console.log(':dot, :show, :advance 10 (enabled simulation only), :quit');
+console.log(':dot, :show, :advance 10 (enabled simulation only), :mark (recording_t0), :quit');
 console.log(`Trace: ${runtime.tracePath}`);
 try {
   for await (const line of rl) {
@@ -13,7 +13,10 @@ try {
     if (!text) continue;
     if (text === ':quit') break;
     try {
-      if (text === ':dot' || text === ':show') {
+      if (text === ':mark') {
+        runtime.trace.mark('recording_t0');
+        console.log('Marked recording_t0');
+      } else if (text === ':dot' || text === ':show') {
         runtime.device.deviceClass = text.slice(1) as 'dot' | 'show';
         console.log(`Device: ${runtime.device.deviceClass}`);
       } else if (text.startsWith(':advance ')) {
