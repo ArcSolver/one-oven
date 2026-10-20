@@ -19,6 +19,8 @@ data, so review a log before sharing it.
 | `ui_t_ms` | UI records only: `ui_ms` mapped onto the `t_ms` timeline using the best `clock_sync` pair. **Use this, not `t_ms`, for UI event times**; `t_ms` of a UI record is when the batch reached the host (≈120 ms later) |
 
 `ui_t_ms` appears once the page has paired clocks (immediately after load and after each new take).
+Right after a *New take*, UI records queued before the switch (≈ one round trip, ~100 ms) can land in
+the new file; the lowest-RTT `clock_sync` pair written after `take_start` is the one to trust.
 Within one page load `ui_ms` is monotonic. Host and UI records interleave by `t_ms`, not by `ui_t_ms`.
 
 ## Record types

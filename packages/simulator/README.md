@@ -77,7 +77,8 @@ reused or started. Voice turns keep the uploaded audio as `runs/sim-*/user-N.wav
 The Playwright salmon run starts its own stack (ports 5190/3020, scripted model, system TTS), cooks until
 6:20 PM with the salmon roasting, reports the delay, and checks from the sync log that only the
 salmon bars moved by five minutes of pixels while every rice and green-bean bar kept its rectangle
-and decoded pixels. `SIM_E2E_OUT` chooses where screenshots and the copied log go (default
+and decoded pixels; the repeated request must be deduplicated and cooking continues until every step is
+done with dinner still at 6:35 PM. `SIM_E2E_OUT` chooses where screenshots and the copied log go (default
 `runs/sim-e2e/`).
 
 Fonts: Manrope and JetBrains Mono variable fonts under `public/fonts/` (SIL OFL 1.1, licence files

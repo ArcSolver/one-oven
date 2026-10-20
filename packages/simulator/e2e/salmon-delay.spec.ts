@@ -8,6 +8,7 @@ import type { StepView } from '../src/shared/timeline.js';
  * salmon-delay through the UI with text input: kitchen, plan, cook until 6:20 PM with the salmon
  * roasting, then "The salmon needs five more minutes." The sync log must show that only salmon bars
  * moved (by exactly five minutes of pixels) and every rice and green-bean bar kept its coordinates.
+ * A repeated request is deduplicated, and cooking continues until every step is done.
  */
 const out = resolve(process.env.SIM_E2E_OUT ?? join(import.meta.dirname, '../../../runs/sim-e2e'));
 type Bar = { key: string; lane: string; step_id: string; dish_id: string | null; x: number; y: number; width: number; height: number; layout_x: number; layout_width: number; status: string };
@@ -57,7 +58,7 @@ async function barsFor(path: string, version: number): Promise<{ bars: Bar[]; px
   return { bars: record.bars as Bar[], px_per_min: (record.axis as { px_per_min: number }).px_per_min };
 }
 
-test('salmon delay moves only the salmon bars by five minutes', async ({ page }) => {
+test('salmon delay moves only the salmon bars by five minutes, then dinner finishes at 6:35', async ({ page }) => {
   mkdirSync(out, { recursive: true });
   await page.goto('/?film=1');
   await page.request.post('/api/take');
@@ -131,6 +132,24 @@ test('salmon delay moves only the salmon bars by five minutes', async ({ page })
   await page.waitForTimeout(800);
   await page.locator('#stage').screenshot({ path: join(out, 'speaker-mode.png') });
   await page.request.post('/api/device', { data: { device: 'show' } });
+
+  // Scenario beat `finish`: keep cooking to the end; dinner stays at 6:35 PM.
+  for (let i = 0; i < 40 && !current.plan!.steps.every(s => s.status === 'done'); i++) {
+    await dock(page, '[data-advance="next"]');
+    current = await state(page);
+    const now = current.clock.now / 60000;
+    const done = current.plan!.steps.filter(s => s.status === 'running' && s.end <= now)
+      .sort((a, b) => a.end - b.end || a.step_id.localeCompare(b.step_id))[0];
+    current = await say(page, done ? `I'm done with the ${spoken(done)}. What's next?` : "What's next?");
+  }
+  expect(current.plan!.steps.every(s => s.status === 'done')).toBe(true);
+  expect(current.plan!.serve_at_local).toBe('6:35 PM');
+  expect(current.last?.reply).toContain('meal is ready');
+  await expect(page.locator('#now-text')).toHaveText('Dinner is ready.');
+  const { bars: finished } = await barsFor(path, current.plan!.version);
+  expect(finished.every(b => b.status === 'done')).toBe(true);
+  await page.waitForTimeout(800);
+  await page.locator('#stage').screenshot({ path: join(out, 'film-finished.png') });
 
   const final = log(path);
   for (let i = 1; i < final.length; i++) expect(final[i].t_ms).toBeGreaterThanOrEqual(final[i - 1].t_ms);
