@@ -10,3 +10,5 @@ dist/
 runs/
 
 .local/
+test-results/
+playwright-report/
