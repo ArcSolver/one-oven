@@ -14,6 +14,8 @@ export type FailureCategory = 'tool_selection' | 'arguments' | 'tool_error' | 's
 export type Failure = { beat: string; iteration?: number; category: FailureCategory; message: string; soft?: boolean };
 export type TurnRecord = {
   beat: string; iteration?: number; clock: string; utterance: string; transcript?: string; reply: string; rawReply: string;
+  /** Server clock at the request (Service.requestNow), the time the dedup window is measured on. */
+  request_now?: string;
   tools: { name: string; args: unknown; ok: boolean; deduplicated?: boolean; ms: number }[];
   timers: TimerFire[]; replySource?: string; modelRequests?: number; lint: string[]; rawLint: string[];
   timings: TurnOutput['timings']; video: boolean;
@@ -42,7 +44,9 @@ function nextEvent(plan: Plan, now: number): number {
   const times = plan.steps.filter(s => s.status !== 'done').map(s => (s.status === 'running' ? s.end : s.start) * 60000);
   return Math.max(now, Math.min(...times));
 }
-export async function runScenario(scenario: Scenario, driver: Driver, trace: TraceSink, directory: string): Promise<ScenarioResult> {
+/** deviceSwitches: switch the device class before a beat (video takes: screen device, then voice-only for one beat). */
+export type RunOptions = { deviceSwitches?: Record<string, Scenario['device']> };
+export async function runScenario(scenario: Scenario, driver: Driver, trace: TraceSink, directory: string, options: RunOptions = {}): Promise<ScenarioResult> {
   const started = performance.now();
   const harness = new Harness(scenario);
   const ids: Ids = {};
@@ -56,13 +60,14 @@ export async function runScenario(scenario: Scenario, driver: Driver, trace: Tra
 
   const turn = async (beat: Beat, input: TurnInput): Promise<{ output: TurnOutput; matched: ObservedCall[] }> => {
     let output: TurnOutput;
+    const requestNow = new Date(harness.service.requestNow()).toISOString();
     try { output = await driver.turn(input); }
     catch (error) {
       throw new BeatFailure({ iteration: input.iteration, category: 'turn_error',
         message: `${error instanceof Error ? error.message : error}${error instanceof Error && error.cause instanceof Error ? `: ${error.cause.message}` : ''}` });
     }
     const record: TurnRecord = { beat: beat.id, iteration: input.iteration, clock: clockLabel(harness.clock.now(), tz),
-      utterance: input.utterance, transcript: output.transcript, reply: output.reply, rawReply: output.rawReply,
+      utterance: input.utterance, transcript: output.transcript, reply: output.reply, rawReply: output.rawReply, request_now: requestNow,
       tools: output.toolCalls.map(c => ({ name: c.name, args: c.args, ok: !c.error && !c.result?.isError,
         deduplicated: (c.result?.structuredContent as { deduplicated?: boolean } | undefined)?.deduplicated, ms: c.ms })),
       timers: pendingTimers, replySource: output.replySource, modelRequests: output.modelRequests,
@@ -138,6 +143,12 @@ export async function runScenario(scenario: Scenario, driver: Driver, trace: Tra
     await driver.open(harness, scenario, trace, directory);
     for (const beat of scenario.beats) {
       try {
+        const device = options.deviceSwitches?.[beat.id];
+        if (device) {
+          if (!driver.setDevice) throw new BeatFailure({ category: 'harness', message: `${driver.mode} mode has no device to switch` });
+          driver.setDevice(device);
+          trace.write({ type: 'device_switch', beat: beat.id, device });
+        }
         if (!beat.repeat) {
           if (beat.at) {
             const target = harness.at(beat.at);

@@ -1,5 +1,5 @@
 import type { Model } from '@strands-agents/sdk';
-import { ConversationSession } from '@one-oven/agent';
+import { ConversationSession, type DeviceContext } from '@one-oven/agent';
 import { OneOvenMcpClient } from '@one-oven/agent/mcp';
 import type { TraceSink } from '@one-oven/agent/trace';
 import type { Harness } from '../harness.js';
@@ -16,6 +16,7 @@ export class AgentDriver implements Driver {
   protected session!: ConversationSession;
   protected mcp!: OneOvenMcpClient;
   protected scripted?: ScenarioScriptedModel;
+  private device?: DeviceContext;
   private reported = new Set<string>();
   constructor(readonly options: AgentOptions = {}) { this.live = !!options.model; }
   get description(): string {
@@ -25,9 +26,10 @@ export class AgentDriver implements Driver {
     this.harness = harness;
     this.mcp = new OneOvenMcpClient(await harness.listen(), trace);
     const model = this.options.model ? this.options.model() : (this.scripted = new ScenarioScriptedModel());
+    this.device = { deviceClass: scenario.device, timezone: scenario.timezone, nowIso: new Date(harness.clock.now()).toISOString() };
     this.session = new ConversationSession({ model, mcp: this.mcp, clock: harness.clock, trace,
       provider: this.options.provider ?? 'scripted', autoTimers: !this.live, voiceMode: this.options.voiceMode ?? false,
-      device: { deviceClass: scenario.device, timezone: scenario.timezone, nowIso: new Date(harness.clock.now()).toISOString() } });
+      device: this.device });
     await this.mcp.listTools();
   }
   protected prime(input: TurnInput): void { this.scripted?.prime(input.calls, input.intents); }
@@ -50,6 +52,7 @@ export class AgentDriver implements Driver {
     }
     return fired;
   }
+  setDevice(device: Scenario['device']): void { if (this.device) this.device.deviceClass = device; }
   protocolVersion(): string | undefined { return this.mcp?.protocolVersion; }
   async close(): Promise<void> { await this.session?.close(); }
 }

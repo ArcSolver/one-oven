@@ -47,5 +47,9 @@ npm run video:script                       # docs/submission/VIDEO_SCRIPT.md and
 ```
 
 Options: `--scenario a,b`, `--mode engine,mcp,agent,voice`, `--runs N`, `--required N`, `--speed N` (voice idle time).
+Video takes: `--device show,finish=dot` runs on another device class and switches before a beat (the scenario
+file keeps its own device for regression runs); `--tag name` is appended to the run directory.
+Each `scenario_turn` records `request_now` (the server clock used for the 20-second repeat window), and every JSONL
+record carries `mono_ms` and `wall_iso` so a screen recording can be aligned with a `sync_marker` (`:mark` in the CLIs).
 Artifacts: `runs/scenarios/<scenario>/<timestamp>-<mode>/{report.md, report.json, transcript.md, trace.jsonl, timings.csv}`.
 Live runs accept only the local endpoint; voice runs refuse Polly and Transcribe in this stage.

@@ -21,6 +21,8 @@ export interface Driver {
   turn(input: TurnInput): Promise<TurnOutput>;
   /** Move simulated time forward; returns host timer announcements that fired meanwhile. */
   advance(target: number): Promise<TimerFire[]>;
+  /** Change the device class for later turns (agent and voice modes). */
+  setDevice?(device: Scenario['device']): void;
   protocolVersion(): string | undefined;
   close(): Promise<void>;
 }

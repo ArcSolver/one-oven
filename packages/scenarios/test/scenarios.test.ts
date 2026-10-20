@@ -80,3 +80,24 @@ test('video script from passing scripted runs uses recorded replies and fits the
   assert.ok(lines.includes('Glazed carrots replace green beans. Dinner is still at 6:30 PM.'));
   assert.deepEqual(rows.map(r => r.start), rows.map((_, i) => rows.slice(0, i).reduce((n, r) => n + r.seconds, 0)));
 });
+
+test('a video take can run on the screen device, switch to voice-only before a beat, and records server request time', async () => {
+  const scenario = { ...loadScenario('salmon-delay'), device: 'show' as const };
+  const trace = new MemoryTrace();
+  const result = await runScenario(scenario, new AgentDriver(), trace, tmpdir(), { deviceSwitches: { finish: 'dot' } });
+  assert.equal(result.passed, true, JSON.stringify(result.failures));
+  const turns = trace.records.filter(r => r.type === 'turn');
+  const beats = trace.records.filter(r => r.type === 'scenario_turn');
+  assert.equal(turns.length, beats.length);
+  beats.forEach((b, i) => {
+    assert.equal(turns[i].device, b.beat === 'finish' ? 'dot' : 'show', `${b.beat} device`);
+    assert.equal(b.request_now, turns[i].at, 'request time is the server clock of that turn');
+  });
+  assert.ok(trace.records.some(r => r.type === 'device_switch' && r.beat === 'finish' && r.device === 'dot'));
+  const delay = beats.find(b => b.beat === 'delay')!, again = beats.find(b => b.beat === 'delay-again')!;
+  assert.ok(Date.parse(String(again.request_now)) - Date.parse(String(delay.request_now)) <= 20000);
+  await assert.rejects(async () => {
+    const engine = await runScenario(scenario, new EngineDriver(), new MemoryTrace(), tmpdir(), { deviceSwitches: { finish: 'dot' } });
+    if (!engine.passed) throw new Error(engine.failures[0].message);
+  }, /no device to switch/);
+});

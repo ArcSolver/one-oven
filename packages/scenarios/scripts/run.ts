@@ -10,11 +10,19 @@ import { EngineDriver } from '../src/modes/engine.js';
 import { McpDriver } from '../src/modes/mcp.js';
 import { AgentDriver } from '../src/modes/agent.js';
 import type { Driver, Mode } from '../src/types.js';
+import type { Scenario } from '../src/schema.js';
 
 const arg = (name: string) => { const i = process.argv.indexOf(name); return i < 0 ? undefined : process.argv[i + 1]; };
 const flag = (name: string) => process.argv.includes(name);
 const modes = (arg('--mode') ?? 'engine,mcp,agent').split(',') as Mode[];
 const only = arg('--scenario');
+// --device show[,<beat>=dot]: run on another device class, optionally switching before a beat (video takes).
+const deviceArg = arg('--device')?.split(',') ?? [];
+const deviceBase = deviceArg.find(d => !d.includes('=')) as Scenario['device'] | undefined;
+const deviceSwitches = Object.fromEntries(deviceArg.filter(d => d.includes('=')).map(d => d.split('='))) as Record<string, Scenario['device']>;
+for (const d of [deviceBase, ...Object.values(deviceSwitches)]) if (d && d !== 'show' && d !== 'dot') throw new Error(`Unknown device ${d}`);
+const tag = arg('--tag');
+if (tag && !/^[a-z0-9-]+$/.test(tag)) throw new Error('--tag uses a-z, 0-9 and -');
 const live = flag('--live');
 const runs = Number(arg('--runs') ?? (live ? 5 : 1));
 const required = Number(arg('--required') ?? (live ? 4 : runs));
@@ -56,9 +64,10 @@ for (const mode of modes) {
     const results: ScenarioResult[] = [];
     const directories: string[] = [];
     for (let trial = 1; trial <= runs; trial++) {
-      const directory = join(root, scenario.id, `${stamp}-${mode}${live ? '-live' : ''}${runs > 1 ? `-t${trial}` : ''}`);
+      const directory = join(root, scenario.id, `${stamp}-${mode}${live ? '-live' : ''}${tag ? `-${tag}` : ''}${runs > 1 ? `-t${trial}` : ''}`);
       mkdirSync(directory, { recursive: true });
-      const result = await runScenario(scenario, await driverFor(mode), new JsonlTrace(join(directory, 'trace.jsonl')), directory);
+      const run = deviceBase ? { ...scenario, device: deviceBase } : scenario;
+      const result = await runScenario(run, await driverFor(mode), new JsonlTrace(join(directory, 'trace.jsonl')), directory, { deviceSwitches });
       writeArtifacts(directory, result);
       results.push(result); directories.push(directory);
       const s = summary(result);
