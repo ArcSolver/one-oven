@@ -70,7 +70,11 @@ npm test --workspace @one-oven/simulator   # geometry, WAV format, sync log, hos
 npm run sim:e2e                            # Playwright: salmon delay via text input in film mode
 ```
 
-The Playwright run starts its own stack (ports 5190/3020, scripted model, system TTS), cooks until
+`e2e/voice.spec.ts` feeds a committed fixture WAV to Chromium's fake microphone and checks that the
+browser recording reaches Whisper and the agent; it is skipped when no local Whisper server can be
+reused or started. Voice turns keep the uploaded audio as `runs/sim-*/user-N.wav`.
+
+The Playwright salmon run starts its own stack (ports 5190/3020, scripted model, system TTS), cooks until
 6:20 PM with the salmon roasting, reports the delay, and checks from the sync log that only the
 salmon bars moved by five minutes of pixels while every rice and green-bean bar kept its rectangle
 and decoded pixels. `SIM_E2E_OUT` chooses where screenshots and the copied log go (default

@@ -15,6 +15,6 @@ export default defineConfig({
     timeout: 120000,
     stdout: 'pipe',
     env: { SIM_PORT: String(port), SIM_MCP_PORT: process.env.SIM_E2E_MCP_PORT ?? '3020', AGENT_MODEL: 'scripted:weekday-3',
-      AGENT_DEVICE: 'show', VOICE_STT: 'fixture', VOICE_TTS: process.env.VOICE_TTS ?? 'system', SIM_CLOCK_START: '2026-10-15T17:05:00-05:00' },
+      AGENT_DEVICE: 'show', VOICE_STT: process.env.SIM_E2E_STT ?? 'whisper', VOICE_TTS: process.env.VOICE_TTS ?? 'system', SIM_CLOCK_START: '2026-10-15T17:05:00-05:00' },
   },
 });

@@ -1,4 +1,5 @@
 import express, { type Request, type Response } from 'express';
+import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { assertSpeech } from '@one-oven/contracts';
 import type { OneOvenMcpClient } from '@one-oven/agent/mcp';
@@ -101,6 +102,8 @@ export function createSimHost(options: SimHostOptions) {
     try {
       await t.runtime.serverClock?.sync();
       if (input.kind === 'voice') {
+        // Kept like `npm run voice` keeps runs/voice-*/user-N.wav: local, ignored by Git.
+        writeFileSync(join(t.dir, `user-${turn}.wav`), input.wav, { mode: 0o600 });
         const at = performance.now();
         const heard = await options.stt.transcribe({ wav: input.wav, sampleRate: 16000 } as AudioClip, COOKING_HINTS);
         view.heard = heard.text;
