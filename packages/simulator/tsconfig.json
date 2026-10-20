@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "rootDir": "../.."
+  },
+  "include": ["src/host/**/*.ts", "src/shared/**/*.ts", "test/**/*.ts", "e2e/**/*.ts", "playwright.config.ts"]
+}
