@@ -65,6 +65,7 @@ test('host turns go through the real MCP client and write the sync log', async (
     const types = records.map(r => r.type);
     for (const type of ['take_start', 'turn_start', 'tool_return', 'plan', 'reply_ready', 'tts_ready', 'turn_end', 'clock', 'device']) assert.ok(types.includes(type), type);
     assert.equal(records[0].protocol, '2025-11-25');
+    assert.ok(records[0].t0_mono_ms > 0 && records[0].t0_mono_ms < performance.now());
     assert.ok(records.every((r, i) => i === 0 || r.t_ms >= records[i - 1].t_ms));
   } finally {
     await host.close();

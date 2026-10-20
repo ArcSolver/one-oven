@@ -25,7 +25,7 @@ Within one page load `ui_ms` is monotonic. Host and UI records interleave by `t_
 
 | Type | Source | Fields |
 | --- | --- | --- |
-| `take_start` | host | `take`, `trace` (agent trace path), `mcp_url`, `protocol` (negotiated MCP version), `model`, `device`, `sim_now` (ISO), `timezone`, `stt`, `tts` |
+| `take_start` | host | `take`, `t0_mono_ms` (host `performance.now()` at `t_ms` 0; the agent runs in the same process, so a trace `mono_ms` equals `t_ms + t0_mono_ms`), `trace` (agent trace path), `mcp_url`, `protocol` (negotiated MCP version), `model`, `device`, `sim_now` (ISO), `timezone`, `stt`, `tts` |
 | `clock_sync` | host | `ui_send_ms`, `ui_receive_ms`, `host_t_ms`, `rtt_ms`, `offset_ms` (best so far; `ui_t_ms = ui_ms + offset_ms`) |
 | `ui_hello` | ui | `film`, `viewport`, `dpr`, `stage` {x, y, width, height} in viewport CSS px, `user_agent` |
 | `ui_submit` | ui | `input` (`text`/`voice`), `utterance` or `audio_bytes`. The moment the user pressed Enter or stopped talking |

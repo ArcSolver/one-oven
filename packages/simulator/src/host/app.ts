@@ -83,7 +83,7 @@ export function createSimHost(options: SimHostOptions) {
     timers.start();
     t.stopTimers = () => { unsubscribe(); timers.stop(); };
     voiceReady = await options.sttReady();
-    log.write('take_start', { take: t.id, trace: opened.runtime.tracePath, mcp_url: opened.mcpUrl,
+    log.write('take_start', { take: t.id, t0_mono_ms: Math.round(log.t0 * 1000) / 1000, trace: opened.runtime.tracePath, mcp_url: opened.mcpUrl,
       protocol: mcp.protocolVersion, model: `${opened.runtime.session.provider}:${opened.runtime.session.modelId}`,
       device: opened.runtime.device.deviceClass, sim_now: new Date(timers.clock.now()).toISOString(), timezone: options.timezone,
       stt: options.sttName, tts: options.tts.voiceId });

@@ -5,7 +5,8 @@ import { dirname } from 'node:path';
  * that never decreases within one file; UI records also carry the browser's own `ui_ms`.
  */
 export class SyncLog {
-  private readonly t0: number;
+  /** Raw performance.now() when the log opened: `t_ms + t0` is the host process's monotonic clock. */
+  readonly t0: number;
   private last = 0;
   private seq = 0;
   private offset?: { value: number; rtt: number };
