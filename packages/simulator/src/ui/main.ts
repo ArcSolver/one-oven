@@ -16,6 +16,8 @@ let state: HostState | undefined;
 let busy = false;
 let speaking = false;
 let liveTools: ToolCallView[] = [];
+/** Take whose sync log has this page's clock pairing and ui_hello. */
+let greeted: string | undefined;
 const fmt = (minute: number) => new Intl.DateTimeFormat('en-US', { timeZone: state?.timezone ?? 'America/Chicago', hour: 'numeric', minute: '2-digit' }).format(minute * 60000);
 const ros = new RunOfShow($('#ros'), fmt);
 const speaker = new Speaker(active => { speaking = active; activity(); });
@@ -122,7 +124,9 @@ function applyState(incoming: HostState): void {
   const previousServe = state?.plan?.serve;
   const takeChanged = state && state.session !== next.session;
   state = next;
-  if (takeChanged) { liveTools = []; void flush().then(hello); }
+  if (takeChanged) liveTools = [];
+  // Also the first state: a take opened while this page loaded never sees a change.
+  if (greeted !== next.session) { greeted = next.session; void flush().then(hello); }
   stage.classList.toggle('dot', next.device === 'dot');
   stage.classList.toggle('show', next.device === 'show');
   document.querySelectorAll<HTMLButtonElement>('[data-device]').forEach(b => b.classList.toggle('active', b.dataset.device === next.device));
@@ -250,6 +254,7 @@ setInterval(() => { if (state?.plan) { renderCards(state.plan); } }, 15000);
 
 /** Every take writes a new sync log, so pair the clocks and describe the page again. */
 async function hello(): Promise<void> {
+  await document.fonts.ready;
   await syncClocks();
   const rect = stage.getBoundingClientRect();
   uilog('ui_hello', { film, footer, viewport: { width: innerWidth, height: innerHeight }, dpr: devicePixelRatio,
@@ -258,5 +263,3 @@ async function hello(): Promise<void> {
 }
 const events = new EventSource('/api/events');
 events.onmessage = message => onEvent(JSON.parse(message.data) as HostEvent);
-await document.fonts.ready;
-await hello();
