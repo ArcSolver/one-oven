@@ -134,6 +134,8 @@ test('film take: salmon delay on the screen device, recorded at 1600x704', async
 
 test('film footer option hides only the bottom notice and tool strip', async ({ page }) => {
   const box = async (selector: string) => page.locator(selector).boundingBox();
+  // Own take first: a page load writes ui_hello and bars into the current take's sync log.
+  const { log: path } = (await (await page.request.post('/api/take')).json()) as HostState;
   await page.goto('/?film=1');
   await expect(page.locator('.bottom')).toBeVisible();
   const shown = { ros: await box('#ros'), screen: await box('.screen'), marker: await box('#marker') };
@@ -144,7 +146,5 @@ test('film footer option hides only the bottom notice and tool strip', async ({ 
   await expect(page.locator('.honesty')).toBeHidden();
   await expect(page.locator('#tools')).toBeHidden();
   expect({ ros: await box('#ros'), screen: await box('.screen'), marker: await box('#marker') }).toEqual(shown);
-  // A new take writes a new sync log, and the page describes itself there again.
-  const { log: path } = (await (await page.request.post('/api/take')).json()) as HostState;
-  await expect.poll(() => log(path).find(r => r.type === 'ui_hello')?.footer, { timeout: 10000 }).toBe(false);
+  await expect.poll(() => log(path).some(r => r.type === 'ui_hello' && r.footer === false), { timeout: 10000 }).toBe(true);
 });
