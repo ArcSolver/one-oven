@@ -12,7 +12,7 @@ Bedrock·AWS 호출, 유료 STT/TTS, push·배포·가입·결제는 하지 않�
 
 ## 1. 만든 것
 
-새 workspace `packages/scenarios`([README](../../packages/scenarios/README.md)):
+새 workspace `packages/scenarios`([README](../../../packages/scenarios/README.md)):
 
 - `scenarios/*.yaml` 4개: weekday-3, salmon-delay, swap, thanksgiving-8. 사용자 발화가 곧 영상 대사다.
 - `src/schema.ts`: 설계 6절의 Scenario/Beat를 zod로 검증한다(알 수 없는 키·잘못된 시각·모호한 비트 거절). 확장 필드는 5절에 적었다.
@@ -33,7 +33,7 @@ Bedrock·AWS 호출, 유료 STT/TTS, push·배포·가입·결제는 하지 않�
   발화(음성 모드에서는 인식 결과)에 의도 단어가 빠지면 툴을 부르지 않고 되묻는다. 배관과 상태를 증명할 뿐 언어 이해는 증명하지 않으며, 그 부분은 live 실행이 맡는다.
 - `src/report.ts`: `runs/scenarios/<id>/<시각>-<모드>/{report.md, report.json, transcript.md, trace.jsonl, timings.csv}`.
 - `src/video-script.ts`, `npm run video:script`: 시나리오마다 가장 좋은 통과 실행(voice-live > agent-live > voice > agent > mcp > engine)을 골라
-  [VIDEO_SCRIPT.md](../../docs/submission/VIDEO_SCRIPT.md)와 [SRT](../../docs/submission/VIDEO_SCRIPT.srt)를 만든다. 2:50을 넘으면 실패한다.
+  [VIDEO_SCRIPT.md](../../../docs/submission/VIDEO_SCRIPT.md)와 [SRT](../../../docs/submission/VIDEO_SCRIPT.srt)를 만든다. 2:50을 넘으면 실패한다.
 - `scripts/aggregate.ts`: 실행 요약에서 통과율·지연 표를 만든다.
 
 서버·에이전트 수정(4절 상세): 같은 분에 시작할 단계를 모두 시작하고 두 번째 단계도 말하기, 지연·교체·주방 문장 개선,
@@ -86,7 +86,7 @@ Alexa 대사는 이 에뮬레이터가 실제로 낸 문장이다. 실제 Alexa+
 
 ### 3-1. 결정적 검사(`npm run check`)
 
-새 클론에서 `npm ci && npm run check` 통과(기준 `373c1d8`, [로그](CHECK_S4_CLEAN.log)).
+새 클론에서 `npm ci && npm run check` 통과(기준 `373c1d8`, [로그](../../results/CHECK_S4_CLEAN.log)).
 
 | 항목 | 결과 |
 | --- | --- |
@@ -102,7 +102,7 @@ scripted 4개 실행으로 만든 대본의 길이 상한을 검사한다.
 
 조건: temperature 0, maxTokens 2048, 음성 모드 응답(턴당 모델 요청 1회), 매 회 새 SQLite·서버·세션, 순차 실행.
 
-수정 후 최종([집계](s4/LIVE_AFTER_FIX_METRICS.json)):
+수정 후 최종([집계](../../results/s4/LIVE_AFTER_FIX_METRICS.json)):
 
 | 시나리오 | 통과 | 턴 | 턴 p50 | 턴 p95 | 최대 | 툴 p95 | 린트 위반 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -112,8 +112,8 @@ scripted 4개 실행으로 만든 대본의 길이 상한을 검사한다.
 | thanksgiving-8 | **4/5** | 160 | 2.41s | 3.19s | 4.93s | 8.7ms | 0 |
 
 지연 통계는 통과한 실행의 턴만 집계했다. 실패 1건은 4절에 따로 적었다. 실모델 문구 차이(soft)는 0건이다.
-수정 전 첫 세트는 18/20(thanksgiving 3/5)이었다([집계](s4/LIVE_BEFORE_FIX_METRICS.json), [실패 턴](s4/LIVE_FAILURES_BEFORE_FIX.jsonl)).
-프롬프트를 바꿨으므로 이미 5/5였던 세 시나리오도 다시 돌렸다. 대표 대화: [지연](s4/TRANSCRIPT_SALMON_DELAY_LIVE.md), [추수감사절](s4/TRANSCRIPT_THANKSGIVING_LIVE.md).
+수정 전 첫 세트는 18/20(thanksgiving 3/5)이었다([집계](../../results/s4/LIVE_BEFORE_FIX_METRICS.json), [실패 턴](../../results/s4/LIVE_FAILURES_BEFORE_FIX.jsonl)).
+프롬프트를 바꿨으므로 이미 5/5였던 세 시나리오도 다시 돌렸다. 대표 대화: [지연](../../results/s4/TRANSCRIPT_SALMON_DELAY_LIVE.md), [추수감사절](../../results/s4/TRANSCRIPT_THANKSGIVING_LIVE.md).
 
 ### 3-3. 음성 모드
 
@@ -123,7 +123,7 @@ scripted 4개 실행으로 만든 대본의 길이 상한을 검사한다.
 | **실모델 + 실제 Whisper·espeak** | **4/4** 통과, 95턴 | 3.84s / 4.89s(최대 7.82s) |
 
 실모델 음성 95턴의 구간별 지연: STT p50/p95 1.38/1.61s, 모델 2.29/3.35s, MCP 툴 7/11ms, TTS 합성 91/119ms,
-입력 WAV → 출력 오디오 파일 준비 3.84/4.89s([집계](s4/VOICE_LIVE_METRICS.json)).
+입력 WAV → 출력 오디오 파일 준비 3.84/4.89s([집계](../../results/s4/VOICE_LIVE_METRICS.json)).
 S3와 같이 헤드리스라 물리적 첫 소리가 아니라 파일 준비 시점이다. 인식 결과가 대본과 다른 턴은 4/95였고 모두 의미는 같았다
 ("6:30" → "six thirty" 3회, "Thanksgiving" → "plant-thunk-sgiving" 1회, 모델은 정상 처리). 타이머 알림은 계획 시각과 0ms 차이로 울렸다.
 
@@ -139,10 +139,10 @@ S3와 같이 헤드리스라 물리적 첫 소리가 아니라 파일 준비 시
 
 | # | 어디서 | 분류 | 원인 | 고친 내용 |
 | --- | --- | --- | --- | --- |
-| 1 | engine: swap, thanksgiving | state | 같은 분에 시작할 단계가 둘이면(6:10 당근 손질과 밥 뜸) next_step이 하나만 시작했다. 두 번째 "What's next?"는 20초 암묵 재시도 감지에 걸려 재생됐고 밥 단계는 안내되지 않았다. 실제 사용자에게도 생기는 제품 결함이다 | 서버가 예정 시각이 된 단계를 모두 시작하고 "Slice the carrots. Also, cook the covered rice gently."처럼 두 번째 단계도 말한다(린트를 통과할 때만). 응답에 `also_started` 추가. [speech.test.ts](../../packages/server/test/speech.test.ts) |
+| 1 | engine: swap, thanksgiving | state | 같은 분에 시작할 단계가 둘이면(6:10 당근 손질과 밥 뜸) next_step이 하나만 시작했다. 두 번째 "What's next?"는 20초 암묵 재시도 감지에 걸려 재생됐고 밥 단계는 안내되지 않았다. 실제 사용자에게도 생기는 제품 결함이다 | 서버가 예정 시각이 된 단계를 모두 시작하고 "Slice the carrots. Also, cook the covered rice gently."처럼 두 번째 단계도 말한다(린트를 통과할 때만). 응답에 `also_started` 추가. [speech.test.ts](../../../packages/server/test/speech.test.ts) |
 | 2 | 대본 검토 | 문구 | 지연 응답이 이미 오븐에 든 연어를 "Lemon salmon starts 5 minutes later"라고 말했다(연어 휴지 단계 이동을 다른 요리 변화처럼 요약). 교체는 "The replacement is planned", 주방은 "capacity 4 pans respectively" | 지연: 다른 요리 변화만 요약, 없으면 "the other dishes keep their times", 서빙 시각이 그대로면 "stays". 교체·주방 문장에 실제 이름·수치를 넣었다 |
 | 3 | voice(scripted) 첫 실행 0/4 | tool_selection | espeak 음성 + base.en이 "Alexa, my kitchen has one oven"을 "my kitchen, oven"으로, "turkey step"을 "Turkish tap"으로, "gravy"를 "bravest"로 들었다 | 인식되는 자연스러운 대사로 교체("I have one oven…", "replace … with …", 완료 문장 "I'm done with the {subject}"는 10개 대상 10/10). 공통 힌트에 카탈로그 요리 이름만 추가(발화별 정답은 넣지 않음). scripted 의도 검사는 단·복수를 허용. S3 12/12 유지 |
-| 4 | live thanksgiving t1 | arguments | 모델이 `done_step_id: "potatoes:0 / end"`를 보냈고, 음성 모드가 오류 문장을 바로 말해 모델이 고칠 기회가 없었다 | 실패한 호출의 ID가 호스트가 준 적 없는 값이면 오류를 말하지 않고 모델에 **한 번** 돌려준다(`voice_correction` trace). 유효한 ID로 난 진짜 도메인 오류는 기존대로 모델 요청 1회로 즉시 말한다. [correction.test.ts](../../packages/agent/test/correction.test.ts) |
+| 4 | live thanksgiving t1 | arguments | 모델이 `done_step_id: "potatoes:0 / end"`를 보냈고, 음성 모드가 오류 문장을 바로 말해 모델이 고칠 기회가 없었다 | 실패한 호출의 ID가 호스트가 준 적 없는 값이면 오류를 말하지 않고 모델에 **한 번** 돌려준다(`voice_correction` trace). 유효한 ID로 난 진짜 도메인 오류는 기존대로 모델 요청 1회로 즉시 말한다. [correction.test.ts](../../../packages/agent/test/correction.test.ts) |
 | 5 | live thanksgiving t4 | tool_selection | 식사 요청에 모델이 set_kitchen을 다시 불렀고(서버가 dedup), 음성 모드는 그 응답으로 턴을 끝냈다 | 음성 프롬프트에 두 줄 추가: ID를 그대로 복사하라, 주방을 묘사할 때만 set_kitchen을 쓰고 kitchen_id가 있으면 plan_meal을 부르라 |
 | 6 | live thanksgiving t4(수정 후) | turn_error | 모델 요청 1건이 120초 동안 응답하지 않았다. 툴 호출 0, 상태 변화 0. S2 2회차와 같은 유형이다 | 코드 수정 없음. 7절 남은 일 |
 
@@ -167,9 +167,9 @@ S3와 같이 헤드리스라 물리적 첫 소리가 아니라 파일 준비 시
 
 ## 6. 프릭션 로그
 
-[FRICTION_LOG.md](../../docs/friction/FRICTION_LOG.md)에 S4 절을 이어 썼다.
+[FRICTION_LOG.md](../../../docs/friction/FRICTION_LOG.md)에 S4 절을 이어 썼다.
 
-- **F-09 실증**([항목](../../docs/friction/entries/F-09-alexa-timer-handoff-contract.md)): 애드온이 Alexa 기본 타이머로 넘기는 계약이 확인한 문서에 없다.
+- **F-09 실증**([항목](../../../docs/friction/entries/F-09-alexa-timer-handoff-contract.md)): 애드온이 Alexa 기본 타이머로 넘기는 계약이 확인한 문서에 없다.
   Conversation surface 가이드는 타이머를 호스트 쪽 끼어들기 예시로만 다룬다("A: <Timer audio and visuals play> C: “Alexa, stop the timer.”").
   같은 문서의 "You influence Alexa’s response through the data you return, not by scripting it directly."는 결함이 아니라 제약이라 대본 머리말에 반영했다.
 - 새 F 번호는 없다. 로컬 합성 음성 인식 한계와 같은 분 단계 결함은 외부 제품 문제가 아니라서 결과 문서에만 남겼다.

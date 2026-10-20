@@ -9,4 +9,4 @@
 - Time lost: About 10 minutes of inspection and reproduction; recorded for the structured-result integration mismatch, not the 15-minute threshold.
 - Workaround: Override the public McpClient.callTool method to append structuredContent as a text JSON block for the model; retain the unmodified raw result in the trace. Do not change the six server tools or spoken content.
 - Actionable suggestion: Map structuredContent into a JsonBlock in McpTool.stream, with a regression test covering an identifier used by a later tool.
-- Evidence: `packages/agent/scripts/spike.ts`, `docs/results/S2_SPIKE.md`; ID-chain regression in `packages/agent/test/e2e.test.ts` and the gateway session test.
+- Evidence: `packages/agent/scripts/spike.ts`, `docs/ko/results/S2_SPIKE.md`; ID-chain regression in `packages/agent/test/e2e.test.ts` and the gateway session test.

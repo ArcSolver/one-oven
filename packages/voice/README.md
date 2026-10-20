@@ -66,7 +66,7 @@ the container's headless tests do not verify microphone or speaker hardware.
 
 For the required human recording, complete one weekday meal with a microphone,
 keep the WAVs and trace, and record noise/device details in
-`docs/calibration/VOICE_MANUAL_S3.md`. This remains a user-operated check.
+`docs/ko/calibration/VOICE_MANUAL_S3.md`. This remains a user-operated check.
 
 ## Automated acceptance and measurements
 

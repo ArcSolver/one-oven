@@ -1,0 +1,15 @@
+# Korean stage reports
+
+These are the original Korean working reports, kept unchanged apart from relative links that were
+updated when the files moved here. The English evidence they cite (traces, metrics JSON, check logs)
+stays in [`docs/results/`](../results/).
+
+| File | Stage |
+| --- | --- |
+| [RESULT_D1.md](RESULT_D1.md) | D1–D2: first MCP server and scheduler |
+| [results/RESULT_S1.md](results/RESULT_S1.md) | S1: engine, SQLite, retries, MCP contract |
+| [results/S2_SPIKE.md](results/S2_SPIKE.md) | S2-0: Strands provider and HTTP MCP spike |
+| [results/RESULT_S2.md](results/RESULT_S2.md) | S2: Strands text host, live local-model trials |
+| [results/RESULT_S3.md](results/RESULT_S3.md) | S3: local voice pipeline and latency |
+| [results/RESULT_S4.md](results/RESULT_S4.md) | S4: YAML scenarios in four modes, video script |
+| [calibration/VOICE_MANUAL_S3.md](calibration/VOICE_MANUAL_S3.md) | Human-voice check form (not yet run) |

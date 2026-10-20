@@ -29,7 +29,7 @@ not claims of work attempted or time lost in this repository.
 ## S2 findings
 
 - [F-12: Structured MCP results disappear before reaching the model](entries/F-12-strands-structured-content.md): reproduced on Strands TS 1.21.0; public adapter preserves the ID chain.
-- F-10 provider seed resolved by [S2-0](../results/S2_SPIKE.md): native OpenAI and Anthropic providers exist; no provider blocker.
+- F-10 provider seed resolved by [S2-0](../ko/results/S2_SPIKE.md): native OpenAI and Anthropic providers exist; no provider blocker.
 
 ## S3 findings
 
@@ -37,7 +37,7 @@ not claims of work attempted or time lost in this repository.
   Voice mode now consumes validated `say` through the public `AfterToolsEvent.endTurn`
   hook and keeps compact host state, so it avoids repeating the full structured
   plan through additional model/timer round trips. See
-  [S3 measurements](../results/RESULT_S3.md) and [A/B evidence](../results/s3/LATENCY_AB.json).
+  [S3 measurements](../ko/results/RESULT_S3.md) and [A/B evidence](../results/s3/LATENCY_AB.json).
 - No new F number in S3: no newly verified documentation mismatch or external
   blocker lasting 15 minutes. Local synthetic speech experiments are preserved
   as measured limitations, not attributed to an unsupported product defect:

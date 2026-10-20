@@ -25,7 +25,7 @@ OpenAI SDK는 `6.49.0`, Anthropic SDK는 `0.109.1`로 lockfile에 고정됐다.
 스파이크에서 **native McpTool이 structuredContent를 모델에게 전달하지 않는 문제**도 재현했다.
 `OneOvenMcpClient.callTool()`의 공개 override로 모델용 content에 구조화 JSON을 덧붙인다.
 원래 응답은 trace에 그대로 남긴다. 공급자는 내장 구현을 사용하므로 경로는 여전히 A다.
-상세 근거와 재현 출력: [S2_SPIKE.md](S2_SPIKE.md), [F-12](../friction/entries/F-12-strands-structured-content.md).
+상세 근거와 재현 출력: [S2_SPIKE.md](S2_SPIKE.md), [F-12](../../friction/entries/F-12-strands-structured-content.md).
 공식 확인 자료: [Strands MCP transports](https://strandsagents.com/docs/user-guide/sdk/tools/mcp-transports/),
 [TypeScript SDK 소스](https://github.com/strands-agents/sdk-typescript).
 
@@ -79,9 +79,9 @@ OpenAI SDK는 `6.49.0`, Anthropic SDK는 `0.109.1`로 lockfile에 고정됐다.
 | 일반 서버의 시계 조작 차단 | `/dev/clock` 없음, opt-in 서버의 역행/외부 Origin 거절 |
 | 새 로컬 복제본 | **`npm ci && npm run check` 통과**, 기준 커밋 `ae4f699` |
 
-새 복제본 로그는 [CHECK_S2_CLEAN.log](CHECK_S2_CLEAN.log)다.
+새 복제본 로그는 [CHECK_S2_CLEAN.log](../../results/CHECK_S2_CLEAN.log)다.
 그 뒤 live 명령의 scripted 오설정 거절을 추가하고 빌드·거절 동작을 별도로 검사했다.
-최종 작업 트리에서도 전체 check를 다시 실행했다([CHECK_S2.log](CHECK_S2.log)).
+최종 작업 트리에서도 전체 check를 다시 실행했다([CHECK_S2.log](../../results/CHECK_S2.log)).
 총 자동 테스트는 **S1 34개 + S2 10개 = 44개**다.
 
 새 복제본 scripted 측정: 턴 p50 **9.04ms**, p95 **14.62ms**, 전체 **356.08ms**.
@@ -116,21 +116,21 @@ maxTokens 2048, Dot, America/Chicago, 모의 시계 2026-10-15 17:05,
    호스트 소유 두 필드를 제거하고, 사용하지 않는 선택값을 null로 표현할 수 있게 했다.
    MCP 전송 전에는 원래 계약에서 선택인 null만 제거한다. 필수값의 null은 그대로 오류가 난다.
    공급자별 다른 프롬프트나 기대 상태를 대신 만드는 코드는 넣지 않았다.
-   실제 wire 응답을 보존한 [초기 실패 trace](s2/INITIAL_FAILURE_TRACE.jsonl)와
-   [초기 5회 표](s2/INITIAL_FAILURES.json)를 남겼다. 엔드포인트 내부 원인까지 확인한 것은 아니다.
+   실제 wire 응답을 보존한 [초기 실패 trace](../../results/s2/INITIAL_FAILURE_TRACE.jsonl)와
+   [초기 5회 표](../../results/s2/INITIAL_FAILURES.json)를 남겼다. 엔드포인트 내부 원인까지 확인한 것은 아니다.
 2. **최종 평가 2회차: 완료 10턴 뒤 "What's next?" 응답 지연.**
    120초 세션 제한에서 중단됐다. 해당 실패 턴의 MCP 호출은 0회라 그 턴에서 상태를 바꾸지 않았다.
-   원격 내부 장애라고 단정할 근거는 없다. [실패 trace](s2/TIMEOUT_TRACE.jsonl)에
+   원격 내부 장애라고 단정할 근거는 없다. [실패 trace](../../results/s2/TIMEOUT_TRACE.jsonl)에
    모델 120036.92ms, 전체 120041.88ms가 기록돼 있다. 무제한 재시도는 하지 않았다.
 
 최종 원본: `runs/s2-openai-2026-10-15T07-54-58-376Z/trial-1..5/trace.jsonl`.
-보존한 집계: [LIVE_REPORT.json](s2/LIVE_REPORT.json), [LIVE_METRICS.json](s2/LIVE_METRICS.json).
+보존한 집계: [LIVE_REPORT.json](../../results/s2/LIVE_REPORT.json), [LIVE_METRICS.json](../../results/s2/LIVE_METRICS.json).
 실행 뒤 성공한 4개 최종 trace에서도 6:35 PM·12단계 done·경고 0을 다시 확인했다.
 토큰 값은 공급자가 보고한 누적 입력 처리량이며 캐시·고유 텍스트량·청구 비용으로 해석하지 않는다.
 
 ## 5. Trace 샘플 3턴
 
-1회차에서 발췌했다. 전체 필드와 원래 ID 체인은 [TRACE_SAMPLE.jsonl](s2/TRACE_SAMPLE.jsonl)에 있다.
+1회차에서 발췌했다. 전체 필드와 원래 ID 체인은 [TRACE_SAMPLE.jsonl](../../results/s2/TRACE_SAMPLE.jsonl)에 있다.
 아래 표의 응답은 모델 원문과 최종 발화가 같으며, 모두 린트 통과다.
 
 | 턴 | 사용자 발화 | 실제 호출·결과 | 모델 응답 |

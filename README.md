@@ -103,7 +103,7 @@ local conversation data, are ignored by Git, and must be reviewed before sharing
 The output guard falls back to a valid tool `say`; live grading still fails a raw
 lint violation rather than hiding it. Automatic mutation retries are disabled.
 
-See [S2 spike](docs/results/S2_SPIKE.md) and [S2 results](docs/results/RESULT_S2.md)
+See [S2 spike](docs/ko/results/S2_SPIKE.md) and [S2 results](docs/ko/results/RESULT_S2.md)
 for the exact versions, trials, traces and known limits.
 
 ## Voice host (S3)
@@ -118,7 +118,7 @@ the unattended 60× cooking replay. `npm run voice` uses the microphone.
 The optimized path keeps Strands/MCP and speaks validated server `say` directly,
 removing the extra model reply and timer-tool round trips. Local real-model A/B
 measurement reduced 20-turn p50 from 6.52s to 2.45s and p95 from 8.88s to 3.10s;
-see [S3 results](docs/results/RESULT_S3.md) for sample sizes, full voice timing,
+see [S3 results](docs/ko/results/RESULT_S3.md) for sample sizes, full voice timing,
 failed experiments and hardware measurement limits. No AWS request was made.
 
 ## Scenarios and demo script (S4)
@@ -135,7 +135,7 @@ npm run e2e:voice         # espeak -> Whisper -> agent -> TTS files; needs WHISP
 npm run video:script      # docs/submission/VIDEO_SCRIPT.md and .srt from the best passing runs
 ```
 
-See the [scenarios README](packages/scenarios/README.md) and [S4 results](docs/results/RESULT_S4.md).
+See the [scenarios README](packages/scenarios/README.md) and [S4 results](docs/ko/results/RESULT_S4.md).
 
 ## Web simulator
 
@@ -255,7 +255,7 @@ metadata keys, stale versions, rollback injection, migration/reopen, speech,
 DST and malformed recipe data. A 200-sample benchmark includes file-backed SQLite
 writes and asserts plan p95 ≤50ms and delay p95 ≤20ms.
 
-See [S1 results](docs/results/RESULT_S1.md) for measurements, snapshot summaries,
+See [S1 results](docs/ko/results/RESULT_S1.md) for measurements, snapshot summaries,
 completion criteria and deviations. [Friction log](docs/friction/FRICTION_LOG.md)
 reserves the design's F-01–F-11 leads without presenting them as verified incidents.
 

@@ -34,7 +34,7 @@
 - `voice:roundtrip`, `voice:demo`, `voice:check`, `voice:latency`, `voice:fixtures`, `voice:setup` 명령.
   기존 서버 툴은 **6개 그대로**이며 UI·배포 코드는 추가하지 않았다.
 
-설정·설치·실행 계약: [voice README](../../packages/voice/README.md).
+설정·설치·실행 계약: [voice README](../../../packages/voice/README.md).
 
 ## 2. 지연을 줄인 방법과 측정 조건
 
@@ -62,7 +62,7 @@ S2와 같은 fast 모델을 사용했으므로 모델 교체 효과로 개선치
 기준 경로 1회와 최적화 경로 5회를 실행했다. 최적화 5회는 모두 성공했고 실패/타임아웃을 제외한 표본이 없다.
 실행 환경은 Node 24.21.0, Linux x86_64, 할당 CPU 8개,
 whisper.cpp v1.8.2, CPU 4 threads, base.en, beam/best-of 1, espeak-ng 1.52.0/en-gb/155 wpm이다.
-정확한 CPU·버전·모델 및 WAV SHA-256은 [ENVIRONMENT.json](s3/ENVIRONMENT.json)에 있다.
+정확한 CPU·버전·모델 및 WAV SHA-256은 [ENVIRONMENT.json](../../results/s3/ENVIRONMENT.json)에 있다.
 
 ### 에이전트 지연 비교
 
@@ -83,8 +83,8 @@ MCP 21회는 카탈로그 1회와 변경·진행 20회이고, 호스트 타이�
 모델 왕복 수와 입력량 감소다. 원문/최종 발화 린트 위반·fallback은 두 경로 모두 0이다.
 서버 `say`를 사용한 턴은 모델 자유 생성 문장의 품질 평가와 구분한다.
 
-근거: [A/B 원본 표](s3/LATENCY_AB.json), [추가 4회](s3/LATENCY_VOICE_4.json),
-[100턴 집계와 요청별 수치](s3/METRICS.json).
+근거: [A/B 원본 표](../../results/s3/LATENCY_AB.json), [추가 4회](../../results/s3/LATENCY_VOICE_4.json),
+[100턴 집계와 요청별 수치](../../results/s3/METRICS.json).
 전체 원본 trace는 `runs/s3-latency-ab/`, `runs/s3-latency-voice/`에 있다.
 
 ### 실제 음성 왕복
@@ -108,8 +108,8 @@ Whisper base.en + **실모델** + 시스템 TTS로 20턴 전체를 실제 실행
 실모델 음성 데모는 **171.75s**에 20턴·12단계·12개 타이머를 완료했다.
 scripted 음성 데모는 같은 실제 Whisper/TTS로 **120.61s**, 전체 오디오 준비 p50/p95 **1.400/1.544s**였다.
 후자는 실모델 성능으로 계산하지 않았다.
-[실모델 보고서](s3/VOICE_DEMO_LIVE.json), [scripted 보고서](s3/VOICE_DEMO_SCRIPTED.json),
-[음성 trace 샘플](s3/TRACE_SAMPLE.jsonl), [타이머 12회](s3/TIMER_TRACE.jsonl).
+[실모델 보고서](../../results/s3/VOICE_DEMO_LIVE.json), [scripted 보고서](../../results/s3/VOICE_DEMO_SCRIPTED.json),
+[음성 trace 샘플](../../results/s3/TRACE_SAMPLE.jsonl), [타이머 12회](../../results/s3/TIMER_TRACE.jsonl).
 
 ## 3. 테스트와 완료 기준
 
@@ -128,8 +128,8 @@ scripted 음성 데모는 같은 실제 Whisper/TTS로 **120.61s**, 전체 오�
 | Polly·Transcribe | 모킹 통과, 실제 AWS 호출 **0회** |
 | 수동 사람 발화·실제 조리·스피커 녹음 | **미실행**; 사용자 진행용 기록 틀 작성 |
 
-새 체크아웃 로그: [CHECK_S3_CLEAN.log](CHECK_S3_CLEAN.log).
-STT 결과: [상주 서버](s3/ROUNDTRIP_BASE.json), [CLI](s3/ROUNDTRIP_CLI.json).
+새 체크아웃 로그: [CHECK_S3_CLEAN.log](../../results/CHECK_S3_CLEAN.log).
+STT 결과: [상주 서버](../../results/s3/ROUNDTRIP_BASE.json), [CLI](../../results/s3/ROUNDTRIP_CLI.json).
 새 음성 테스트는 만료/교체/취소/정리, 오디오 계약, AWS mock,
 알림 큐 직렬화·출력 실패, 중복 입력 차단, 빈 STT, 힌트 전송·잘못된 STT 응답 거절을 포함한다.
 에이전트 회귀는 오류 `say`를 한 번만 전달하고 카탈로그 갱신 뒤에도 진행 중 계획을 유지하는지 검사한다.
@@ -149,8 +149,8 @@ STT 결과: [상주 서버](s3/ROUNDTRIP_BASE.json), [CLI](s3/ROUNDTRIP_CLI.json
   scripted는 실제 running 단계 중 이름이 일치하는 하나만 선택하며 모호하면 재질문한다.
   실모델도 동일한 짧은 발화로 검증했다. 서버 상태를 테스트 기대값으로 직접 바꾸지 않았다.
 
-[초기 STT 실패](s3/ROUNDTRIP_EN_US_FAILURE.json), [tiny 실험](s3/ROUNDTRIP_TINY_EXPERIMENT.json),
-[짧은 context 실험](s3/ROUNDTRIP_SHORT_CONTEXT_EXPERIMENT.json), [초기 데모 실패](s3/INITIAL_DEMO_FAILURE.log).
+[초기 STT 실패](../../results/s3/ROUNDTRIP_EN_US_FAILURE.json), [tiny 실험](../../results/s3/ROUNDTRIP_TINY_EXPERIMENT.json),
+[짧은 context 실험](../../results/s3/ROUNDTRIP_SHORT_CONTEXT_EXPERIMENT.json), [초기 데모 실패](../../results/s3/INITIAL_DEMO_FAILURE.log).
 이는 원인 확인 없는 외부 서비스 장애 주장이나 통과율에서 숨긴 실패가 아니다.
 실험 결과를 보존하고 최종 선택·검증 결과와 분리했다.
 
@@ -175,7 +175,7 @@ STT 결과: [상주 서버](s3/ROUNDTRIP_BASE.json), [CLI](s3/ROUNDTRIP_CLI.json
 
 ## 6. 프릭션과 남은 일
 
-[프릭션 로그](../friction/FRICTION_LOG.md)에 S3 결과를 이어 썼다. **새 F 번호는 없다.**
+[프릭션 로그](../../friction/FRICTION_LOG.md)에 S3 결과를 이어 썼다. **새 F 번호는 없다.**
 F-12 우회는 유지한다. 새 외부 제품·문서의 15분 이상 차단이나 검증된 문서 불일치는 없었다.
 음성 인식 실험과 내부 fixture 매칭 문제는 측정/실패 자료로 남겼다.
 

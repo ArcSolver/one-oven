@@ -5,7 +5,7 @@
 
 **1단계 완료 기준을 통과했다.** 새 로컬 복제본에서 `npm ci && npm run check`를 실행해
 빌드, 레시피 8개 검증, 테스트 34개, 실제 HTTP MCP smoke가 모두 성공했다.
-원시 출력은 [CHECK_S1.log](CHECK_S1.log)에 보관했다.
+원시 출력은 [CHECK_S1.log](../../results/CHECK_S1.log)에 보관했다.
 이 문서는 요청한 `../RESULT_S1.md`에도 동일하게 복사했다.
 
 ## 만든 것
