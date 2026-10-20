@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>One Oven · Alexa+ web simulator</title>
+  <link rel="stylesheet" href="/src/ui/style.css">
+</head>
+<body>
+  <main id="stage" class="stage show" aria-label="Simulated Alexa+ screen">
+    <header class="top">
+      <div class="brand">
+        <span class="ring mini" data-ring></span>
+        <div>
+          <div class="wordmark">One Oven</div>
+          <div class="subtitle" id="subtitle">Alexa+ kitchen planner</div>
+        </div>
+      </div>
+      <div class="chips">
+        <div class="chip clock"><span class="k">Now</span><span class="v mono" id="clock">—</span></div>
+        <div class="chip version" id="version"><span class="k">Plan</span><span class="v mono" id="version-value">—</span></div>
+        <div class="serve"><span class="k">Serve</span><span class="v mono" id="serve">—</span></div>
+      </div>
+    </header>
+    <section class="screen">
+      <div class="left">
+        <article class="card now" id="now-card">
+          <div class="label">Now</div>
+          <div class="headline" id="now-text">Tell me about your kitchen, then what's for dinner.</div>
+          <div class="meta mono" id="now-meta"></div>
+          <ul class="also" id="now-also"></ul>
+        </article>
+        <article class="card next" id="next-card">
+          <div class="label">Next <span class="mono" id="next-at"></span></div>
+          <div class="headline small" id="next-text">—</div>
+        </article>
+        <article class="card talk">
+          <div class="line you"><span class="who">You</span><span class="said" id="you">—</span></div>
+          <div class="line one"><span class="who">One Oven</span><span class="said" id="reply">—</span></div>
+        </article>
+      </div>
+      <article class="card ros" id="ros" aria-label="Run of Show"></article>
+    </section>
+    <section class="speaker" aria-label="Voice-only speaker">
+      <div class="puck"><span class="ring big" data-ring></span></div>
+      <div class="speaker-caption">Voice-only speaker · no screen</div>
+    </section>
+    <footer class="bottom">
+      <div class="honesty">Simulated Alexa+ experience · our web simulator</div>
+      <div class="tools" id="tools"><span class="tag">TOOL CALL</span><span class="calls mono" id="tool-calls">—</span></div>
+    </footer>
+    <div class="marker" id="marker"></div>
+  </main>
+  <aside id="dock" class="dock" aria-label="Simulator controls (not part of the recorded frame)">
+    <form id="say-form" class="say">
+      <input id="say" name="say" autocomplete="off" placeholder="Type what you would say, e.g. “What's next?”" maxlength="400">
+      <button type="submit">Say</button>
+      <button type="button" id="mic" title="Click to talk, click again to send (Space in film mode)">🎙 Talk</button>
+    </form>
+    <div class="row">
+      <span class="group">Clock <button data-advance="1">+1</button><button data-advance="5">+5</button><button data-advance="10">+10</button><button data-advance="next">Next event</button><input id="goto" class="mono" value="18:20" size="5" aria-label="Kitchen time"><button id="goto-btn">Go to</button></span>
+      <span class="group">Device <button data-device="show">Screen</button><button data-device="dot">Speaker</button></span>
+      <span class="group"><button id="film-toggle">Film mode</button><button id="mark">Sync marker</button><button id="take">New take</button></span>
+    </div>
+    <div class="status mono" id="status"></div>
+  </aside>
+  <script type="module" src="/src/ui/main.ts"></script>
+</body>
+</html>
