@@ -137,6 +137,12 @@ npm run video:script      # docs/submission/VIDEO_SCRIPT.md and .srt from the be
 
 See the [scenarios README](packages/scenarios/README.md) and [S4 results](docs/results/RESULT_S4.md).
 
+## Web simulator
+
+`npm run sim` starts the MCP server, the Strands host and the browser UI together at http://127.0.0.1:5180/ (`/?film=1` is the 1600×704 recording frame).
+Type or hold to talk: speech goes through local Whisper, replies play through the same TTS, and the Run of Show and tool calls come only from real MCP results.
+Each take writes `runs/sim-*/sync.jsonl` with monotonic turn timestamps and drawn bar coordinates; see the [simulator README](packages/simulator/README.md).
+
 ## MCP interface
 
 The official TypeScript SDK serves Streamable HTTP with JSON responses at
