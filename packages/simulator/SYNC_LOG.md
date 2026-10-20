@@ -29,7 +29,7 @@ Within one page load `ui_ms` is monotonic. Host and UI records interleave by `t_
 | --- | --- | --- |
 | `take_start` | host | `take`, `t0_mono_ms` (host `performance.now()` at `t_ms` 0; the agent runs in the same process, so a trace `mono_ms` equals `t_ms + t0_mono_ms`), `trace` (agent trace path), `mcp_url`, `protocol` (negotiated MCP version), `model`, `device`, `sim_now` (ISO), `timezone`, `stt`, `tts` |
 | `clock_sync` | host | `ui_send_ms`, `ui_receive_ms`, `host_t_ms`, `rtt_ms`, `offset_ms` (best so far; `ui_t_ms = ui_ms + offset_ms`) |
-| `ui_hello` | ui | `film`, `viewport`, `dpr`, `stage` {x, y, width, height} in viewport CSS px, `user_agent` |
+| `ui_hello` | ui | `film`, `footer` (false when `footer=0` hides the bottom notice and tool strip in film mode), `viewport`, `dpr`, `stage` {x, y, width, height} in viewport CSS px, `user_agent` |
 | `ui_submit` | ui | `input` (`text`/`voice`), `utterance` or `audio_bytes`, optional `beat`/`iteration`. The moment the user pressed Enter or stopped talking |
 | `mic_start` / `mic_end` | ui | `sample_rate` / `audio_ms` |
 | `turn_start` | host | `turn` (1, 2… per take), `input`, `utterance` or `audio_bytes`; `beat`, `iteration` when the text turn was sent with a scenario label (scripted takes, `__sim.say`) |
@@ -56,7 +56,7 @@ Within one page load `ui_ms` is monotonic. Host and UI records interleave by `t_
  "changes":{"dish:salmon/salmon:1":"moved","dish:salmon/salmon:2":"moved","oven:0/salmon:1":"moved"},
  "axis":{"start":29868400,"end":29868465,"start_local":"5:40 PM","end_local":"6:45 PM",
          "track_x0":678,"track_width":862,"px_per_min":13.261538461538462},
- "stage":{"width":1600,"height":704,"film":true},
+ "stage":{"width":1600,"height":704,"film":true,"footer":true},
  "bars":[{"key":"dish:salmon/salmon:1","lane":"dish:salmon","step_id":"salmon:1","dish_id":"salmon",
           "status":"running","x":1063,"y":183,"width":301,"height":56,"layout_x":1063,"layout_width":301,
           "start":29868429,"end":29868452,"start_local":"6:09 PM","end_local":"6:32 PM"}]}

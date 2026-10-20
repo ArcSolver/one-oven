@@ -1,8 +1,9 @@
 # @one-oven/simulator
 
 A browser simulation of an Alexa+ screen device and a voice-only speaker, driven by the real
-One Oven stack. It is a development and filming tool, not an Alexa product; the frame always shows
-“Simulated Alexa+ experience · our web simulator”.
+One Oven stack. It is a development and filming tool, not an Alexa product; the frame shows
+“Simulated Alexa+ experience · our web simulator” unless a film take hides it with `footer=0`
+(the video that uses such a take must carry the notice itself).
 
 ```sh
 npm ci && npm run build     # once
@@ -43,7 +44,8 @@ call strip. No schedule is computed in the browser.
   (listening, thinking, speaking). The session's device context switches to `dot` as well.
 - **Film** mode (`/?film=1`): the page is exactly the 1600×704 frame at the top-left, cursor hidden,
   controls hidden. Keys: <kbd>`</kbd> controls, hold <kbd>Space</kbd> to talk, <kbd>M</kbd> sync marker.
-  Use a 1600×704 viewport (or crop) at DPR 1 or 2.
+  Use a 1600×704 viewport (or crop) at DPR 1 or 2. `/?film=1&footer=0` also hides the bottom row
+  (simulation notice and tool-call strip); nothing else moves, and `ui_hello`/`bars` log `footer: false`.
 
 ## Sync log
 
@@ -92,7 +94,8 @@ recording starts and again at the end, and types the salmon-delay beats through 
 path as the dock's text box, so the dock never covers the frame. Each turn carries its scenario beat
 (`beat`, `iteration` in `turn_start`/`turn_end`), and the device switches to the speaker from beat
 `finish`, like `--device show,finish=dot` in the scenario runner. `take.json` in the output directory
-names the take's `runs/sim-*/` directory and the video file.
+names the take's `runs/sim-*/` directory, the page URL, and the video file. `SIM_FILM_FOOTER=0` records
+the take at `/?film=1&footer=0`.
 
 Fonts: Manrope and JetBrains Mono variable fonts under `public/fonts/` (SIL OFL 1.1, licence files
 alongside).

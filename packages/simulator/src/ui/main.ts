@@ -7,7 +7,10 @@ import { dishName, LAYOUT, RunOfShow } from './runofshow.js';
 const $ = <T extends HTMLElement = HTMLElement>(selector: string) => document.querySelector<T>(selector)!;
 const params = new URLSearchParams(location.search);
 const film = params.has('film') && params.get('film') !== '0';
+/** `footer=0` (film only) hides the bottom notice and tool strip; the video carries the notice instead. */
+const footer = !(film && params.get('footer') === '0');
 document.body.classList.toggle('film', film);
+document.body.classList.toggle('no-footer', !footer);
 const stage = $('#stage');
 let state: HostState | undefined;
 let busy = false;
@@ -17,7 +20,7 @@ const fmt = (minute: number) => new Intl.DateTimeFormat('en-US', { timeZone: sta
 const ros = new RunOfShow($('#ros'), fmt);
 const speaker = new Speaker(active => { speaking = active; activity(); });
 const mic = new Microphone();
-const sim = { get state() { return state; }, bars: [] as unknown[], film,
+const sim = { get state() { return state; }, bars: [] as unknown[], film, footer,
   /** Same path as typing in the dock; scripted takes use it so the dock stays out of the recorded frame. */
   say: (utterance: string, label?: { beat?: string; iteration?: number }) => say(utterance, label) };
 Object.assign(window, { __sim: sim });
@@ -86,7 +89,7 @@ function logBars(plan: PlanState, reason: string, changes: Record<string, string
   uilog('bars', { plan_id: plan.plan_id, version: plan.version, reason, serve_at_local: plan.serve_at_local, changes,
     axis: { start: axis.start, end: axis.end, start_local: fmt(axis.start), end_local: fmt(axis.end), track_x0: track.x0,
       track_width: track.width, px_per_min: LAYOUT.trackWidth / (axis.end - axis.start) },
-    stage: { width: stage.offsetWidth, height: stage.offsetHeight, film }, bars });
+    stage: { width: stage.offsetWidth, height: stage.offsetHeight, film, footer }, bars });
 }
 function applyPlan(plan?: PlanState): void {
   const before = ros.plan;
@@ -249,7 +252,7 @@ setInterval(() => { if (state?.plan) { renderCards(state.plan); } }, 15000);
 async function hello(): Promise<void> {
   await syncClocks();
   const rect = stage.getBoundingClientRect();
-  uilog('ui_hello', { film, viewport: { width: innerWidth, height: innerHeight }, dpr: devicePixelRatio,
+  uilog('ui_hello', { film, footer, viewport: { width: innerWidth, height: innerHeight }, dpr: devicePixelRatio,
     stage: { x: rect.left, y: rect.top, width: rect.width, height: rect.height }, user_agent: navigator.userAgent });
   await flush();
 }

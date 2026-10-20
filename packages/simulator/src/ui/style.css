@@ -20,6 +20,7 @@ body { padding: 24px; }
 body.film { padding: 0; background: var(--bg); }
 body.film .stage { box-shadow: none; cursor: none; }
 body.film .stage * { cursor: none; }
+body.film.no-footer .bottom { display: none; }
 
 .top { position: absolute; left: 28px; right: 28px; top: 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
 .brand { display: flex; align-items: center; gap: 14px; }

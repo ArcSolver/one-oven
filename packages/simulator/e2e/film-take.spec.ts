@@ -11,8 +11,10 @@ import type { StepView } from '../src/shared/timeline.js';
  * carries its scenario beat, so the take's trace can be matched beat by beat like a runner trace.
  * Skipped unless SIM_FILM_OUT names an output directory:
  *   SIM_FILM_OUT=runs/film-take npm run sim:e2e -- film-take
+ * SIM_FILM_FOOTER=0 records with `footer=0` (no bottom notice or tool strip in the frame).
  */
 const outDir = process.env.SIM_FILM_OUT;
+const url = process.env.SIM_FILM_FOOTER === '0' ? '/?film=1&footer=0' : '/?film=1';
 const frame = { width: 1600, height: 704 };
 type Record = { seq: number; t_ms: number; type: string; [key: string]: unknown };
 const spoken = (step: StepView) => step.source === 'preheat' ? 'oven preheat'
@@ -76,7 +78,7 @@ test('film take: salmon delay on the screen device, recorded at 1600x704', async
     return state();
   };
 
-  await page.goto('/?film=1');
+  await page.goto(url);
   await page.request.post('/api/take');
   await expect(page.locator('#clock')).toHaveText('5:05 PM');
   path = (await state()).log;
@@ -126,6 +128,23 @@ test('film take: salmon delay on the screen device, recorded at 1600x704', async
   const final = log(path);
   const start = final.find(r => r.type === 'take_start')!;
   writeFileSync(join(out, 'take.json'), JSON.stringify({ sync_log: path, trace: start.trace, take: start.take, video: await video.path(),
-    frame, markers: final.filter(r => r.type === 'sync_marker').map(r => ({ phase: r.phase, ui_t_ms: r.ui_t_ms })),
+    url, frame, markers: final.filter(r => r.type === 'sync_marker').map(r => ({ phase: r.phase, ui_t_ms: r.ui_t_ms })),
     plan_versions: { before_delay: before, after_delay: before + 1, final: current.plan!.version } }, null, 2) + '\n');
+});
+
+test('film footer option hides only the bottom notice and tool strip', async ({ page }) => {
+  const box = async (selector: string) => page.locator(selector).boundingBox();
+  await page.goto('/?film=1');
+  await expect(page.locator('.bottom')).toBeVisible();
+  const shown = { ros: await box('#ros'), screen: await box('.screen'), marker: await box('#marker') };
+  await page.goto('/?footer=0');
+  await expect(page.locator('.bottom')).toBeVisible();
+  await page.goto('/?film=1&footer=0');
+  await expect(page.locator('.bottom')).toBeHidden();
+  await expect(page.locator('.honesty')).toBeHidden();
+  await expect(page.locator('#tools')).toBeHidden();
+  expect({ ros: await box('#ros'), screen: await box('.screen'), marker: await box('#marker') }).toEqual(shown);
+  // A new take writes a new sync log, and the page describes itself there again.
+  const { log: path } = (await (await page.request.post('/api/take')).json()) as HostState;
+  await expect.poll(() => log(path).find(r => r.type === 'ui_hello')?.footer, { timeout: 10000 }).toBe(false);
 });
