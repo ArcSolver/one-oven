@@ -1,0 +1,12 @@
+### F-05: No participant access to the official Alexa+ simulator or MCP Toolkit
+- Product / doc: Alexa+ add-on developer docs home, https://developer.amazon.com/docs/alexaplus/add-ons/home ; hackathon FAQ, https://amazonappdev2026.devpost.com/details/faqs ; rules, https://amazonappdev2026.devpost.com/rules (checked 2026-10-18 and 2026-10-19).
+- Date / stage: 2026-10-18 / simulator stage (after S4).
+- Task attempted: Test how Alexa+ discovers and calls the six One Oven tools, using the official MCP Toolkit, Alexa AI CLI or web simulator listed in the add-on docs.
+- Steps taken: 1) Reopened the FAQ, as the seed row asked. 2) Read the add-on docs home and the MCP Toolkit overview, which list "Test in the Web Simulator". 3) Read the rules on simulated experiences.
+- Expected: A way for hackathon participants to run an MCP add-on against the Alexa+ host or its web simulator.
+- Actual: The docs home says "At this time, Category SDK and MCP Toolkit are available to select partners only." The FAQ states that participants are not given access to the official MCP Toolkit, CLI or web simulator (paraphrased; not quoted verbatim here). The rules instead allow: "Optionally, developers can simulate the Alexa+ experience in a web app using their own agentic tools."
+- Severity: high. There is no way to test against the real host; the workaround is a separate simulator package.
+- Time lost: Not tracked in hours. The workaround is the `packages/simulator` work (commits a1d5ccb to 2832225).
+- Workaround: Our own browser simulator of a screen device and a voice-only speaker, driven by the real Strands host and MCP server. Every frame is labelled "Simulated Alexa+ experience · our web simulator".
+- Actionable suggestion: Give hackathon participants a sandboxed web simulator, or publish a reference host trace (tool discovery, the order of `tools/call` requests, and how `content` versus `structuredContent` are used) so builders can test their servers against the real calling pattern.
+- Evidence: [packages/simulator/README.md](../../../packages/simulator/README.md); the quotations above, taken from the pages listed.
