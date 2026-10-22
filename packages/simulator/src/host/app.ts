@@ -175,7 +175,11 @@ export function createSimHost(options: SimHostOptions) {
   }));
   router.post('/api/voice', express.raw({ type: 'audio/wav', limit: '4mb' }), handle(request => {
     if (!Buffer.isBuffer(request.body) || request.body.length < 45) throw new HttpError(400, 'Send 16 kHz mono WAV audio');
-    return runTurn({ kind: 'voice', wav: new Uint8Array(request.body) });
+    // A voice turn carries its scenario label in the query (`?beat=delay&iteration=2`); the body is the WAV.
+    const { beat, iteration } = request.query;
+    const label = beatLabel({ beat: typeof beat === 'string' ? beat : beat === undefined ? undefined : '',
+      iteration: typeof iteration === 'string' && /^\d{1,3}$/.test(iteration) ? Number(iteration) : iteration === undefined ? undefined : NaN });
+    return runTurn({ kind: 'voice', wav: new Uint8Array(request.body) }, label);
   }));
   router.post('/api/clock', express.json({ limit: '1kb' }), handle(async request => {
     const t = current();

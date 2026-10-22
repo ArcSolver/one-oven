@@ -1,6 +1,6 @@
 import { defineConfig } from '@playwright/test';
 const port = Number(process.env.SIM_E2E_PORT ?? 5190);
-/** Starts the real stack (MCP server child + Strands host + Vite UI) with the scripted model. */
+/** Starts the real stack (MCP server child + Strands host + Vite UI) with the scripted model unless SIM_E2E_MODEL names another. */
 export default defineConfig({
   testDir: 'e2e',
   timeout: 180000,
@@ -14,7 +14,8 @@ export default defineConfig({
     reuseExistingServer: false,
     timeout: 120000,
     stdout: 'pipe',
-    env: { SIM_PORT: String(port), SIM_MCP_PORT: process.env.SIM_E2E_MCP_PORT ?? '3020', AGENT_MODEL: 'scripted:weekday-3',
-      AGENT_DEVICE: 'show', VOICE_STT: process.env.SIM_E2E_STT ?? 'whisper', VOICE_TTS: process.env.VOICE_TTS ?? 'system', SIM_CLOCK_START: '2026-10-15T17:05:00-05:00' },
+    env: { SIM_PORT: String(port), SIM_MCP_PORT: process.env.SIM_E2E_MCP_PORT ?? '3020', AGENT_MODEL: process.env.SIM_E2E_MODEL ?? 'scripted:weekday-3',
+      AGENT_DEVICE: 'show', VOICE_STT: process.env.SIM_E2E_STT ?? 'whisper',
+      WHISPER_SERVER_URL: process.env.WHISPER_SERVER_URL ?? 'http://127.0.0.1:18080', VOICE_TTS: process.env.VOICE_TTS ?? 'system', SIM_CLOCK_START: '2026-10-15T17:05:00-05:00' },
   },
 });

@@ -32,7 +32,7 @@ Within one page load `ui_ms` is monotonic. Host and UI records interleave by `t_
 | `ui_hello` | ui | `film`, `footer` (false when `footer=0` hides the bottom notice and tool strip in film mode), `viewport`, `dpr`, `stage` {x, y, width, height} in viewport CSS px, `user_agent` |
 | `ui_submit` | ui | `input` (`text`/`voice`), `utterance` or `audio_bytes`, optional `beat`/`iteration`. The moment the user pressed Enter or stopped talking |
 | `mic_start` / `mic_end` | ui | `sample_rate` / `audio_ms` |
-| `turn_start` | host | `turn` (1, 2… per take), `input`, `utterance` or `audio_bytes`; `beat`, `iteration` when the text turn was sent with a scenario label (scripted takes, `__sim.say`) |
+| `turn_start` | host | `turn` (1, 2… per take), `input`, `utterance` or `audio_bytes`; `beat`, `iteration` when the turn was sent with a scenario label (text: `__sim.say`; voice: `__sim.labelNextVoice` before push-to-talk, sent as `/api/voice?beat=…&iteration=…`) |
 | `stt_end` | host | `turn`, `heard` (raw Whisper text), `utterance` (wake word removed), `stt_ms` |
 | `tool_return` | host | `turn`, `name`, `args`, `ok`, `ms`, `version`, `deduplicated`, `error_code`, `plan_id`. Written when the MCP result arrives, before the reply is spoken |
 | `plan` | host | `turn`, `plan_id`, `version`, `serve_at_local`, `changed_step_ids` (from the tool's `changed_steps`) |

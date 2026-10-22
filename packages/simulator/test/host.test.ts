@@ -50,6 +50,11 @@ test('host turns go through the real MCP client and write the sync log', async (
   try {
     assert.equal((await post('/api/turn', { utterance: 'My kitchen has one oven, four burners, and one cook.', beat: 'kitchen' })).status, 200);
     assert.equal((await post('/api/turn', { utterance: "What's next?", beat: 'Not A Beat' })).status, 400, 'beat labels are short ids');
+    const voice = (query: string) => fetch(`${base}/api/voice${query}`, { method: 'POST', headers: { 'Content-Type': 'audio/wav' }, body: Buffer.from(pcmToClip(new Uint8Array(3200)).wav) });
+    assert.equal((await voice('?beat=Not%20A%20Beat')).status, 400, 'voice turns check their label too');
+    assert.equal((await voice('?beat=kitchen&iteration=x')).status, 400, 'iteration is a number');
+    // The fixture STT cannot read browser audio, so this voice turn fails after its labelled turn_start.
+    assert.equal((await voice('?beat=kitchen&iteration=2')).status, 502);
     const plan = await post('/api/turn', { utterance: 'I want salmon, rice and green beans on the table at 6:30 PM.' });
     assert.equal(plan.status, 200);
     assert.equal(plan.body.state.plan.serve_at_local, '6:30 PM');
@@ -68,6 +73,8 @@ test('host turns go through the real MCP client and write the sync log', async (
     assert.equal(records[0].protocol, '2025-11-25');
     const labelled = records.filter(r => (r.type === 'turn_start' || r.type === 'turn_end') && r.turn === 1);
     assert.deepEqual(labelled.map(r => r.beat), ['kitchen', 'kitchen'], 'a labelled turn carries its beat in turn_start and turn_end');
+    assert.deepEqual(records.filter(r => r.type === 'turn_start' && r.input === 'voice').map(r => [r.beat, r.iteration]), [['kitchen', 2]],
+      'a voice turn carries the label from its query');
     assert.ok(records[0].t0_mono_ms > 0 && records[0].t0_mono_ms < performance.now());
     assert.ok(records.every((r, i) => i === 0 || r.t_ms >= records[i - 1].t_ms));
   } finally {

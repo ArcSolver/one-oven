@@ -18,13 +18,16 @@ let speaking = false;
 let liveTools: ToolCallView[] = [];
 /** Take whose sync log has this page's clock pairing and ui_hello. */
 let greeted: string | undefined;
+let voiceLabel: { beat?: string; iteration?: number } = {};
 const fmt = (minute: number) => new Intl.DateTimeFormat('en-US', { timeZone: state?.timezone ?? 'America/Chicago', hour: 'numeric', minute: '2-digit' }).format(minute * 60000);
 const ros = new RunOfShow($('#ros'), fmt);
 const speaker = new Speaker(active => { speaking = active; activity(); });
 const mic = new Microphone();
 const sim = { get state() { return state; }, bars: [] as unknown[], film, footer,
   /** Same path as typing in the dock; scripted takes use it so the dock stays out of the recorded frame. */
-  say: (utterance: string, label?: { beat?: string; iteration?: number }) => say(utterance, label) };
+  say: (utterance: string, label?: { beat?: string; iteration?: number }) => say(utterance, label),
+  /** Scenario label for the next push-to-talk turn (voice takes); used once. */
+  labelNextVoice: (label: { beat?: string; iteration?: number }) => { voiceLabel = label; } };
 Object.assign(window, { __sim: sim });
 
 function activity(): void {
@@ -203,9 +206,12 @@ async function toggleMic(): Promise<void> {
   }
   const wav = await mic.stop();
   $('#mic').classList.remove('active'); activity();
-  uilog('ui_submit', { input: 'voice', audio_bytes: wav.length });
+  const label = voiceLabel;
+  voiceLabel = {};
+  uilog('ui_submit', { input: 'voice', audio_bytes: wav.length, ...label });
   text('#you', '…');
-  await turn('/api/voice', wav, 'audio/wav');
+  const query = new URLSearchParams(Object.entries(label).map(([k, v]) => [k, String(v)])).toString();
+  await turn(query ? `/api/voice?${query}` : '/api/voice', wav, 'audio/wav');
 }
 function marker(): void {
   const el = $('#marker');

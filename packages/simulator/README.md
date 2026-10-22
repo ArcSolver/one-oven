@@ -97,5 +97,20 @@ path as the dock's text box, so the dock never covers the frame. Each turn carri
 names the take's `runs/sim-*/` directory, the page URL, and the video file. `SIM_FILM_FOOTER=0` records
 the take at `/?film=1&footer=0`.
 
+`SIM_FILM_VOICE=<macOS voice, as `say -v "?"` names it>` speaks every line instead of typing it: the line is synthesized in that voice
+(`SystemTts`, rate `SIM_FILM_VOICE_RATE`, default 170), played into the page's microphone stream while Space is
+held, and goes through the browser recording, `/api/voice` (beat label in the query) and Whisper like a spoken turn.
+It is a synthetic voice, not a person, and `take.json` says so (`input.human_voice: false`, each line with its
+play time). `SIM_E2E_MODEL=openai:<id>` (with `OPENAI_BASE_URL`) runs the stack on that model instead of the
+scripted one; the take then checks server facts and leaves reply wording to the model. Every reply, timer
+announcement and chime the page receives is saved under `speech/` and listed in `take.json`, so the take can get
+an audio track. `WHISPER_SERVER_URL` defaults to `http://127.0.0.1:18080` in the Playwright stack; point it at a
+free port if something else listens there.
+
+```sh
+SIM_FILM_FOOTER=0 SIM_FILM_VOICE="Reed (English (US))" SIM_E2E_MODEL=openai:<id> OPENAI_BASE_URL=http://127.0.0.1:10100/v1 \
+  SIM_FILM_OUT=$PWD/../../runs/live-take npx playwright test film-take --grep "film take:"
+```
+
 Fonts: Manrope and JetBrains Mono variable fonts under `public/fonts/` (SIL OFL 1.1, licence files
 alongside).
