@@ -19,7 +19,7 @@ beats:
           args: { ovens: 1, burners: 4, helpers: 1, timezone: America/Chicago }
       reply_includes: [1 oven]
     video:
-      shot: Cook at the counter at 5:05 PM speaks to the simulated smart display.
+      shot: Cook at the counter at 5:05 PM speaks to the smart display.
       ui: inline
   - id: plan
     user: Alexa, I want salmon, rice and green beans on the table at 6:30.

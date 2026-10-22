@@ -50,7 +50,7 @@ async function driverFor(mode: Mode): Promise<Driver> {
       const { VoiceDriver } = await import('../src/modes/voice.js');
       const { voiceEngines } = await import('../../voice/src/config.js');
       const engines = voiceEngines(process.env);
-      if (['transcribe', 'polly'].includes(engines.sttName) || engines.ttsName === 'polly') throw new Error('Stage 4 voice runs use local engines only');
+      if (['transcribe', 'polly'].includes(engines.sttName) || engines.ttsName === 'polly') throw new Error('Scenario voice runs use local engines only');
       return new VoiceDriver({ model, provider: spec ? `${spec.provider}:${spec.modelId}` : 'scripted', ...engines,
         speed: Number(arg('--speed') ?? Infinity) });
     }

@@ -20,7 +20,7 @@ let recording: Awaited<ReturnType<typeof startRecording>> | undefined;
 let count = 0;
 try {
   await runtime.session.prepare();
-  console.log('Simulated Alexa+ experience. Enter starts/stops recording; :mark notes recording_t0 when screen capture starts; :quit exits. Local recordings are saved under ' + directory);
+  console.log('One Oven voice. Enter starts/stops recording; :mark notes recording_t0 when screen capture starts; :quit exits. Local recordings are saved under ' + directory);
   while (true) {
     const answer = await input.question('Enter to record > ');
     if (answer === ':quit') break;

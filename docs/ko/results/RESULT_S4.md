@@ -33,7 +33,7 @@ Bedrock·AWS 호출, 유료 STT/TTS, push·배포·가입·결제는 하지 않�
   발화(음성 모드에서는 인식 결과)에 의도 단어가 빠지면 툴을 부르지 않고 되묻는다. 배관과 상태를 증명할 뿐 언어 이해는 증명하지 않으며, 그 부분은 live 실행이 맡는다.
 - `src/report.ts`: `runs/scenarios/<id>/<시각>-<모드>/{report.md, report.json, transcript.md, trace.jsonl, timings.csv}`.
 - `src/video-script.ts`, `npm run video:script`: 시나리오마다 가장 좋은 통과 실행(voice-live > agent-live > voice > agent > mcp > engine)을 골라
-  [VIDEO_SCRIPT.md](../../../docs/submission/VIDEO_SCRIPT.md)와 [SRT](../../../docs/submission/VIDEO_SCRIPT.srt)를 만든다. 2:50을 넘으면 실패한다.
+  `docs/submission/VIDEO_SCRIPT.md`와 `.srt`를 만든다. 2:50을 넘으면 실패한다.
 - `scripts/aggregate.ts`: 실행 요약에서 통과율·지연 표를 만든다.
 
 서버·에이전트 수정(4절 상세): 같은 분에 시작할 단계를 모두 시작하고 두 번째 단계도 말하기, 지연·교체·주방 문장 개선,

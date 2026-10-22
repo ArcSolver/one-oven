@@ -1,4 +1,4 @@
-# Local voice host (S3)
+# Local voice host
 
 Terminal push-to-talk → local Whisper → Strands → HTTP MCP → system TTS.
 No UI, wake-word service, paid speech API or AWS credentials are required.
@@ -39,8 +39,7 @@ OPENAI_BASE_URL=http://127.0.0.1:10100/v1
 ```
 
 On macOS set `SYSTEM_TTS_VOICE=Samantha` or omit it. On Linux `en-gb` was more
-accurate than `en-us` for the synthetic regression clips; this is not a human
-speech/accent benchmark. To use a process per utterance instead of a warm
+accurate than `en-us` on the regression clips. To use a process per utterance instead of a warm
 server, omit `WHISPER_SERVER_URL` and set `WHISPER_BIN` and `WHISPER_MODEL` to
 absolute paths. `WHISPER_THREADS` defaults to 4. No recognition failure falls
 back to fixture text.
@@ -54,19 +53,14 @@ npm run voice     # terminal 2; Enter starts recording, Enter ends it, :quit exi
 
 `npm run voice` automatically enables the optimized agent voice mode. It allows
 scripted models or the development endpoint `http://127.0.0.1:10100/v1` only.
-Use the live model for free-form interaction. `scripted:weekday-3` is a test
-double with a narrow vocabulary, not a general voice assistant.
+Use the live model for free-form interaction. `scripted:weekday-3` understands
+the weekday-3 script only.
 
 Start with kitchen setup, then “I want salmon, rice and green beans on the table
 at six thirty PM.” Ask “What is next?” and explicitly confirm the named dish or
 oven step when finished. “Alexa,” is an optional text prefix, not a wake word.
 Microphone WAVs and traces stay under ignored `runs/voice-*/`. Recordings are
-limited to 60 seconds per utterance. SoX needs an actual input/output device;
-the container's headless tests do not verify microphone or speaker hardware.
-
-For the required human recording, complete one weekday meal with a microphone,
-keep the WAVs and trace, and record noise/device details in
-`docs/ko/calibration/VOICE_MANUAL_S3.md`. This remains a user-operated check.
+limited to 60 seconds per utterance. SoX needs an actual input/output device.
 
 ## Automated acceptance and measurements
 
@@ -85,7 +79,8 @@ delay WAVs and generates natural completion WAVs for steps from the real plan.
 Every input passes through the selected STT engine. The harness only reads
 state to judge results and move time; mutations still go through Strands/MCP.
 Both delay and duplicate delay are checked. Additional fixture clips cover swap
-and explicit timer commands in STT acceptance; full swap voice scenarios are S4.
+and explicit timer commands in STT acceptance; the full swap scenario runs in
+`packages/scenarios`.
 
 `--speed 60` advances idle cooking time at 60 simulated seconds per wall second.
 Time pauses during input generation, recognition, model work and output. It is
@@ -119,7 +114,7 @@ are installed separately, not vendored in this repository.
   deduplication, simulated clock callbacks and a real-time polling loop share
   one store. On expiry it plays the original chime and speaks a linted sentence.
   It never calls a server tool or marks cooking done.
-- `VoiceLoop` consumes `ConversationSession` directly, an option allowed in A-3.
+- `VoiceLoop` consumes `ConversationSession` directly.
   It starts TTS on a validated completed tool response through a speech callback.
   A single audio queue serializes replies and alerts and reports output errors.
 - Voice mode uses Strands' public `AfterToolsEvent.endTurn` to speak the server's
@@ -128,14 +123,14 @@ are installed separately, not vendored in this repository.
   Provider streaming is retained; `firstDeltaMs` records the first content delta.
   Unvalidated model deltas are not sent to speakers. `replySource=tool-say` makes
   the deterministic handoff explicit; it is not a fabricated model reply.
-- Normal text sessions retain S2 behavior. `AGENT_VOICE_MODE=1` also opts chat or
+- Normal text sessions keep the standard agent behavior. `AGENT_VOICE_MODE=1` also opts chat or
   gateway sessions into the same optimization. `AGENT_MODEL` chooses the fast
   model route without a hardcoded model ID. Per-turn state remains authoritative
   on the MCP server, including errors and duplicate delays.
-- Polly and Transcribe use real AWS SDK command types but only injected mock
-  clients are exercised in S3. Constructors do not resolve credentials or send
-  requests; CLI configuration cannot enable real AWS calls. S6 may explicitly
-  construct adapters with `allowAws: true` after its separate authorization.
+- The Polly and Transcribe adapters use the AWS SDK command types; tests run them
+  with injected clients. Constructors do not resolve credentials or send
+  requests, and CLI configuration cannot enable AWS calls; code has to construct
+  an adapter with `allowAws: true`.
   Transcribe accepts a provisioned vocabulary name, not arbitrary inline hints.
 
 Sources: [whisper.cpp server](https://github.com/ggml-org/whisper.cpp/blob/v1.8.2/examples/server/README.md),
