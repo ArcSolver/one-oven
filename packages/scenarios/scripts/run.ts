@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { JsonlTrace } from '@one-oven/agent/trace';
@@ -81,7 +82,11 @@ for (const mode of modes) {
   }
 }
 const summaryPath = join(root, `summary-${stamp}${live ? '-live' : ''}.json`);
-writeFileSync(summaryPath, JSON.stringify({ live, required, modes, model: live ? process.env.AGENT_MODEL : 'scripted', table }, null, 2) + '\n');
+// The commit a summary was measured at, so a quoted pass rate can be checked against the code it describes.
+const git = (...args: string[]) => { try { return execFileSync('git', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim(); } catch { return undefined; } };
+const commit = git('rev-parse', 'HEAD');
+const dirty = commit === undefined ? undefined : git('status', '--porcelain', '--untracked-files=no') !== '';
+writeFileSync(summaryPath, JSON.stringify({ live, required, modes, model: live ? process.env.AGENT_MODEL : 'scripted', commit, dirty, table }, null, 2) + '\n');
 console.log(table.map(r => `${r.ok ? '✓' : '✗'} ${r.mode.padEnd(11)} ${r.scenario.padEnd(15)} ${r.passed}/${r.runs}`).join('\n'));
 console.log(`Summary: ${summaryPath}`);
 process.exitCode = exit;
