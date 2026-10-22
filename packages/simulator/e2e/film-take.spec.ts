@@ -26,11 +26,17 @@ const scripted = (process.env.SIM_E2E_MODEL ?? 'scripted:weekday-3').startsWith(
 const turnTimeout = scripted && !userVoice ? 30000 : 120000;
 /** Replaces the page's microphone with a line the test can play synthetic speech into. */
 const syntheticMicrophone = () => {
+  // The page's microphone opens its own AudioContext; under load it can start pulling audio seconds after
+  // getUserMedia resolves, so the test waits until the newest context is running before it speaks.
+  const contexts: AudioContext[] = [];
+  const Native = window.AudioContext;
+  window.AudioContext = class extends Native { constructor(options?: AudioContextOptions) { super(options); contexts.push(this); } };
   let ctx: AudioContext | undefined;
   let line: MediaStreamAudioDestinationNode | undefined;
   const open = async () => { ctx ??= new AudioContext(); line ??= ctx.createMediaStreamDestination(); await ctx.resume(); return { ctx, line }; };
   navigator.mediaDevices.getUserMedia = async () => new MediaStream((await open()).line.stream.getAudioTracks().map(track => track.clone()));
-  Object.assign(window, { __userVoice: async (b64: string) => {
+  Object.assign(window, { __micRunning: () => { const mic = contexts.at(-1); return !!mic && mic !== ctx && mic.state === 'running' && mic.currentTime > 0.5; },
+    __userVoice: async (b64: string) => {
     const { ctx, line } = await open();
     const source = ctx.createBufferSource();
     source.buffer = await ctx.decodeAudioData(Uint8Array.from(atob(b64), c => c.charCodeAt(0)).buffer);
@@ -57,7 +63,7 @@ test('film take: salmon delay on the screen device, recorded at 1600x704', async
   if (userVoice) await page.addInitScript(syntheticMicrophone);
   const tts = userVoice ? new SystemTts(userVoice, Number(process.env.SIM_FILM_VOICE_RATE ?? 170)) : undefined;
   const clips = new Map<string, Uint8Array>();
-  const voiced: { turn_seq: number; utterance: string; beat: string; iteration?: number; ui_ms: number; audio_ms: number }[] = [];
+  const voiced: { turn_seq: number; utterance: string; beat: string; iteration?: number; ui_ms: number; audio_ms: number; recorded_ms: number }[] = [];
   // Every reply, timer announcement and chime the page plays, kept so the take can get its own audio track.
   const speeches: (Omit<Speech, 'wav'> & { file: string })[] = [];
   mkdirSync(join(out, 'speech'), { recursive: true });
@@ -105,12 +111,16 @@ test('film take: salmon delay on the screen device, recorded at 1600x704', async
       iteration === undefined ? { beat } : { beat, iteration });
     await page.keyboard.down('Space');
     await expect.poll(() => !!after(seq, 'mic_start'), { timeout: 10000 }).toBe(true);
+    await expect.poll(() => page.evaluate(() => (window as unknown as { __micRunning: () => boolean }).__micRunning()), { timeout: 20000 }).toBe(true);
     await page.waitForTimeout(300);
     const played = await page.evaluate(b64 => (window as unknown as { __userVoice: (b: string) => Promise<{ ui_ms: number; audio_ms: number }> })
       .__userVoice(b64), Buffer.from(clips.get(utterance)!).toString('base64'));
-    await page.waitForTimeout(400);
+    await page.waitForTimeout(600);
     await page.keyboard.up('Space');
-    voiced.push({ turn_seq: seq, utterance, beat, ...(iteration === undefined ? {} : { iteration }), ...played });
+    await expect.poll(() => !!after(seq, 'mic_end'), { timeout: 10000 }).toBe(true);
+    // How much the page actually recorded; shorter than the line means the start was lost.
+    const recorded_ms = after(seq, 'mic_end')!.audio_ms as number;
+    voiced.push({ turn_seq: seq, utterance, beat, ...(iteration === undefined ? {} : { iteration }), ...played, recorded_ms });
   };
   const say = async (utterance: string, beat: string, iteration?: number): Promise<HostState> => {
     const seq = lastSeq();
