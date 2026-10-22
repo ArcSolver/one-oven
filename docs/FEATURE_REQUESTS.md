@@ -11,8 +11,7 @@ From [F-09](friction/entries/F-09-alexa-timer-handoff-contract.md).
 Cooking runs on timers. Every One Oven plan result already returns `timer_suggestions`
 with `step_id`, `label`, `minutes`, an absolute `ends_at` and a spoken line, but we found no documented
 way for an add-on to ask Alexa to create those as built-in timers. Today the host emulates them
-(`HostTimers` in [`packages/agent/src/host-tools.ts`](../packages/agent/src/host-tools.ts)), and the video
-has to label that part as simulated.
+(`HostTimers` in [`packages/agent/src/host-tools.ts`](../packages/agent/src/host-tools.ts)).
 
 Request:
 - A documented tool-result field (for example in `_meta`) that Alexa may turn into built-in timers after
@@ -46,7 +45,7 @@ second call.
 From [FEEDBACK.md](FEEDBACK.md#strands-agents-typescript-sdk-strands-agentssdk-1210).
 
 Our server accepts host-owned retry fields (`request_id`, `based_on_version`). When the model saw them it
-filled them in and the first live evaluation failed 0/5. We hide them by overriding `listTools`. A
+filled them in, and all five trials of the first live evaluation failed. We hide them by overriding `listTools`. A
 documented way to filter or rewrite an MCP tool's input schema before it reaches the model would make
 that override unnecessary.
 

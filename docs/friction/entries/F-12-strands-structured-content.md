@@ -6,7 +6,7 @@
 - Expected: Both spoken content and structuredContent are available to the model.
 - Actual: The raw result contains structuredContent.kitchen_id; McpTool.stream maps only rawResult.content. The model receives the spoken sentence without the identifier required by plan_meal.
 - Severity: medium.
-- Time lost: About 10 minutes of inspection and reproduction; recorded for the structured-result integration mismatch, not the 15-minute threshold.
-- Workaround: Override the public McpClient.callTool method to append structuredContent as a text JSON block for the model; retain the unmodified raw result in the trace. Do not change the six server tools or spoken content.
+- Time lost: About 10 minutes of inspection and reproduction.
+- Workaround: Override the public McpClient.callTool method to append structuredContent as a text JSON block for the model; retain the unmodified raw result in the trace.
 - Actionable suggestion: Map structuredContent into a JsonBlock in McpTool.stream, with a regression test covering an identifier used by a later tool.
 - Evidence: `packages/agent/scripts/spike.ts`, `docs/ko/results/S2_SPIKE.md`; ID-chain regression in `packages/agent/test/e2e.test.ts` and the gateway session test.

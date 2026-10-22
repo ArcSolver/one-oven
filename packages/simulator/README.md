@@ -1,9 +1,7 @@
 # @one-oven/simulator
 
-A browser simulation of an Alexa+ screen device and a voice-only speaker, driven by the real
-One Oven stack. It is a development and filming tool, not an Alexa product; the frame shows
-“Simulated Alexa+ experience · our web simulator” unless a film take hides it with `footer=0`
-(the video that uses such a take must carry the notice itself).
+A browser simulation of an Alexa+ screen device and a voice-only speaker, driven by the
+One Oven stack.
 
 ```sh
 npm ci && npm run build     # once
@@ -15,22 +13,21 @@ npm run sim                 # MCP server + Strands host + UI → http://127.0.0.
 `npm run sim` starts one Node host (`src/host/main.ts`). For each take it spawns the unchanged
 MCP server (`packages/server/src/main.ts`, Streamable HTTP, `ENABLE_DEV_CLOCK=1`, fresh SQLite under
 `runs/sim-*/`) and opens the same Strands session as the gateway (`openSession`, `OneOvenMcpClient`).
-The browser never calls MCP; it talks to the host on the same loopback origin. Everything on screen
-comes from `structuredContent` of real tool results: plan steps, version, serving time and the tool
-call strip. No schedule is computed in the browser.
+The browser never calls MCP; it talks to the host on the same loopback origin. Plan steps, version,
+serving time and the tool call strip come from `structuredContent` of the tool results. No schedule is computed in the browser.
 
 - **Input**: text box, or push-to-talk (button, or hold Space in film mode). The browser records
   16 kHz mono PCM16 WAV and the host sends it through the voice package's `WhisperStt` with the
-  shared cooking hints, then strips the wake word — the same path as `npm run voice`.
+  shared cooking hints, then strips the wake word, the same path as `npm run voice`.
 - **Output**: the session's validated speech is synthesized by the voice package's TTS
   (`VOICE_TTS`, default system) and played in the browser through one queue with the timer chime.
 - **Voice mode** (`AGENT_VOICE_MODE`, default `1` here) speaks the tool `say` and installs host timers,
-  as in the S3 voice host. Timers fire on the simulated clock and are announced in the browser.
-- **Clock**: the opt-in simulation clock, as in `npm run chat`'s `:advance`. Start time defaults to
+  as in `npm run voice`. Timers fire on the dev clock and are announced in the browser.
+- **Clock**: the opt-in dev clock, as in `npm run chat`'s `:advance`. Start time defaults to
   `SIM_CLOCK_START=2026-10-15T17:05:00-05:00`. The dock offers +1/+5/+10 minutes, *Next event*
   (earliest running end or pending start, like the scenario runner) and *Go to HH:MM*.
   The clock never moves backwards; use *New take* for a fresh server, database and clock.
-- **Model**: `AGENT_MODEL` from `.env` (default `scripted:weekday-3`, which only understands the
+- **Model**: `AGENT_MODEL` from `.env` (default `scripted:weekday-3`, which answers only the
   weekday phrases in the root README). Set a local or cloud model for free conversation.
 
 ## Screen
@@ -39,13 +36,13 @@ call strip. No schedule is computed in the browser.
   pending step. **You / One Oven**: last utterance (marked when heard by Whisper) and reply.
 - **Run of Show**: one lane per dish and per oven. The axis is fixed per plan; when the version
   changes only bars whose minutes changed animate (600 ms), all others keep their exact pixels.
-- Serving time, plan version badge, simulated clock, and the last tool calls with arguments.
+- Serving time, plan version badge, dev clock, and the last tool calls with arguments.
 - **Speaker** mode (`dot`): the screen content disappears and only the light ring shows activity
   (listening, thinking, speaking). The session's device context switches to `dot` as well.
 - **Film** mode (`/?film=1`): the page is exactly the 1600×704 frame at the top-left, cursor hidden,
   controls hidden. Keys: <kbd>`</kbd> controls, hold <kbd>Space</kbd> to talk, <kbd>M</kbd> sync marker.
   Use a 1600×704 viewport (or crop) at DPR 1 or 2. `/?film=1&footer=0` also hides the bottom row
-  (simulation notice and tool-call strip); nothing else moves, and `ui_hello`/`bars` log `footer: false`.
+  (footer text and tool-call strip); nothing else moves, and `ui_hello`/`bars` log `footer: false`.
 
 ## Sync log
 
@@ -58,7 +55,7 @@ animation start/end and the drawn rectangle of every bar per plan version. See [
 | --- | --- | --- |
 | `SIM_PORT` | 5180 | UI and host API (loopback only) |
 | `SIM_MCP_PORT` | 3010 | Port of the spawned MCP server |
-| `SIM_CLOCK_START` | `2026-10-15T17:05:00-05:00` | Simulated start for each take |
+| `SIM_CLOCK_START` | `2026-10-15T17:05:00-05:00` | Clock start for each take |
 | `AGENT_DEVICE` | `show` | Starting device (`show`/`dot`) |
 | `WHISPER_SERVER_URL` | `http://127.0.0.1:18080` | Reused if running; otherwise started from `VOICE_TOOLS_DIR` (default `.local/voice`) when `npm run voice:setup` installed it. `WHISPER_MODEL` overrides the model path |
 | `SIM_UI` | — | `dist` serves the built UI instead of Vite middleware |
@@ -72,7 +69,7 @@ npm test --workspace @one-oven/simulator   # geometry, WAV format, sync log, hos
 npm run sim:e2e                            # Playwright: salmon delay via text input in film mode
 ```
 
-`e2e/voice.spec.ts` feeds a committed fixture WAV to Chromium's fake microphone and checks that the
+`e2e/voice.spec.ts` feeds a committed WAV file to Chromium's fake microphone and checks that the
 browser recording reaches Whisper and the agent; it is skipped when no local Whisper server can be
 reused or started. Voice turns keep the uploaded audio as `runs/sim-*/user-N.wav`.
 
@@ -97,11 +94,10 @@ path as the dock's text box, so the dock never covers the frame. Each turn carri
 names the take's `runs/sim-*/` directory, the page URL, and the video file. `SIM_FILM_FOOTER=0` records
 the take at `/?film=1&footer=0`.
 
-`SIM_FILM_VOICE=<macOS voice, as `say -v "?"` names it>` speaks every line instead of typing it: the line is synthesized in that voice
+`SIM_FILM_VOICE=<voice>` (a macOS voice name as listed by `say -v '?'`) speaks every line instead of typing it: the line is synthesized in that voice
 (`SystemTts`, rate `SIM_FILM_VOICE_RATE`, default 170), played into the page's microphone stream while Space is
 held, and goes through the browser recording, `/api/voice` (beat label in the query) and Whisper like a spoken turn.
-It is a synthetic voice, not a person, and `take.json` says so (`input.human_voice: false`, each line with its
-play time). `SIM_E2E_MODEL=openai:<id>` (with `OPENAI_BASE_URL`) runs the stack on that model instead of the
+`take.json` records the input (`input.human_voice: false`, each line with its play time). `SIM_E2E_MODEL=openai:<id>` (with `OPENAI_BASE_URL`) runs the stack on that model instead of the
 scripted one; the take then checks server facts and leaves reply wording to the model. Every reply, timer
 announcement and chime the page receives is saved under `speech/` and listed in `take.json`, so the take can get
 an audio track. `WHISPER_SERVER_URL` defaults to `http://127.0.0.1:18080` in the Playwright stack; point it at a

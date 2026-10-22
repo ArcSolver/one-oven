@@ -1,12 +1,12 @@
 ### F-09: No documented contract for handing an add-on's timers to Alexa's built-in timers
 - Product / doc: Alexa+ add-on developer docs, "Conversation surface" design guidance: https://www.developer.amazon.com/docs/alexaplus/add-ons/mcp-addon-conversation-surface (fetched 2026-10-15); searched the same docs site for timer handoff guidance.
 - Date / stage: 2026-10-15 / S4.
-- Task attempted: Script the demo so a cooking step's countdown runs on Alexa's own timer, as DESIGN.md assigns timers to the host instead of adding a seventh MCP tool.
+- Task attempted: Script the demo so a cooking step's countdown runs on Alexa's own timer, since our design keeps timers in the host instead of adding a seventh MCP tool.
 - Steps taken: 1) Re-searched the Alexa+ add-on docs for timer or reminder handoff from an MCP tool result. 2) Read the conversation-surface guide, which is the page the search surfaced for timers. 3) Compared it with what our tool results already return (`timer_suggestions` with label, minutes, ends_at and a spoken line).
 - Expected: A documented field, tool-result convention or capability through which an add-on proposes a timer and Alexa creates it with the customer's confirmation.
-- Actual: Timers appear only as a host-side interruption example: "A: <Timer audio and visuals play> C: “Alexa, stop the timer.” A: <stops timer, re-surfaces previous task on screen>". The same page states "You influence Alexa’s response through the data you return, not by scripting it directly." We found no structured handoff for an add-on to request a timer. This is an absence in the pages we checked, not proof that no private mechanism exists.
+- Actual: Timers appear only as a host-side interruption example: "A: <Timer audio and visuals play> C: “Alexa, stop the timer.” A: <stops timer, re-surfaces previous task on screen>". The same page states "You influence Alexa’s response through the data you return, not by scripting it directly." We found no structured handoff for an add-on to request a timer.
 - Severity: medium.
 - Time lost: About 15 minutes of searching and reading.
-- Workaround: The host emulator applies `timer_suggestions` itself (`HostTimers.auto` in packages/agent/src/host-tools.ts), announces "Your <label> timer is done." without calling the server, and the video labels the experience as simulated. The MCP server keeps six tools.
+- Workaround: The host emulator applies `timer_suggestions` itself (`HostTimers.auto` in packages/agent/src/host-tools.ts) and announces "Your <label> timer is done." without calling the server.
 - Actionable suggestion: Document a tool-result field (for example `_meta` timer suggestions with label, duration and absolute end time) that Alexa may turn into built-in timers after confirmation, plus how timer completion is surfaced back to the add-on, if at all.
-- Evidence: scenario runs with timer announcements in `runs/scenarios/*/*-voice/trace.jsonl` (`timer_fire` records); `docs/submission/VIDEO_SCRIPT.md` Timer rows; packages/scenarios/src/modes/voice.ts.
+- Evidence: scenario runs with timer announcements in `runs/scenarios/*/*-voice/trace.jsonl` (`timer_fire` records); packages/scenarios/src/modes/voice.ts.

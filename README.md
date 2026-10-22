@@ -1,48 +1,73 @@
 # One Oven
 
 **When cooking runs late, One Oven fixes only what changed.**
-At 6:20 PM the salmon needs five more minutes: the salmon steps move, dinner moves from 6:30 to
-6:35 PM, and the rice and green beans keep their times.
 
-One Oven plans a home meal backward from dinner time, accounts for oven heating and pan capacity,
-and repairs the schedule when one dish runs late. It is an MCP server built for the Alexa+ track of
-the Amazon Developer Hackathon, shown through our own web simulator. It is not an official Alexa product.
-Spoken output is English; the intended audience is adult home cooks.
+Demo video: https://youtu.be/BwIou4GRX8A
 
-## Try it
+One Oven is an MCP server for the Alexa+ track of the Build, Ship, Shape: Amazon Developer Hackathon.
+It plans a home cook's meal backward from dinner time, accounts for oven heating and pan capacity, and
+repairs the schedule when one dish runs late. The demo runs in our own web simulator of an Alexa+ screen
+device and a voice-only speaker, driven by a Strands Agents host.
+
+## See the delay repair without a browser
 
 Node.js 22.13 or newer. No account, API key or cloud service is needed.
 
 ```sh
 npm ci
 npm run build
-npm run sim        # then open http://127.0.0.1:5180/
+npm run e2e:scenarios -- --scenario salmon-delay
 ```
 
-Type into the dock, or hold to talk once local Whisper is installed (`npm run voice:setup`, see
-[packages/voice](packages/voice/README.md)). Text input works without Whisper. Spoken replies use the system TTS (macOS `say` or espeak-ng) and
-ffmpeg, listed in the same README. The default model is the
-scripted fixture `scripted:weekday-3`, so start with the weekday phrases: “My kitchen has one oven,
-four burners, and one cook”, then “I want salmon, rice and green beans on the table at 6:30 PM.”
-`npm run check` runs the full deterministic verification.
+This cooks salmon, rice and green beans for 6:30 PM and reports the salmon late at 6:20 PM. The same
+dinner runs three ways: through the engine, through a plain MCP client over HTTP, and through the
+Strands agent with the scripted model. Each prints `PASS`. The agent run writes
+`runs/scenarios/salmon-delay/<time>-agent/transcript.md`; these are its two delay turns:
 
-## What works today
+| Clock | Cook | One Oven |
+| --- | --- | --- |
+| 6:20 PM | Alexa, the salmon needs five more minutes. | Dinner moves to 6:35 PM. The lemon salmon gets 5 more minutes; the other dishes keep their times. |
+| 6:20 PM | The salmon needs five more minutes. | I already added 5 minutes to the salmon. Say 'add 5 more' if you need more time. |
 
-Everything below was run in this repository. The linked reports give the numbers and conditions.
+The runner judges each turn by the stored plan: only `salmon:1` and `salmon:2` change, dinner moves
+to 6:35 PM, the rice and green beans keep their times, and the repeated sentence changes nothing.
+`npm run check` runs all four scenarios this way, plus the full test suite.
+
+## Click through it in the simulator
+
+```sh
+npm run sim        # then open http://127.0.0.1:5180/ in a window at least 1600 px wide
+```
+
+The default model, `scripted:weekday-3`, answers only these sentences.
+Type them into the dock:
+
+1. “My kitchen has one oven, four burners, and one cook.”
+2. “I want salmon, rice and green beans on the table at 6:30 PM.” The plan starts at 5:55 PM.
+3. Press *Next event*. If a step on the Now card has ended, say “I'm done with the rice. What's next?”
+   with that step's dish (rice, salmon, green beans or oven); otherwise say “What's next?”. Repeat until
+   One Oven says to roast the salmon, about six turns.
+4. “The salmon needs five more minutes.” Dinner moves to 6:35 PM and on the Run of Show only the salmon
+   bars move. Say it again and nothing changes.
+
+Hold to talk works once local Whisper is installed (`npm run voice:setup`, see
+[packages/voice](packages/voice/README.md)). Spoken replies use the system TTS (macOS `say` or
+espeak-ng) and ffmpeg, listed in the same README.
+
+## What works
 
 - **MCP server**: six tools over Streamable HTTP, protocol version 2025-11-25 negotiated in the smoke
   test and the scenario runner. Plans are computed only on the server, checked by an independent
   verifier, and stored in SQLite with version history and retry keys.
-- **Delay repair**: in the salmon-delay scenario only `salmon:1` and `salmon:2` change, dinner moves to
-  6:35 PM, and repeating the same sentence is deduplicated instead of adding five more minutes.
-- **`npm run check`** (last run 2026-10-20): build, recipe validation, 79 unit and integration tests,
+- **`npm run check`**: build, recipe validation, 79 unit and integration tests,
   HTTP smoke, scripted text E2E, and 4 YAML scenarios × engine, MCP and agent modes (12/12).
   The tests include 1,000 seeded random kitchen, delay and swap cases checked by the verifier.
-- **Strands host**: a real Strands `Agent` and `McpClient` drive the server over HTTP, in text, local
+- **Strands host**: a Strands `Agent` and `McpClient` drive the server over HTTP, in text, local
   voice and the web simulator.
-- **Live local model**: 19/20 scenario trials (4 scenarios × 5) and 4/4 voice runs with local Whisper
-  and synthetic espeak speech ([S4 report, Korean](docs/ko/results/RESULT_S4.md)). Voice-mode latency is
-  measured in the [S3 report, Korean](docs/ko/results/RESULT_S3.md).
+- **Live local model**: with a local OpenAI-compatible model selected through `AGENT_MODEL`, 19/20
+  scenario trials pass (4 scenarios × 5), and so do 4/4 runs of the voice pipeline through local Whisper
+  ([S4 report, Korean](docs/ko/results/RESULT_S4.md)). Voice-mode latency is in the
+  [S3 report, Korean](docs/ko/results/RESULT_S3.md).
 - **Web simulator**: a screen device (Now card, Run of Show) and a voice-only speaker mode. On a delay
   only the changed bars animate; a Playwright test checks from the sync log that every other bar kept its
   rectangle ([simulator README](packages/simulator/README.md)).
@@ -60,34 +85,22 @@ browser UI ──loopback──> simulator host ──> Strands Agent (packages/
 `packages/contracts` holds the shared Zod schemas and speech lint, `packages/voice` the local speech
 pipeline and host timers, and `packages/scenarios` the four YAML scenarios that serve as both the
 regression suite and the demo script. The browser never calls MCP and never computes a schedule;
-everything on screen comes from `structuredContent` of real tool results.
+the plan, timeline and tool calls on screen come from `structuredContent` of the tool results.
 
-## What is simulated and what is not done
+Without a `.env`, `AGENT_MODEL` is the scripted model `scripted:weekday-3`, so the demo and `npm run check`
+need no key; set it to a model for free conversation ([Text host](#text-host)). Cooking timers run in the
+host ([F-09](docs/friction/entries/F-09-alexa-timer-handoff-contract.md)), and the Strands integration is
+described in [AWS_BUILDER.md](docs/AWS_BUILDER.md).
 
-- **Simulated Alexa+ experience.** The simulator frame says “Simulated Alexa+ experience · our web
-  simulator”. No Alexa+ device, account, add-on registration or OAuth was used. Alexa's built-in timers are
-  emulated by the host because we found no documented handoff ([F-09](docs/friction/entries/F-09-alexa-timer-handoff-contract.md)).
-- **Models.** Without a `.env`, `AGENT_MODEL` defaults to `scripted:weekday-3`, a deterministic test fixture and
-  not a language model. The live trials above used a local OpenAI-compatible model, selected through
-  `AGENT_MODEL`. Anthropic and Bedrock are selectable Strands providers but were never called; see
-  [AWS_BUILDER.md](docs/AWS_BUILDER.md). Model identifiers in recorded traces were redacted to
-  `local-openai-compatible`; no other field changed.
-- **Not done yet**: a take with a human voice (all recorded speech so far is synthetic), the
-  [human-voice check](docs/ko/calibration/VOICE_MANUAL_S3.md), a real kitchen calibration (recipes are timing
-  fixtures, not kitchen-tested), Bedrock validation, OAuth and a public deployment.
+## Feedback for the Alexa+ and AWS teams
 
 Product feedback per tool is in [docs/FEEDBACK.md](docs/FEEDBACK.md), external friction in the
 [friction log](docs/friction/FRICTION_LOG.md), and requests in [docs/FEATURE_REQUESTS.md](docs/FEATURE_REQUESTS.md).
 Earlier Korean stage reports are under [docs/ko](docs/ko/README.md).
 
-## Reference
-
-The sections below document each part in detail.
-
 ## Run the MCP server and checks
 
-Node.js **22.13+** with `node:sqlite` and npm; S1–S3 verified with Node **24.21.0**.
-No account, API key, paid service or cloud deployment is needed.
+Node.js **22.13+** with `node:sqlite` and npm.
 
 ```sh
 npm ci
@@ -107,7 +120,7 @@ The workspaces are `packages/contracts` (Zod schemas, types, speech lint) and
 `packages/agent` (Strands models, MCP client, sessions, timers, text gateway). JSON recipes and
 SQL migrations are copied into the production build.
 
-## Text host (S2)
+## Text host
 
 ```sh
 npm run e2e:text                 # always scripted; starts its own local HTTP MCP server
@@ -116,7 +129,7 @@ npm run chat                    # terminal 2: Strands REPL, defaults to scripted
 npm run gateway                 # optional: http://127.0.0.1:3001
 ```
 
-The scripted model is a narrow CI fixture. Start with “My kitchen has one oven,
+With the scripted model, start with “My kitchen has one oven,
 four burners, and one cook”, then “I want salmon, rice and green beans on the
 table at 6:30 PM.” Use “What's next?” and confirm the named step when done.
 For natural conversation select the local development model in `.env`:
@@ -134,70 +147,60 @@ salmon delay and a repeated request. It writes `runs/s2-*/report.json` and per-t
 `trace.jsonl`. All recipe and oven actions must finish, dinner must remain at
 6:35 PM, other dishes must stay unchanged during the delay, and raw/final speech
 must both pass lint. A failed trial is retained; at least four of five must pass.
-The S2 live runner rejects Bedrock and nonlocal URLs.
+The live runner rejects Bedrock and nonlocal URLs.
 
-Once credentials and settings are prepared, change **only `AGENT_MODEL`** to
-`anthropic:<model-id>` or `bedrock:<model-or-inference-profile-id>` to select the
-native Strands provider. `AWS_REGION` selects the Bedrock region. S2 tests only
-construct the Bedrock object; **actual Bedrock validation belongs to S6**.
-No default cloud model ID is embedded in application code.
-
-For simulated time set `ENABLE_DEV_CLOCK=1` and an offset timestamp such as
+To use a dev clock, set `ENABLE_DEV_CLOCK=1` and an offset timestamp such as
 `SIM_CLOCK_START=2026-10-15T17:05:00-05:00` in both server and host environments.
 The normal server has no `/dev/clock` route. The opted-in route checks loopback
 and Origin and allows only nonnegative advances. REPL commands are `:dot`,
-`:show`, `:advance 10`, and `:quit`. No clock control is added to the six MCP tools.
+`:show`, `:advance 10`, and `:quit`.
 
-The session uses real Strands `Agent` and `McpClient` calls. The S2-0 decision was
-**A**, using native TypeScript providers. A public client adapter preserves
+The session uses Strands `Agent` and `McpClient` calls with the native
+TypeScript providers. A public client adapter preserves
 `structuredContent` for the model ([F-12](docs/friction/entries/F-12-strands-structured-content.md)).
 The model-facing schemas omit host-managed retry/version fields and permit null
 for unused optional values; the client removes only optional nulls before MCP
-validation. Server schemas and the six-tool contract stay intact. Last plan ID,
+validation. Last plan ID,
 current state, device and clock are injected as host context on every model call.
 
-`set_timer`, `cancel_timer`, and `list_timers` are host tools. They are not MCP
-server tools. Live agents choose timers from suggestions; `HOST_AUTO_TIMERS=1`
+`set_timer`, `cancel_timer`, and `list_timers` are host tools.
+Live agents choose timers from suggestions; `HOST_AUTO_TIMERS=1`
 lets deterministic hosts install/update suggestions once per step/end time.
-S3 adds timer expiry callbacks, an original chime and local speech output.
+The voice host adds timer expiry callbacks, an original chime and local speech output.
 
 The loopback gateway accepts `POST /session/:id/turn` with JSON
 `{"utterance":"What's next?"}`. `Accept: application/json` returns a `TurnResult`;
 `Accept: text/event-stream` sends `start`, heartbeat comments, and a `turn` event
 (or an `error` event). Speech is released only after lint, not as unchecked token
 deltas. Delete `/session/:id` to close a session. Concurrent turns on one session
-return 409; at most 32 sessions are retained. Conversation/timer state is per
-session, while the S2 MCP server still uses the shared `local` household.
-OAuth and household selection remain S5 work.
+return 409; at most 32 sessions are retained. Conversation and timer state is per
+session; the MCP server uses the shared `local` household.
 
 Traces include negotiated MCP version, tool discovery, utterances, raw model
 speech, lint/fallback flags, normalized tool arguments, raw MCP results, model
-usage and latency, and request IDs when the transport supplies them. Bedrock
-request IDs are captured from response headers by its configured HTTP handler;
-none were obtained in S2 because no AWS request was made. Trace files contain
+usage and latency, and request IDs when the transport supplies them. Trace files contain
 local conversation data, are ignored by Git, and must be reviewed before sharing.
-The output guard falls back to a valid tool `say`; live grading still fails a raw
-lint violation rather than hiding it. Automatic mutation retries are disabled.
+The output guard falls back to a valid tool `say`; live grading still counts a raw
+lint violation as a failure. Automatic mutation retries are disabled.
 
 See [S2 spike](docs/ko/results/S2_SPIKE.md) and [S2 results](docs/ko/results/RESULT_S2.md)
-for the exact versions, trials, traces and known limits.
+(Korean) for the exact versions, trials and traces.
 
-## Voice host (S3)
+## Voice host
 
 `packages/voice` provides local whisper.cpp STT, system TTS, terminal push-to-talk,
-and host timer sounds with simulated time. No UI or paid speech service is needed.
+and host timer sounds on the dev clock. No UI or paid speech service is needed.
 See [voice setup and acceptance commands](packages/voice/README.md). `npm run check`
 includes the voice adapter/queue/timer tests without downloading speech models.
 After local speech setup, run `npm run voice:check` for real WAV recognition and
 the unattended 60× cooking replay. `npm run voice` uses the microphone.
 
 The optimized path keeps Strands/MCP and speaks validated server `say` directly,
-removing the extra model reply and timer-tool round trips. Local real-model A/B
-measurement reduced 20-turn p50 from 6.52s to 2.45s and p95 from 8.88s to 3.10s;
-see [S3 results](docs/ko/results/RESULT_S3.md) for sample sizes, full voice timing,
-failed experiments and hardware measurement limits. No AWS request was made.
+removing the extra model reply and timer-tool round trips. With a local model this
+cut the 20-turn p50 from 6.52 s to 2.45 s and p95 from 8.88 s to 3.10 s
+([S3 results](docs/ko/results/RESULT_S3.md), Korean).
 
-## Scenarios and demo script (S4)
+## Scenarios and demo script
 
 `packages/scenarios` holds four YAML scenarios (weekday dinner, mid-roast salmon delay,
 side-dish swap, eight-dish Thanksgiving) that are both the regression suite and the demo
@@ -208,7 +211,7 @@ agent, or the local voice pipeline, and judges each turn by stored plan state.
 npm run e2e:scenarios     # engine + MCP + scripted agent; part of check
 npm run e2e:live          # live local model, 4 scenarios x 5 trials, 4/5 required each
 npm run e2e:voice         # espeak -> Whisper -> agent -> TTS files; needs WHISPER_SERVER_URL
-npm run video:script      # docs/submission/VIDEO_SCRIPT.md and .srt from the best passing runs
+npm run video:script      # docs/submission/VIDEO_SCRIPT.md and .srt from passing runs
 ```
 
 See the [scenarios README](packages/scenarios/README.md) and [S4 results](docs/ko/results/RESULT_S4.md).
@@ -216,7 +219,7 @@ See the [scenarios README](packages/scenarios/README.md) and [S4 results](docs/k
 ## Web simulator
 
 `npm run sim` starts the MCP server, the Strands host and the browser UI together at http://127.0.0.1:5180/ (`/?film=1` is the 1600×704 recording frame).
-Type or hold to talk: speech goes through local Whisper, replies play through the same TTS, and the Run of Show and tool calls come only from real MCP results.
+Type or hold to talk: speech goes through local Whisper, replies play through the same TTS, and the Run of Show and tool calls come only from MCP results.
 Each take writes `runs/sim-*/sync.jsonl` with monotonic turn timestamps and drawn bar coordinates; see the [simulator README](packages/simulator/README.md).
 
 ## MCP interface
@@ -254,7 +257,7 @@ structured `{error_code, say, retryable, current_version?}` object. SDK framing
 and resource errors remain MCP protocol errors. No error commits partial state.
 
 Resources: `dish://<dish_id>` and `plan://<plan_id>`, with listing and templates.
-GET/DELETE `/mcp` return 405; there is no server event stream in S1.
+GET/DELETE `/mcp` return 405; the server has no event stream.
 
 ## Retries and execution
 
@@ -277,13 +280,13 @@ Steps are explicitly pending, running or done. Elapsed time does not complete
 action steps automatically. Confirm completion with `done_step_id`; overdue
 running steps block new starts until confirmed or extended. `start_step_id`
 starts eligible future work now, checks dependencies and frozen resources, and
-repairs pending work. Preheats and transitions are real system actions requiring
-confirmation. The S2 host consumes timer suggestions; audible expiry is S3 work.
+repairs pending work. Preheats and transitions are system actions and also need
+confirmation. Hosts consume timer suggestions; the voice host and the simulator announce expiry.
 
 ## Scheduling and storage
 
 Reverse serial scheduling preserves dish input priority. Candidate starts use
-resource boundaries and thermal gaps, not minute-by-minute searching. Half-open
+resource boundaries and thermal gaps. Half-open
 intervals allow an exact-boundary handoff. Overlapping recipes on one oven must
 fit its capacity and a 25°F range. An uninterrupted occupancy batch keeps the
 range midpoint rounded to 5°F. Temperature changes require an empty oven;
@@ -292,24 +295,22 @@ preheat and transition duration use the appropriate heating/cooling rate.
 Pending system actions are rebuilt on repair; started or completed ones stay
 fixed. Already feasible batches retain their shared setpoint. Completed steps
 stay unchanged and running starts remain fixed. Recipe-only change summaries
-avoid speaking system-action churn. This is a deterministic scheduling heuristic,
-not global optimization; infeasible or frozen conflicts fail atomically.
+avoid speaking system-action churn. Infeasible or frozen conflicts fail
+atomically.
 
 A dish's finish-to-serve time appears in `display.dishes`. Exceeding its quality
 hold limit generates `hold_exceeded`. The four demo scenarios have no warnings.
-These quality limits do not certify food safety; durations remain uncalibrated.
 
 Every mutation runs inside one SQLite `BEGIN IMMEDIATE`: read, engine, write,
 version event and idempotency record. Migrations `001` and `002` create households,
 kitchens, plans, plan events and idempotency. Events contain exact before/after
 step changes and a full version snapshot (`Store.events` / `Store.planVersion`).
-Queries are household scoped, but OAuth and HTTP household selection are S5 work.
+Queries are household scoped.
 
 Existing v1 databases migrate transactionally. Numeric oven counts become default
 profiles; missing time zones become `America/Chicago`. Pending legacy schedules
 receive heating/transition gaps where needed, potentially moving dinner later.
-Existing plan IDs and versions are retained with a migration baseline event.
-Inferred historical heating is not measured cooking evidence. A physically
+Existing plan IDs and versions are retained with a migration baseline event. A physically
 inconsistent frozen legacy plan cannot be made valid automatically; migration
 fails without altering the old database. Back up old cooking records first.
 
@@ -331,25 +332,17 @@ metadata keys, stale versions, rollback injection, migration/reopen, speech,
 DST and malformed recipe data. A 200-sample benchmark includes file-backed SQLite
 writes and asserts plan p95 ≤50ms and delay p95 ≤20ms.
 
-See [S1 results](docs/ko/results/RESULT_S1.md) for measurements, snapshot summaries,
-completion criteria and deviations. The [friction log](docs/friction/FRICTION_LOG.md)
-lists verified external incidents and keeps the design's other F-01–F-11 leads as unverified seeds.
+See [S1 results](docs/ko/results/RESULT_S1.md) (Korean) for measurements and snapshot summaries.
+The [friction log](docs/friction/FRICTION_LOG.md) lists external incidents.
 
-Recipes are original timing fixtures in `packages/server/src/data/dishes`.
+Our own recipes are JSON files in `packages/server/src/data/dishes`.
 Zod and semantic validation enforce resource fields, timing bounds, English
 imperatives, brand exclusions, provenance, and fish/poultry safety information.
-Thanksgiving is **timing fixture, not kitchen-tested**. Its turkey rest fixture
-is 50 minutes so salmon, potatoes and stuffing fit during rest/carving; potatoes
-and stuffing share capacity 4 at the 390°F batch midpoint. Copy the
-[calibration template](docs/calibration/TEMPLATE-weekday.md) for a real weekday cook
-before populating `provenance.calibrated`.
+The Thanksgiving turkey rest is 50 minutes so salmon, potatoes and stuffing fit during rest/carving; potatoes
+and stuffing share capacity 4 at the 390°F batch midpoint.
 
-**Timing guidance only. Check doneness with a food thermometer.** General
-information, not professional advice or a doneness assessment. The catalogue's
+**Check doneness with a food thermometer.** The catalogue's
 poultry/fish temperature notes reference the
 [USDA minimum internal temperature chart](https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart).
-
-Still open: OAuth and household selection, AWS validation, and an MCP App UI. No stage has made an
-AWS request, deployment, signup or payment.
 
 [MIT](LICENSE).

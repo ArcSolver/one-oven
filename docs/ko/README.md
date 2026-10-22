@@ -1,8 +1,8 @@
 # Korean stage reports
 
-These are the original Korean working reports, kept unchanged apart from relative links that were
-updated when the files moved here. The English evidence they cite (traces, metrics JSON, check logs)
-stays in [`docs/results/`](../results/).
+These are the original Korean working reports. English summaries are in the
+[root README](../../README.md), [FEEDBACK.md](../FEEDBACK.md) and [AWS_BUILDER.md](../AWS_BUILDER.md); the
+evidence the reports cite (traces, metrics JSON, check logs) is in [`docs/results/`](../results/).
 
 | File | Stage |
 | --- | --- |
@@ -12,4 +12,3 @@ stays in [`docs/results/`](../results/).
 | [results/RESULT_S2.md](results/RESULT_S2.md) | S2: Strands text host, live local-model trials |
 | [results/RESULT_S3.md](results/RESULT_S3.md) | S3: local voice pipeline and latency |
 | [results/RESULT_S4.md](results/RESULT_S4.md) | S4: YAML scenarios in four modes, video script |
-| [calibration/VOICE_MANUAL_S3.md](calibration/VOICE_MANUAL_S3.md) | Human-voice check form (not yet run) |
