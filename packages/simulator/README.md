@@ -60,7 +60,10 @@ animation start/end and the drawn rectangle of every bar per plan version. See [
 | `WHISPER_SERVER_URL` | `http://127.0.0.1:18080` | Reused if running; otherwise started from `VOICE_TOOLS_DIR` (default `.local/voice`) when `npm run voice:setup` installed it. `WHISPER_MODEL` overrides the model path |
 | `SIM_UI` | — | `dist` serves the built UI instead of Vite middleware |
 
-Without Whisper, text input still works and the status line says so.
+Without Whisper, text input still works and the status line says so. Every reply, typed input
+included, is spoken, and a turn fails if speech synthesis fails, so ffmpeg and a system TTS (macOS
+`say`, or espeak-ng on Linux) are required: `brew install ffmpeg` on macOS, or
+`sudo apt-get install ffmpeg espeak-ng` on Debian/Ubuntu. `VOICE_TTS=silent` skips speech without them.
 
 ## Tests
 

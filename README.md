@@ -35,6 +35,11 @@ to 6:35 PM, the rice and green beans keep their times, and the repeated sentence
 
 ## Click through it in the simulator
 
+The simulator speaks every reply, typed input included, and a turn fails if speech synthesis fails.
+Install ffmpeg and a system TTS first: macOS has `say` built in (`brew install ffmpeg`); on
+Debian/Ubuntu run `sudo apt-get install ffmpeg espeak-ng`. Without them, `VOICE_TTS=silent npm run sim`
+shows replies without speaking them.
+
 ```sh
 npm run sim        # then open http://127.0.0.1:5180/ in a window at least 1600 px wide
 ```
@@ -51,8 +56,7 @@ Type them into the dock:
    bars move. Say it again and nothing changes.
 
 Hold to talk works once local Whisper is installed (`npm run voice:setup`, see
-[packages/voice](packages/voice/README.md)). Spoken replies use the system TTS (macOS `say` or
-espeak-ng) and ffmpeg, listed in the same README.
+[packages/voice](packages/voice/README.md)).
 
 ## What works
 
