@@ -200,18 +200,18 @@ removing the extra model reply and timer-tool round trips. With a local model th
 cut the 20-turn p50 from 6.52 s to 2.45 s and p95 from 8.88 s to 3.10 s
 ([S3 results](docs/ko/results/RESULT_S3.md), Korean).
 
-## Scenarios and demo script
+## Scenarios and shot list
 
 `packages/scenarios` holds four YAML scenarios (weekday dinner, mid-roast salmon delay,
-side-dish swap, eight-dish Thanksgiving) that are both the regression suite and the demo
-video script. One runner executes them through the service, a plain MCP client, the Strands
+side-dish swap, eight-dish Thanksgiving) that are both the regression suite and the source
+of the demo shot list. One runner executes them through the service, a plain MCP client, the Strands
 agent, or the local voice pipeline, and judges each turn by stored plan state.
 
 ```sh
 npm run e2e:scenarios     # engine + MCP + scripted agent; part of check
 npm run e2e:live          # live local model, 4 scenarios x 5 trials, 4/5 required each
 npm run e2e:voice         # espeak -> Whisper -> agent -> TTS files; needs WHISPER_SERVER_URL
-npm run video:script      # docs/submission/VIDEO_SCRIPT.md and .srt from passing runs
+npm run video:script      # shot list docs/submission/VIDEO_SCRIPT.md and .srt from passing runs
 ```
 
 See the [scenarios README](packages/scenarios/README.md) and [S4 results](docs/ko/results/RESULT_S4.md).

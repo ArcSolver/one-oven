@@ -16,7 +16,7 @@ smoke test and scenario runner.
   the low-level server (`server.server.setRequestHandler(CallToolRequestSchema, ...)`) and run our own
   Zod validation and error envelope there
   ([`packages/server/src/mcp/tools.ts`](../packages/server/src/mcp/tools.ts) line 51;
-  [S1 report, Korean](ko/results/RESULT_S1.md), design changes, item 5).
+  [S1 report, Korean](ko/results/RESULT_S1.md), design changes, item 4).
 - **Observation:** Strands 1.21.0 declares `@modelcontextprotocol/client` ^2 as a peer dependency, so
   npm installed 2.3.1 next to the v1 package our server and transport use. The mix worked over HTTP, but we only learned about it by reading
   the installed `dist/` ([S2 report, Korean](ko/results/RESULT_S2.md), section 1).

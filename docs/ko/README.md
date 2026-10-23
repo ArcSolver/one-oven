@@ -11,4 +11,4 @@ evidence the reports cite (traces, metrics JSON, check logs) is in [`docs/result
 | [results/S2_SPIKE.md](results/S2_SPIKE.md) | S2-0: Strands provider and HTTP MCP spike |
 | [results/RESULT_S2.md](results/RESULT_S2.md) | S2: Strands text host, live local-model trials |
 | [results/RESULT_S3.md](results/RESULT_S3.md) | S3: local voice pipeline and latency |
-| [results/RESULT_S4.md](results/RESULT_S4.md) | S4: YAML scenarios in four modes, video script |
+| [results/RESULT_S4.md](results/RESULT_S4.md) | S4: YAML scenarios in four modes |

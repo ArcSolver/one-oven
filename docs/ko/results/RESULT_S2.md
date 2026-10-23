@@ -1,7 +1,6 @@
 # One Oven 2단계 구현 결과
 
 작성: 2026-10-15 KST. 저장소: `one-oven`, `main`.
-기준: `../DESIGN.md` 전체, 특히 4절·부록 A-2·공통 계약·프릭션 운영 규칙, `../RESULT_S1.md`.
 
 ## 1. S2-0 경로 결정: A
 
@@ -77,7 +76,7 @@ OpenAI SDK는 `6.49.0`, Anthropic SDK는 `0.109.1`로 lockfile에 고정됐다.
 | Bedrock | 객체 생성·설정만 검사, stream/invoke/countTokens **실행 없음**, AWS 호출 0 |
 | HTTP/SSE·REPL | 실제 MCP를 붙인 JSON/SSE 세션, 오류·동시성, 컴파일된 CLI 명령 통과 |
 | 일반 서버의 시계 조작 차단 | `/dev/clock` 없음, opt-in 서버의 역행/외부 Origin 거절 |
-| 새 로컬 복제본 | **`npm ci && npm run check` 통과**, 기준 커밋 `ae4f699` |
+| 새 로컬 복제본 | **`npm ci && npm run check` 통과** |
 
 새 복제본 로그는 [CHECK_S2_CLEAN.log](../../results/CHECK_S2_CLEAN.log)다.
 그 뒤 live 명령의 scripted 오설정 거절을 추가하고 빌드·거절 동작을 별도로 검사했다.
@@ -144,8 +143,6 @@ maxTokens 2048, Dot, America/Chicago, 모의 시계 2026-10-15 17:05,
 
 ## 6. 설계와 달라진 점 / 구체화
 
-- 현재 폴더의 git `main`을 정본으로 사용했다. 시작부터 있던 추적되지 않은 옛 `src/`, `test/`,
-  `scripts/smoke.ts`, 루트 `tsconfig.json`은 수정·삭제·커밋하지 않았다.
 - native McpTool의 structuredContent 손실을 공개 override로 보완했다(F-12).
   server의 음성 content나 툴 6개 계약은 바꾸지 않았다.
 - 모델용 schema의 호스트 소유 메타데이터를 제외하고 선택값의 null을 정규화했다.
@@ -159,31 +156,12 @@ maxTokens 2048, Dot, America/Chicago, 모의 시계 2026-10-15 17:05,
 - 사장님 API 키가 없어도 사용자 지시대로 더미 키로 실모델 5회를 실행했다.
 - 결과에 raw/final lint·fallback·모델별 요청 배열을 추가하여 보정으로 실패를 숨기지 않게 했다.
 
-## 7. 남은 일과 프릭션
+## 7. 프릭션
 
 - **새 프릭션은 F-12 한 건.** F-10 공급자 범위 씨앗은 “이번 버전에 내장 공급자 있음”으로 해소했다.
-  초기 인자 선택과 시간 초과는 테스트 실패 분류로 남겼으며, 확인하지 않은 외부 제품 원인을 주장하지 않는다.
-- S3: 음성 입출력, 타이머 만료 콜백·차임·발화. 현재는 메모리 타이머 상태까지만 구현했다.
-- S4: YAML 4시나리오·공통 runner·영상 대본. 현재 scripted는 weekday-3 전용이다.
-- S5: OAuth/PKCE, 다중 가구 인증·격리, 원격 배포 준비. 지금 HTTP gateway와 MCP는 로컬 데모다.
-- S6: Bedrock 모델 접근·자격 증명·승인 후 실호출과 request ID 검증.
-  Anthropic 경로도 생성 외의 실호출은 검증하지 않았다.
-- 실모델 턴 지연이 6–9초여서 S3 음성 예산보다 길다. 여러 모델 왕복과 전체 대화/상태 중복을
-  줄이는 작업이 필요하다. 이번에는 통과율을 위해 실패를 임의로 재생하거나 상태를 직접 수정하지 않았다.
-- 세션·타이머의 재시작 복원, 인증된 원격 gateway, 실제 Alexa+ 호스트 검증은 아직 없다.
-  조리 시간은 기존 fixture이며 실제 조리·식품 안전 검증을 완료했다고 주장하지 않는다.
+  초기 인자 선택과 시간 초과는 테스트 실패 분류로 남겼다.
 
-## 8. 로컬 커밋과 실행
-
-| 커밋 | 내용 |
-| --- | --- |
-| `a21be5f` | S2-0 설치·HTTP 스파이크·경로 A·F-12 |
-| `0438a34` | 공급자·세션·MCP 어댑터·타이머·추적·공용 Clock |
-| `ae4f699` | REPL·gateway·모의 시계·상태 E2E·테스트·실행 문서 |
-| `4ad142a` | live 명령의 scripted 오설정 거절 |
-| 결과 문서 커밋 | 이 문서·검증 로그·대표 trace |
-
-커밋별 작성자 옵션을 사용했고 전역 설정은 바꾸지 않았다.
+## 8. 실행
 
 ```sh
 npm ci
@@ -198,5 +176,3 @@ npm run e2e:live
 ```
 
 `.env.example`에는 자리표시자만 있다. 상세 설정·요청 계약은 README에 적었다.
-이 문서는 요청한 **`../RESULT_S2.md`에도 동일하게 복사**한다.
-**push·배포·가입·결제·AWS 호출·외부 메시지 전송은 하지 않았다.**
